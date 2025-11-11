@@ -13,4 +13,4 @@
 #   /(templates|sections)/.*\.json/
 
 #development
-dev/
+dev/*

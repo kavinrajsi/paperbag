@@ -71,6 +71,149 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+    }
+  },
+  "sections": {
+    "content_block": {
+      "name": "Content block",
+      "settings": {
+        "layout_width": {
+          "label": "Width",
+          "options": {
+            "max": "Maximum width",
+            "full": "Full width"
+          }
+        },
+        "background_image": {
+          "label": "Background image"
+        },
+        "title": {
+          "label": "Title"
+        },
+        "body": {
+          "label": "Content"
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_link": {
+          "label": "Button link"
+        },
+        "desktop_image": {
+          "label": "Desktop image"
+        },
+        "mobile_image": {
+          "label": "Mobile image",
+          "info": "If empty, the desktop image will be used on mobile."
+        },
+        "image_alt": {
+          "label": "Image alt text"
+        },
+        "mobile_image_position": {
+          "label": "Mobile layout",
+          "options": {
+            "before": "Image before text",
+            "after": "Image after text"
+          }
+        },
+        "desktop_image_position": {
+          "label": "Desktop layout",
+          "options": {
+            "before": "Image before text",
+            "after": "Image after text"
+          }
+        },
+        "content_group": {
+          "label": "Content"
+        },
+        "image_group": {
+          "label": "Image"
+        },
+        "layout_group": {
+          "label": "Settings"
+        }
+      }
     },
+    "banner_2": {
+      "name": "Banner 2",
+      "aria_label": "Featured banners",
+      "empty": "Add banner blocks to display this section.",
+      "link_aria_label": "View {{ title }}",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "heading_alignment": {
+          "label": "Heading alignment",
+          "options": {
+            "left": "Left",
+            "center": "Center"
+          }
+        },
+        "desktop_columns": {
+          "label": "Desktop columns",
+          "info": "Choose how many banners display per row on desktop."
+        },
+        "item_gap": {
+          "label": "Item spacing"
+        }
+      },
+      "blocks": {
+        "banner_item": {
+          "name": "Banner",
+          "settings": {
+            "desktop_image": {
+              "label": "Desktop image"
+            },
+            "mobile_image": {
+              "label": "Mobile image",
+              "info": "If empty, the desktop image will be used on mobile."
+            },
+            "image_alt": {
+              "label": "Image alt text",
+              "info": "Describe the imagery for accessibility."
+            },
+            "title": {
+              "label": "Title"
+            },
+            "link_url": {
+              "label": "Link"
+            },
+            "link_target": {
+              "label": "Link target",
+              "options": {
+                "_self": "Open in same tab",
+                "_blank": "Open in new tab"
+              }
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "enable_mega_menu": {
+        "label": "Enable mega menu",
+        "info": "Show second-level menu links in a multi-column dropdown."
+      },
+      "logo_svg": {
+        "label": "Inline SVG logo",
+        "info": "Paste SVG markup to replace the text logo. Leave blank to use the shop name."
+      }
+    },
+    "breadcrumbs": {
+      "name": "Breadcrumbs",
+      "settings": {
+        "show_on_home": "Show on home page",
+        "show_on_collection": "Show on collection pages",
+        "show_on_collections_list": "Show on collections list",
+        "show_on_product": "Show on product pages",
+        "show_on_page": "Show on pages",
+        "show_on_blog": "Show on blogs",
+        "show_on_article": "Show on blog posts",
+        "show_on_cart": "Show on cart page",
+        "show_on_search": "Show on search results",
+        "show_on_404": "Show on 404 page"
+      }
+    }
   }
 }

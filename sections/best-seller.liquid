@@ -1,0 +1,307 @@
+{% liquid
+  assign layout_class = 'best-seller--max-width'
+  if section.settings.layout_width == 'full'
+    assign layout_class = 'best-seller--full-width'
+  endif
+
+  assign product_source = section.settings.product_source
+  assign products = nil
+
+  if product_source == 'collection' and section.settings.collection != blank
+    assign products = section.settings.collection.products | slice: 0, section.settings.product_limit
+  elsif product_source == 'manual' and section.settings.manual_products != blank
+    assign products = section.settings.manual_products | slice: 0, section.settings.product_limit
+  endif
+
+  assign button_target = '_self'
+  if section.settings.button_target == 'new'
+    assign button_target = '_blank'
+  endif
+%}
+
+<section
+  id="best-seller-{{ section.id }}"
+  class="best-seller {{ layout_class }}"
+>
+  <div class="best-seller__inner">
+    <div class="best-seller__header">
+      {% if section.settings.heading != blank %}
+        <h2 class="best-seller__title">
+          {{ section.settings.heading | escape }}
+        </h2>
+      {% elsif product_source == 'collection' and section.settings.collection != blank %}
+        <h2 class="best-seller__title">
+          {{ section.settings.collection.title | escape }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <a
+          class="best-seller__cta"
+          href="{{ section.settings.button_link }}"
+          target="{{ button_target }}"
+          {% if button_target == '_blank' %}
+            rel="noopener"
+          {% endif %}
+        >
+          {{ section.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% if products and products.size > 0 %}
+      <div class="best-seller__grid">
+        {% for product in products %}
+          <article class="best-seller__item">
+            <a class="best-seller__link" href="{{ product.url }}">
+              <div class="best-seller__media">
+                {% if product.featured_image %}
+                  {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'best-seller__image', alt: product.featured_image.alt | default: product.title }}
+                {% else %}
+                  <div class="best-seller__placeholder" aria-hidden="true">
+                    {{ 'product-apparel-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              </div>
+              <div class="best-seller__info">
+                <h3 class="best-seller__product-title">
+                  {{ product.title | escape }}
+                </h3>
+                <div class="best-seller__price">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="best-seller__price-current">{{ product.price | money }}</span>
+                    <span class="best-seller__price-compare">{{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span class="best-seller__price-current">{{ product.price | money }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="best-seller__empty">
+        {{ 'No products available yet.' | escape }}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .best-seller {
+    padding: 48px 16px;
+  }
+
+  .best-seller__inner {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .best-seller--max-width .best-seller__inner {
+    max-width: 1200px;
+  }
+
+  .best-seller--full-width .best-seller__inner {
+    max-width: none;
+  }
+
+  .best-seller__header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .best-seller__title {
+    margin: 0;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+  }
+
+  .best-seller__cta {
+    align-self: flex-start;
+    display: inline-flex;
+    padding: 10px 20px;
+    border: 1px solid currentColor;
+    text-decoration: none;
+  }
+
+  .best-seller__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .best-seller__item {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .best-seller__link {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .best-seller__media {
+    position: relative;
+    padding-top: 125%;
+    overflow: hidden;
+  }
+
+  .best-seller__image,
+  .best-seller__placeholder svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .best-seller__info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .best-seller__product-title {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .best-seller__price {
+    font-weight: 600;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .best-seller__price-current {
+    font-size: 1rem;
+  }
+
+  .best-seller__price-compare {
+    font-size: 0.875rem;
+    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .best-seller__empty {
+    padding: 24px;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  @media (min-width: 750px) {
+    .best-seller__header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Best Seller",
+  "tag": "section",
+  "class": "section-best-seller",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout_width",
+      "label": "Layout width",
+      "default": "max",
+      "options": [
+        {
+          "value": "max",
+          "label": "Max width"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Collection name",
+      "info": "Leave blank to use the selected collection title."
+    },
+    {
+      "type": "select",
+      "id": "product_source",
+      "label": "Product source",
+      "default": "collection",
+      "options": [
+        {
+          "value": "collection",
+          "label": "Collection"
+        },
+        {
+          "value": "manual",
+          "label": "Selected products"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "product_list",
+      "id": "manual_products",
+      "label": "Products"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Products to display",
+      "default": 4,
+      "min": 2,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "\"View all\" button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "\"View all\" button link"
+    },
+    {
+      "type": "select",
+      "id": "button_target",
+      "label": "Button target",
+      "default": "same",
+      "options": [
+        {
+          "value": "same",
+          "label": "Open in same tab"
+        },
+        {
+          "value": "new",
+          "label": "Open in new tab"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Best Seller"
+    }
+  ]
+}
+{% endschema %}

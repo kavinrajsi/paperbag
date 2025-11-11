@@ -1,0 +1,297 @@
+{% liquid
+  assign breadcrumb_delimiter = '|||breadcrumb|||'
+  assign show_on_home = section.settings.show_on_home
+  assign show_on_collection = section.settings.show_on_collection
+  assign show_on_collections_list = section.settings.show_on_collections_list
+  assign show_on_product = section.settings.show_on_product
+  assign show_on_page = section.settings.show_on_page
+  assign show_on_blog = section.settings.show_on_blog
+  assign show_on_article = section.settings.show_on_article
+  assign show_on_cart = section.settings.show_on_cart
+  assign show_on_search = section.settings.show_on_search
+  assign show_on_404 = section.settings.show_on_404
+
+  assign breadcrumb_items = '' | split: ''
+  assign template_base = template.name | split: '.' | first
+  assign home_label = 'general.breadcrumbs.home' | t
+  assign home_url = routes.root_url | default: '/'
+  assign should_render = true
+%}
+
+{% capture home_crumb %}{{ home_label }}::{{ home_url }}{% endcapture %}
+{% assign breadcrumb_entry = home_crumb | split: breadcrumb_delimiter %}
+{% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+
+{% case template_base %}
+  {% when 'index' %}
+    {% unless show_on_home %}
+      {% assign should_render = false %}
+    {% endunless %}
+  {% when 'collection' %}
+    {% if show_on_collection %}
+      {% if collection %}
+        {% capture collection_crumb %}{{ collection.title | default: 'general.breadcrumbs.collection_fallback' | t }}::{% endcapture %}
+        {% assign breadcrumb_entry = collection_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% else %}
+        {% assign should_render = false %}
+      {% endif %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'list-collections' %}
+    {% if show_on_collections_list %}
+      {% capture collections_crumb %}{{ 'collections.title' | t }}::{% endcapture %}
+      {% assign breadcrumb_entry = collections_crumb | split: breadcrumb_delimiter %}
+      {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'product' %}
+    {% if show_on_product %}
+      {% assign parent_collection = collection %}
+      {% if parent_collection == blank and product and product.collections.size > 0 %}
+        {% assign parent_collection = product.collections | first %}
+      {% endif %}
+
+      {% if parent_collection %}
+        {% capture parent_collection_crumb %}{{ parent_collection.title }}::{{ parent_collection.url }}{% endcapture %}
+        {% assign breadcrumb_entry = parent_collection_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% endif %}
+
+      {% if product %}
+        {% capture product_crumb %}{{ product.title | default: 'general.breadcrumbs.product_fallback' | t }}::{% endcapture %}
+        {% assign breadcrumb_entry = product_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% else %}
+        {% assign should_render = false %}
+      {% endif %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'blog' %}
+    {% if show_on_blog %}
+      {% if blog %}
+        {% capture blog_crumb %}{{ blog.title | default: 'general.breadcrumbs.blog_fallback' | t }}::{% endcapture %}
+        {% assign breadcrumb_entry = blog_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% else %}
+        {% assign should_render = false %}
+      {% endif %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'article' %}
+    {% if show_on_article %}
+      {% if blog %}
+        {% capture blog_parent_crumb %}{{ blog.title | default: 'general.breadcrumbs.blog_fallback' | t }}::{{ blog.url }}{% endcapture %}
+        {% assign breadcrumb_entry = blog_parent_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% endif %}
+
+      {% if article %}
+        {% capture article_crumb %}{{ article.title | default: 'general.breadcrumbs.article_fallback' | t }}::{% endcapture %}
+        {% assign breadcrumb_entry = article_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% else %}
+        {% assign should_render = false %}
+      {% endif %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'page' %}
+    {% if show_on_page %}
+      {% if page %}
+        {% capture page_crumb %}{{ page.title | default: 'general.breadcrumbs.page_fallback' | t }}::{% endcapture %}
+        {% assign breadcrumb_entry = page_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% else %}
+        {% capture default_page_crumb %}{{ page_title | default: 'general.breadcrumbs.page_fallback' | t }}::{% endcapture %}
+        {% assign breadcrumb_entry = default_page_crumb | split: breadcrumb_delimiter %}
+        {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+      {% endif %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'search' %}
+    {% if show_on_search %}
+      {% assign terms = search.terms | default: '' %}
+      {% capture search_crumb %}{{ 'general.breadcrumbs.search' | t: terms: terms }}::{% endcapture %}
+      {% assign breadcrumb_entry = search_crumb | split: breadcrumb_delimiter %}
+      {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when 'cart' %}
+    {% if show_on_cart %}
+      {% capture cart_crumb %}{{ 'cart.title' | t }}::{% endcapture %}
+      {% assign breadcrumb_entry = cart_crumb | split: breadcrumb_delimiter %}
+      {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% when '404' %}
+    {% if show_on_404 %}
+      {% capture not_found_crumb %}{{ 'general.breadcrumbs.not_found' | t }}::{% endcapture %}
+      {% assign breadcrumb_entry = not_found_crumb | split: breadcrumb_delimiter %}
+      {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+    {% else %}
+      {% assign should_render = false %}
+    {% endif %}
+  {% else %}
+    {% capture fallback_crumb %}{{ page_title | default: template_base | capitalize }}::{% endcapture %}
+    {% assign breadcrumb_entry = fallback_crumb | split: breadcrumb_delimiter %}
+    {% assign breadcrumb_items = breadcrumb_items | concat: breadcrumb_entry %}
+{% endcase %}
+
+{% liquid
+  assign allow_single = false
+  if template_base == 'index' and show_on_home
+    assign allow_single = true
+  endif
+
+  assign should_output = false
+  if should_render
+    if breadcrumb_items.size > 1 or allow_single
+      assign should_output = true
+    endif
+  endif
+%}
+
+{% if should_output %}
+  <nav class="breadcrumbs" aria-label="{{ 'general.breadcrumbs.aria_label' | t }}">
+    <ol class="breadcrumbs__list">
+      {% for crumb in breadcrumb_items %}
+        {% liquid
+          assign crumb_parts = crumb | split: '::'
+          assign label = crumb_parts[0] | strip | default: home_label
+          assign url = crumb_parts[1] | default: ''
+        %}
+
+        <li class="breadcrumbs__item">
+          {% if forloop.last or url == blank %}
+            <span class="breadcrumbs__current" aria-current="page">{{ label | escape }}</span>
+          {% else %}
+            <a class="breadcrumbs__link" href="{{ url }}" title="{{ label | escape }}">{{ label | escape }}</a>
+            <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+{% endif %}
+
+{% stylesheet %}
+  .breadcrumbs {
+    font-size: 0.875rem;
+  }
+
+  .breadcrumbs__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .breadcrumbs__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .breadcrumbs__link:hover,
+  .breadcrumbs__link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .breadcrumbs__separator {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .breadcrumbs__current {
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.breadcrumbs.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_on_home",
+      "label": "t:sections.breadcrumbs.settings.show_on_home",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_collection",
+      "label": "t:sections.breadcrumbs.settings.show_on_collection",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_collections_list",
+      "label": "t:sections.breadcrumbs.settings.show_on_collections_list",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_product",
+      "label": "t:sections.breadcrumbs.settings.show_on_product",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_page",
+      "label": "t:sections.breadcrumbs.settings.show_on_page",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_blog",
+      "label": "t:sections.breadcrumbs.settings.show_on_blog",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_article",
+      "label": "t:sections.breadcrumbs.settings.show_on_article",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_cart",
+      "label": "t:sections.breadcrumbs.settings.show_on_cart",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_search",
+      "label": "t:sections.breadcrumbs.settings.show_on_search",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_404",
+      "label": "t:sections.breadcrumbs.settings.show_on_404",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breadcrumbs.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,55 +1,311 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+<div class="site-header">
+  <header class="site-header__primary">
+    <div class="site-header__branding">
+      <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {% if section.settings.logo_svg != blank %}
+          <span class="site-header__logo-svg" aria-hidden="true">
+            {{ section.settings.logo_svg }}
+          </span>
+        {% else %}
+          <span class="site-header__logo-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+      <div class="site-header__icons">
+        {% if shop.customer_accounts_enabled %}
+          {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
+        {% endif %}
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
+        <a href="{{ routes.cart_url }}">
+          {% if cart.item_count > 0 %}
+            <sup>{{ cart.item_count }}</sup>
+          {% endif %}
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
+          {{ 'icon-cart.svg' | inline_asset_content }}
+        </a>
+      </div>
+    </div>
 
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
-  </div>
-</header>
+    <nav class="site-header__menu" aria-label="{{ 'sections.header.menu_aria_label' | t }}">
+      <ul class="site-header__menu-list" role="list">
+        {% for link in section.settings.menu.links %}
+          {% assign child_count = link.links | size %}
+          <li
+            class="
+              site-header__menu-item
+              {% if section.settings.enable_mega_menu and child_count > 0 %}site-header__menu-item--has-mega{% endif %}
+            "
+          >
+            <a
+              class="site-header__menu-link"
+              href="{{ link.url }}"
+              {% if section.settings.enable_mega_menu and child_count > 0 %}
+                aria-haspopup="true"
+                aria-expanded="false"
+              {% endif %}
+            >
+              {{ link.title }}
+            </a>
+
+            {% if section.settings.enable_mega_menu and child_count > 0 %}
+              <div
+                class="mega-menu"
+                role="region"
+                aria-label="{{ link.title }}"
+                tabindex="-1"
+              >
+                <div class="mega-menu__body">
+                  <div class="mega-menu__lists">
+                    {% assign has_list_column = false %}
+                    {% for child_link in link.links %}
+                      {% if child_link.links.size > 0 %}
+                        {% assign has_list_column = true %}
+                        <div class="mega-menu__list-column">
+                          <p class="mega-menu__column-title">{{ child_link.title }}</p>
+                          <ul class="mega-menu__list" role="list">
+                            {% for grandchild_link in child_link.links %}
+                              <li>
+                                <a href="{{ grandchild_link.url }}">
+                                  {{ grandchild_link.title }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% unless has_list_column %}
+                      <p class="mega-menu__empty">
+                        {{ 'sections.header.mega_menu_empty' | t }}
+                      </p>
+                    {% endunless %}
+                  </div>
+
+                  <div class="mega-menu__cards">
+                    {% assign cards_rendered = 0 %}
+                    {% for child_link in link.links %}
+                      {% unless child_link.links.size > 0 %}
+                        {% assign cards_rendered = cards_rendered | plus: 1 %}
+                        {% assign linked_resource = child_link.object %}
+                        {% assign card_image = blank %}
+                        {% if linked_resource %}
+                          {% assign card_image = linked_resource.image | default: linked_resource.featured_image %}
+                        {% endif %}
+
+                        <a class="mega-menu__card" href="{{ child_link.url }}">
+                          <div class="mega-menu__card-media">
+                            {% if card_image %}
+                              {{ card_image | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '350px', widths: '350, 500, 700' }}
+                            {% else %}
+                              <div class="mega-menu__card-placeholder" aria-hidden="true"></div>
+                            {% endif %}
+                          </div>
+                          <span class="mega-menu__card-title">{{ child_link.title }}</span>
+                        </a>
+                      {% endunless %}
+                    {% endfor %}
+
+                    {% if cards_rendered == 0 %}
+                      <div class="mega-menu__card mega-menu__card--empty">
+                        <span>{{ 'sections.header.mega_menu_empty' | t }}</span>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </header>
+</div>
+
+
+
 
 {% stylesheet %}
-  header {
-    height: 5rem;
+  .site-header__primary {
+    padding: 1rem var(--page-margin);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 1rem;
   }
-  header a {
+
+  .site-header a {
     position: relative;
     text-decoration: none;
     color: var(--color-foreground);
   }
-  header a sup {
+  .site-header a sup {
     position: absolute;
     left: 100%;
     overflow: hidden;
     max-width: var(--page-margin);
   }
-  header svg {
+  .site-header svg {
     width: 2rem;
   }
-  header .header__menu,
-  header .header__icons {
+  .site-header__branding {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .site-header__menu {
+    display: flex;
+    justify-content: center;
+  }
+  .site-header__icons {
+    display: inline-flex;
+    gap: 1rem;
+  }
+  .site-header__menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     gap: 1rem;
   }
+  .site-header__menu-item {
+    position: relative;
+  }
+  .site-header__menu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .site-header__menu-item--has-mega:hover .mega-menu,
+  .site-header__menu-item--has-mega:focus-within .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .mega-menu {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 0.75rem);
+    transform: translate(-50%, 10px);
+    background: var(--color-background);
+    box-shadow: 0 20px 50px rgb(15 23 42 / 0.12);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    min-width: min(80vw, 900px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease, transform 200ms ease;
+    z-index: 10;
+  }
+  .mega-menu__body {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) minmax(300px, 1fr);
+    gap: 2rem;
+    align-items: stretch;
+  }
+  .mega-menu__lists {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .mega-menu__list-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .mega-menu__column-title {
+    margin: 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgb(15 23 42 / 0.75);
+    font-weight: 600;
+  }
+  .mega-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .mega-menu__list a {
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .mega-menu__list a:hover {
+    text-decoration: underline;
+  }
+  .mega-menu__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .mega-menu__card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: rgb(248 250 252);
+    box-shadow: inset 0 0 0 1px rgb(226 232 240);
+  }
+  .mega-menu__card-media {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+  .mega-menu__card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .mega-menu__card-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgb(248 113 113 / 0.3), rgb(251 191 36 / 0.3));
+  }
+  .mega-menu__card-title {
+    display: block;
+    padding: 0.75rem 1rem 1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+  .mega-menu__card--empty {
+    min-height: 180px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .mega-menu__empty {
+    margin: 0;
+    font-size: 0.875rem;
+    color: rgb(15 23 42 / 0.7);
+  }
+
+  .site-header__title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .site-header__logo-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .site-header__logo-svg svg {
+    display: block;
+    width: var(--logo-width, 140px);
+    height: auto;
+  }
+
 {% endstylesheet %}
 
 {% schema %}
@@ -57,9 +313,22 @@
   "name": "t:general.header",
   "settings": [
     {
+      "type": "textarea",
+      "id": "logo_svg",
+      "label": "t:sections.header.logo_svg.label",
+      "info": "t:sections.header.logo_svg.info"
+    },
+    {
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mega_menu",
+      "label": "t:sections.header.enable_mega_menu.label",
+      "info": "t:sections.header.enable_mega_menu.info",
+      "default": false
     }
   ]
 }

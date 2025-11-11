@@ -1,0 +1,145 @@
+{% doc %}
+  Reusable hero banner for the home page. Renders a responsive `<picture>` element
+  that swaps between mobile, tablet, and desktop artwork while optionally showing
+  supporting text content.
+
+  @param {image} desktop_image - Default / desktop-sized image (required)
+  @param {image} [tablet_image] - Tablet breakpoint image (768px and up)
+  @param {image} [mobile_image] - Small-screen image (below 768px)
+  @param {string} [heading] - Banner heading text
+  @param {string} [subheading] - Secondary line beneath the heading
+  @param {string} [body] - Optional rich text / description
+  @param {string} [cta_label] - CTA button label
+  @param {string} [cta_url] - CTA link URL
+  @param {boolean} [show_content] - Toggle to hide the text/CTA content (defaults to true)
+  @param {string} [class] - Extra utility classes applied to the root element
+  @param {string} [alt] - Accessible alt text for the `<img>` element
+  @param {string} [loading] - Loading strategy for the `<img>` (defaults to "lazy")
+  @example
+  {% render 'home-banner',
+    desktop_image: section.settings.hero_desktop,
+    tablet_image: section.settings.hero_tablet,
+    mobile_image: section.settings.hero_mobile,
+    heading: section.settings.heading,
+    subheading: section.settings.subheading,
+    body: section.settings.copy,
+    cta_label: section.settings.cta_label,
+    cta_url: section.settings.cta_url,
+  %}
+{% enddoc %}
+{% liquid
+  assign root_class = 'home-banner'
+  if class != blank
+    assign root_class = root_class | append: ' ' | append: class
+  endif
+
+  assign show_content = show_content
+  assign loading = loading
+
+  assign banner_show_content = show_content
+  if banner_show_content == nil
+    assign banner_show_content = true
+  endif
+
+  assign banner_has_content = false
+  if heading or subheading or body or cta_label
+    assign banner_has_content = true
+  endif
+
+  assign loading_mode = loading | default: 'lazy'
+%}
+{% if desktop_image %}
+  {% liquid
+    assign image_alt = alt | default: desktop_image.alt | default: heading | default: shop.name
+  %}
+<section class="{{ root_class }}">
+  <div class="home-banner__media">
+    <picture>
+      {% if mobile_image %}
+        <source
+          media="(max-width: 767px)"
+          srcset="{{ mobile_image | image_url: width: 900 }}"
+          width="{{ mobile_image.width }}"
+          height="{{ mobile_image.height }}"
+        >
+      {% endif %}
+      {% if tablet_image %}
+        <source
+          media="(min-width: 768px) and (max-width: 1199px)"
+          srcset="{{ tablet_image | image_url: width: 1600 }}"
+          width="{{ tablet_image.width }}"
+          height="{{ tablet_image.height }}"
+        >
+      {% endif %}
+      <img
+        class="home-banner__image"
+        src="{{ desktop_image | image_url: width: 2000 }}"
+        width="{{ desktop_image.width }}"
+        height="{{ desktop_image.height }}"
+        alt="{{ image_alt | escape }}"
+        loading="{{ loading_mode }}"
+        decoding="async"
+      >
+    </picture>
+  </div>
+  {% if banner_show_content and banner_has_content %}
+    <div class="home-banner__content">
+      {% if heading %}
+        {% if subheading %}
+          <p class="home-banner__eyebrow">{{ subheading }}</p>
+        {% endif %}
+        <h1 class="home-banner__heading">{{ heading }}</h1>
+      {% endif %}
+      {% if body %}
+        <div class="home-banner__copy">{{ body }}</div>
+      {% endif %}
+      {% if cta_label %}
+        <a class="home-banner__cta" href="{{ cta_url | default: '#' }}">
+          {{ cta_label }}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+{% stylesheet %}
+  .home-banner {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+  }
+  .home-banner__media picture,
+  .home-banner__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .home-banner__content {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    padding: clamp(1.5rem, 4vw, 4rem);
+    color: var(--color-foreground, #fff);
+    pointer-events: none;
+  }
+  .home-banner__heading,
+  .home-banner__eyebrow {
+    margin: 0 0 0.75rem;
+  }
+  .home-banner__copy {
+    max-width: 46ch;
+  }
+  .home-banner__cta {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    margin-top: 1.5rem;
+    background: var(--color-foreground, #000);
+    color: var(--color-background, #fff);
+    text-decoration: none;
+    border-radius: 999px;
+  }
+{% endstylesheet %}
