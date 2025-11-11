@@ -200,6 +200,12 @@
       }
     },
     "header": {
+      "search_toggle": "Open search",
+      "search_label": "Search store",
+      "account_icon": "Account",
+      "login": "Log in",
+      "account": "Account",
+      "create_account": "Create account",
       "enable_mega_menu": {
         "label": "Enable mega menu",
         "info": "Show second-level menu links in a multi-column dropdown."

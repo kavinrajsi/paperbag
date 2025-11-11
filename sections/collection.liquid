@@ -7,6 +7,89 @@
 
 <h1>{{ collection.title }}</h1>
 
+{% if collection.filters.size > 0 %}
+  <form class="collection-filters" method="get" action="{{ collection.url }}">
+    {% for filter in collection.filters %}
+      <details class="collection-filter" {% if filter.active_values.size > 0 %}open{% endif %}>
+        <summary>
+          <span>{{ filter.label }}</span>
+          {% if filter.active_values.size > 0 %}
+            <span class="collection-filter__count">{{ filter.active_values.size }}</span>
+          {% endif %}
+        </summary>
+
+        <div class="collection-filter__options">
+          {% case filter.type %}
+            {% when 'list' %}
+              {% for filter_value in filter.values %}
+                <label class="collection-filter__option">
+                  <input
+                    type="checkbox"
+                    name="{{ filter_value.param_name }}"
+                    value="{{ filter_value.value }}"
+                    {% if filter_value.active %}checked{% endif %}
+                    {% if filter_value.count == 0 and filter_value.active == false %}disabled{% endif %}
+                  >
+                  <span>{{ filter_value.label }} ({{ filter_value.count }})</span>
+                </label>
+              {% endfor %}
+
+            {% when 'price_range' %}
+              <div class="collection-filter__price-range">
+                <div>
+                  <label for="Filter-{{ filter.min_value.param_name }}">Min</label>
+                  <input
+                    id="Filter-{{ filter.min_value.param_name }}"
+                    name="{{ filter.min_value.param_name }}"
+                    type="number"
+                    min="0"
+                    {% if filter.min_value.value %}
+                      value="{{ filter.min_value.value | money_without_currency }}"
+                    {% endif %}
+                  >
+                </div>
+                <div>
+                  <label for="Filter-{{ filter.max_value.param_name }}">Max</label>
+                  <input
+                    id="Filter-{{ filter.max_value.param_name }}"
+                    name="{{ filter.max_value.param_name }}"
+                    type="number"
+                    min="0"
+                    {% if filter.max_value.value %}
+                      value="{{ filter.max_value.value | money_without_currency }}"
+                    {% endif %}
+                  >
+                </div>
+              </div>
+          {% endcase %}
+        </div>
+      </details>
+    {% endfor %}
+
+    {% assign has_active_filters = false %}
+    {% for filter in collection.filters %}
+      {% if filter.active_values.size > 0 %}
+        {% assign has_active_filters = true %}
+      {% elsif filter.type == 'price_range' %}
+        {% if filter.min_value.value %}
+          {% assign has_active_filters = true %}
+        {% elsif filter.max_value.value %}
+          {% assign has_active_filters = true %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="collection-filters__actions">
+      <button type="submit">{{ 'collections.filters.apply' | t: default: 'Apply filters' }}</button>
+      {% if has_active_filters %}
+        <a href="{{ collection.url }}" class="collection-filters__reset">
+          {{ 'collections.filters.reset' | t: default: 'Reset' }}
+        </a>
+      {% endif %}
+    </div>
+  </form>
+{% endif %}
+
 <div class="collection-products">
   {% paginate collection.products by 20 %}
     {% for product in collection.products %}
@@ -24,6 +107,43 @@
         <div class="collection-product__content">
           <p>{{ product.title | escape | link_to: product.url }}</p>
           <p>{{ product.price | money }}</p>
+          {% assign color_option = blank %}
+          {% for option in product.options_with_values %}
+            {% assign option_name = option.name | downcase %}
+            {% if option_name contains 'color' %}
+              {% assign color_option = option %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
+          {% assign size_option = blank %}
+          {% for option in product.options_with_values %}
+            {% assign option_name = option.name | downcase %}
+            {% if option_name contains 'size' %}
+              {% assign size_option = option %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
+          {% if color_option %}
+            <ul class="collection-product__swatches" role="list">
+              {% for value in color_option.values %}
+                <li class="collection-product__swatch">
+                  <span>{{ value }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if size_option %}
+            <ul class="collection-product__swatches collection-product__swatches--size" role="list">
+              {% for value in size_option.values %}
+                <li class="collection-product__swatch">
+                  <span>{{ value }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
@@ -33,9 +153,64 @@
 </div>
 
 {% stylesheet %}
+  .collection-filters {
+    margin: 1.5rem 0 2rem;
+    padding: 1rem;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .collection-filter summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+  .collection-filter__options {
+    padding: 0.75rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .collection-filter__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .collection-filter__price-range {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  .collection-filters__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .collection-filters__reset {
+    font-size: 0.9rem;
+  }
   .collection-products {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+  .collection-product__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .collection-product__swatch {
+    border: 1px solid rgb(226 232 240);
+    border-radius: 999px;
+    padding: 0.1rem 0.75rem;
+    font-size: 0.75rem;
+    text-transform: capitalize;
   }
 {% endstylesheet %}
 

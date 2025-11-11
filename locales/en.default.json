@@ -37,7 +37,11 @@
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "filters": {
+      "apply": "Apply filters",
+      "reset": "Reset filters"
+    }
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
@@ -191,6 +195,12 @@
     "header": {
       "menu_aria_label": "Primary navigation",
       "mega_menu_empty": "No links added yet",
+      "search_toggle": "Open search",
+      "search_label": "Search store",
+      "account_icon": "Account",
+      "login": "Log in",
+      "account": "Account",
+      "create_account": "Create account",
       "enable_mega_menu": {
         "label": "Enable mega menu",
         "info": "Show second-level menu links in a multi-column dropdown."
