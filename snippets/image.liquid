@@ -1,0 +1,43 @@
+{% doc %}
+  Renders a responsive image with srcset.
+
+  @param {image} image - The image object to render
+  @param {string} [widths] - Comma-separated widths for srcset (default: '165,360,535,750,1000')
+  @param {string} [sizes] - Sizes attribute (default: '100vw')
+  @param {string} [alt] - Alt text override
+  @param {boolean} [lazy] - Enable lazy loading (default: true)
+  @param {string} [class] - Additional CSS classes
+
+  @example
+  {% render 'image', image: product.featured_image, widths: '360,750', sizes: '(min-width: 990px) 50vw, 100vw' %}
+{% enddoc %}
+
+{%- liquid
+  unless widths
+    assign widths = '165,360,535,750,1000'
+  endunless
+
+  unless sizes
+    assign sizes = '100vw'
+  endunless
+
+  unless lazy == false
+    assign lazy = true
+  endunless
+
+  assign alt_text = alt | default: image.alt | escape
+  assign widths_array = widths | split: ','
+-%}
+
+{%- if image != blank -%}
+  <img
+    srcset="{%- for width in widths_array -%}{{ image | image_url: width: width }} {{ width }}w{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}"
+    src="{{ image | image_url: width: 535 }}"
+    sizes="{{ sizes }}"
+    alt="{{ alt_text }}"
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+    {%- if lazy %} loading="lazy" decoding="async"{%- endif -%}
+    {%- if class %} class="{{ class }}"{%- endif -%}
+  >
+{%- endif -%}

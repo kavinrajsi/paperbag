@@ -1,0 +1,50 @@
+{% doc %}
+  Renders pagination controls.
+
+  @param {paginate} paginate - The paginate object from a paginate block
+
+  @example
+  {% paginate collection.products by 12 %}
+    {% render 'pagination', paginate: paginate %}
+  {% endpaginate %}
+{% enddoc %}
+
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="Pagination">
+    <ul class="pagination__list">
+      {%- if paginate.previous -%}
+        <li class="pagination__item">
+          <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev" aria-label="{{ 'general.pagination.previous' | t }}">
+            {%- render 'icon', icon: 'chevron-left', size: 16 -%}
+          </a>
+        </li>
+      {%- endif -%}
+
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <li class="pagination__item">
+            <a href="{{ part.url }}" class="pagination__link">{{ part.title }}</a>
+          </li>
+        {%- else -%}
+          {%- if part.title == paginate.current_page -%}
+            <li class="pagination__item">
+              <span class="pagination__link pagination__link--current" aria-current="page">{{ part.title }}</span>
+            </li>
+          {%- else -%}
+            <li class="pagination__item">
+              <span class="pagination__link pagination__link--gap">{{ part.title }}</span>
+            </li>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if paginate.next -%}
+        <li class="pagination__item">
+          <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next" aria-label="{{ 'general.pagination.next' | t }}">
+            {%- render 'icon', icon: 'chevron-right', size: 16 -%}
+          </a>
+        </li>
+      {%- endif -%}
+    </ul>
+  </nav>
+{%- endif -%}

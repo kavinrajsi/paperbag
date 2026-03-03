@@ -1,0 +1,81 @@
+{% doc %}
+  Renders breadcrumb navigation.
+
+  @example
+  {% render 'breadcrumb' %}
+{% enddoc %}
+
+{%- unless template.name == 'index' -%}
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol class="breadcrumb__list" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ routes.root_url }}" itemprop="item">
+          <span itemprop="name">{{ 'general.pagination.home' | t | default: 'Home' }}</span>
+        </a>
+        <meta itemprop="position" content="1">
+      </li>
+
+      {%- if template.name == 'product' -%}
+        {%- if collection -%}
+          <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ collection.url }}" itemprop="item">
+              <span itemprop="name">{{ collection.title }}</span>
+            </a>
+            <meta itemprop="position" content="2">
+          </li>
+          <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ product.title }}</span>
+            <meta itemprop="position" content="3">
+          </li>
+        {%- else -%}
+          <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ product.title }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+        {%- endif -%}
+
+      {%- elsif template.name == 'collection' -%}
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ collection.title }}</span>
+          <meta itemprop="position" content="2">
+        </li>
+
+      {%- elsif template.name == 'blog' -%}
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ blog.title }}</span>
+          <meta itemprop="position" content="2">
+        </li>
+
+      {%- elsif template.name == 'article' -%}
+        <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="{{ blog.url }}" itemprop="item">
+            <span itemprop="name">{{ blog.title }}</span>
+          </a>
+          <meta itemprop="position" content="2">
+        </li>
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ article.title }}</span>
+          <meta itemprop="position" content="3">
+        </li>
+
+      {%- elsif template.name == 'page' -%}
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ page.title }}</span>
+          <meta itemprop="position" content="2">
+        </li>
+
+      {%- elsif template.name == 'search' -%}
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ 'search.title' | t }}</span>
+          <meta itemprop="position" content="2">
+        </li>
+
+      {%- elsif template.name == 'cart' -%}
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ 'cart.title' | t }}</span>
+          <meta itemprop="position" content="2">
+        </li>
+      {%- endif -%}
+    </ol>
+  </nav>
+{%- endunless -%}

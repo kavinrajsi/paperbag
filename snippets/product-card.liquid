@@ -1,0 +1,69 @@
+{% doc %}
+  Renders a product card for use in grids.
+
+  @param {product} product - The product object
+  @param {boolean} [show_vendor] - Show vendor name (default: false)
+
+  @example
+  {% render 'product-card', product: product, show_vendor: true %}
+{% enddoc %}
+
+{%- liquid
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  assign sold_out = false
+  unless product.available
+    assign sold_out = true
+  endunless
+-%}
+
+<div class="card product-card">
+  <a href="{{ product.url }}" class="card__image product-card__image" aria-label="{{ product.title | escape }}">
+    {%- if product.featured_image != blank -%}
+      {%- render 'image',
+        image: product.featured_image,
+        widths: '165,360,535',
+        sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+        alt: product.title
+      -%}
+
+      {%- if product.images.size > 1 -%}
+        <div class="card__image-secondary">
+          {%- render 'image',
+            image: product.images[1],
+            widths: '165,360,535',
+            sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+            alt: product.title
+          -%}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+
+    <div class="card__badges">
+      {%- if sold_out -%}
+        <span class="badge badge--sold-out">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif on_sale -%}
+        <span class="badge badge--sale">{{ 'products.product.sale' | t }}</span>
+      {%- endif -%}
+    </div>
+  </a>
+
+  <div class="card__content">
+    {%- if show_vendor and product.vendor != blank -%}
+      <p class="card__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <h3 class="card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <div class="card__price">
+      {%- render 'price', product: product -%}
+    </div>
+  </div>
+</div>

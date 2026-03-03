@@ -1,0 +1,160 @@
+.footer {
+  padding: var(--section-padding);
+}
+
+.footer--dark {
+  background-color: var(--color-primary);
+  color: #fff;
+
+  a {
+    color: inherit;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.footer--light {
+  background-color: #fff;
+  color: var(--color-primary);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+}
+
+.footer__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__heading {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+}
+
+.footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    line-height: 2;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.footer__text {
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+.footer__newsletter-subtext {
+  margin-bottom: 12px;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.footer__newsletter-input-wrapper {
+  display: flex;
+  gap: 0;
+}
+
+.footer__newsletter-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid currentColor;
+  border-right: none;
+  background: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  outline: none;
+
+  &::placeholder {
+    color: inherit;
+    opacity: 0.5;
+  }
+}
+
+.footer__newsletter-button {
+  padding: 10px 14px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.footer__bottom {
+  border-top: 1px solid currentColor;
+  padding-top: 24px;
+  margin-top: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.8125rem;
+  opacity: 0.85;
+}
+
+.footer__copyright {
+  margin: 0;
+}
+
+.footer__payment-icons {
+  display: flex;
+  gap: 8px;
+
+  svg {
+    height: 24px;
+    width: auto;
+  }
+}
+
+// Social icons (shared component styles)
+.social-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icons__link {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// Responsive: stack on mobile
+@media (max-width: 768px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+}

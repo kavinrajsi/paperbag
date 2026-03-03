@@ -248,6 +248,30 @@
     },
     "logo_list": {
       "name": "Logo list"
+    },
+    "header": {
+      "name": "Header",
+      "settings": {
+        "menu": {
+          "label": "Menu"
+        },
+        "logo": {
+          "label": "Logo image"
+        },
+        "logo_width": {
+          "label": "Logo width"
+        },
+        "enable_sticky": {
+          "label": "Enable sticky header"
+        },
+        "color_scheme": {
+          "label": "Color scheme",
+          "options": {
+            "light": "Light",
+            "dark": "Dark"
+          }
+        }
+      }
     }
   }
 }
