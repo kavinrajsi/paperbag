@@ -29,7 +29,8 @@
                 class="product__gallery-thumb{% if forloop.first %} product__gallery-thumb--active{% endif %}"
                 data-gallery-thumb="{{ forloop.index0 }}"
                 data-image-url="{{ image | image_url: width: 1000 }}"
-                data-image-srcset="{%- for width in '360,535,750,1000' | split: ',' -%}{{ image | image_url: width: width }} {{ width }}w{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}"
+                {%- assign thumb_widths = '360,535,750,1000' | split: ',' -%}
+                data-image-srcset="{%- for width in thumb_widths -%}{{ image | image_url: width: width }} {{ width }}w{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}"
                 aria-label="View image {{ forloop.index }}"
               >
                 <img
