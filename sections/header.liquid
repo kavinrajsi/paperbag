@@ -11,17 +11,36 @@
   data-header
   data-section-id="{{ section.id }}"
 >
-  <div class="container header__container">
-    <button
-      class="header__mobile-toggle"
-      data-mobile-toggle
-      aria-label="{{ 'general.menu' | t }}"
-      type="button"
-    >
-      {%- render 'icon', icon: 'menu' -%}
-    </button>
+  <div class="header__container">
+    <div class="header__left">
+      <button
+        class="header__mobile-toggle"
+        data-mobile-toggle
+        aria-label="{{ 'general.menu' | t }}"
+        type="button"
+      >
+        {%- render 'icon', icon: 'menu' -%}
+      </button>
 
-    <a class="header__logo" href="{{ routes.root_url }}">
+      <button
+        class="header__icon-btn header__icon-btn--mobile-only"
+        aria-label="{{ 'general.search' | t }}"
+        type="button"
+      >
+        {%- render 'icon', icon: 'search' -%}
+      </button>
+
+      <a class="header__logo header__logo--desktop" href="{{ routes.root_url }}">
+        {%- if logo -%}
+          {%- assign logo_style = 'max-width: ' | append: logo_width | append: 'px;' -%}
+          {{ logo | image_url: width: logo_width | image_tag: widths: '50, 100, 150, 200', style: logo_style, alt: shop.name }}
+        {%- else -%}
+          <span class="header__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <a class="header__logo header__logo--mobile" href="{{ routes.root_url }}">
       {%- if logo -%}
         {%- assign logo_style = 'max-width: ' | append: logo_width | append: 'px;' -%}
         {{ logo | image_url: width: logo_width | image_tag: widths: '50, 100, 150, 200', style: logo_style, alt: shop.name }}
@@ -31,7 +50,7 @@
     </a>
 
     {%- if menu -%}
-      <nav class="header__nav hidden-mobile" aria-label="{{ 'general.menu' | t }}">
+      <nav class="header__nav" aria-label="{{ 'general.menu' | t }}">
         {%- for link in menu.links -%}
           <div class="header__nav-item">
             <a href="{{ link.url }}" class="header__nav-link">
@@ -54,11 +73,27 @@
 
     <div class="header__icons">
       <button
-        class="header__icon-btn"
+        class="header__icon-btn header__icon-btn--desktop-only"
         aria-label="{{ 'general.search' | t }}"
         type="button"
       >
         {%- render 'icon', icon: 'search' -%}
+      </button>
+
+      <a
+        class="header__icon-btn header__icon-btn--desktop-only"
+        href="{{ routes.account_url }}"
+        aria-label="{{ 'customer.account.title' | t }}"
+      >
+        {%- render 'icon', icon: 'person' -%}
+      </a>
+
+      <button
+        class="header__icon-btn header__icon-btn--mobile-only"
+        aria-label="{{ 'accessibility.close' | t }}"
+        type="button"
+      >
+        {%- render 'icon', icon: 'heart' -%}
       </button>
 
       <a
@@ -67,7 +102,6 @@
         aria-label="{{ 'general.cart' | t }}"
       >
         {%- render 'icon', icon: 'cart' -%}
-        <span class="header__cart-count" data-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
   </div>
