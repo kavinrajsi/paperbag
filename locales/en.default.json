@@ -10,7 +10,8 @@
     "pagination": {
       "next": "Next",
       "previous": "Previous",
-      "page": "Page {{ number }}"
+      "page": "Page {{ number }}",
+      "home": "Home"
     }
   },
   "products": {
@@ -30,6 +31,7 @@
       "type": "Type",
       "sku": "SKU",
       "share": "Share",
+      "title": "Product title",
       "you_may_also_like": "You may also like",
       "recently_viewed": "Recently viewed"
     }
@@ -216,11 +218,91 @@
   },
   "sections": {
     "hero_banner": {
-      "name": "Hero banner"
+      "name": "Hero banner",
+      "settings": {
+        "height": {
+          "label": "Section height",
+          "options": {
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large",
+            "full": "Full screen"
+          }
+        },
+        "autoplay_speed": {
+          "label": "Autoplay speed (seconds)"
+        },
+        "padding": {
+          "label": "Section padding"
+        }
+      },
+      "blocks": {
+        "slide": {
+          "name": "Slide",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "heading": {
+              "label": "Heading"
+            },
+            "subheading": {
+              "label": "Subheading"
+            },
+            "button_label": {
+              "label": "Button label"
+            },
+            "button_link": {
+              "label": "Button link"
+            },
+            "text_alignment": {
+              "label": "Text alignment",
+              "options": {
+                "left": "Left",
+                "center": "Center",
+                "right": "Right"
+              }
+            },
+            "overlay_opacity": {
+              "label": "Overlay opacity"
+            }
+          }
+        }
+      },
+      "presets": {
+        "hero_banner": {
+          "name": "Hero banner"
+        }
+      }
     },
     "featured_collection": {
       "name": "Featured collection",
-      "view_all": "View all"
+      "view_all": "View all",
+      "settings": {
+        "collection": {
+          "label": "Collection"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "products_to_show": {
+          "label": "Products to show"
+        },
+        "columns": {
+          "label": "Columns"
+        },
+        "show_vendor": {
+          "label": "Show vendor"
+        },
+        "show_view_all": {
+          "label": "Show view all"
+        }
+      },
+      "presets": {
+        "featured_collection": {
+          "name": "Featured collection"
+        }
+      }
     },
     "featured_product": {
       "name": "Featured product",
