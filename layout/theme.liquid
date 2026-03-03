@@ -26,8 +26,10 @@
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
   {%- comment -%} Font face declarations {%- endcomment -%}
-  {{ settings.heading_font | font_face: font_display: 'swap' }}
-  {{ settings.body_font | font_face: font_display: 'swap' }}
+  <style>
+    {{ settings.heading_font | font_face: font_display: 'swap' }}
+    {{ settings.body_font | font_face: font_display: 'swap' }}
+  </style>
 
   {%- comment -%} CSS Custom Properties {%- endcomment -%}
   <style>

@@ -1,32 +1,24 @@
 <div class="announcement-bar" data-announcement-bar style="background-color: {{ section.settings.color_background }}; color: {{ section.settings.color_text }}">
-  <div class="container">
-    {%- if section.settings.link != blank -%}
-      <a href="{{ section.settings.link }}" class="announcement-bar__link">
-        <span class="announcement-bar__text">{{ section.settings.text }}</span>
-      </a>
-    {%- else -%}
+  {%- if section.settings.link != blank -%}
+    <a href="{{ section.settings.link }}" class="announcement-bar__link">
       <span class="announcement-bar__text">{{ section.settings.text }}</span>
-    {%- endif -%}
-    <button class="announcement-bar__close" type="button" aria-label="Dismiss announcement">
-      {%- render 'icon', icon: 'close', size: 16 -%}
-    </button>
-  </div>
+    </a>
+  {%- else -%}
+    <span class="announcement-bar__text">{{ section.settings.text }}</span>
+  {%- endif -%}
 </div>
 
 {% stylesheet %}
   .announcement-bar {
-    text-align: center;
-    padding: 10px;
-    font-size: 0.8125rem;
-    letter-spacing: 0.04em;
-    position: relative;
-  }
-
-  .announcement-bar .container {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-align: center;
+    overflow: hidden;
   }
 
   .announcement-bar__link {
@@ -38,25 +30,8 @@
     text-decoration: underline;
   }
 
-  .announcement-bar__close {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-  }
-
-  .announcement-bar__close:hover {
-    opacity: 1;
+  .announcement-bar__text {
+    line-height: 1;
   }
 {% endstylesheet %}
 
@@ -68,7 +43,7 @@
       "type": "text",
       "id": "text",
       "label": "Text",
-      "default": "Free shipping on orders over $100"
+      "default": "Enjoy Free Shipping On All Orders"
     },
     {
       "type": "url",
@@ -79,7 +54,7 @@
       "type": "color",
       "id": "color_background",
       "label": "Background color",
-      "default": "#2C2C2C"
+      "default": "#8FA1B7"
     },
     {
       "type": "color",
