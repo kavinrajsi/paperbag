@@ -1,4 +1,9 @@
-<div class="hero section-padding" data-hero style="--section-padding: {{ section.settings.padding }}px;">
+<div
+  class="hero hero--{{ section.settings.height }}"
+  data-hero
+  data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+  style="--section-padding: {{ section.settings.padding }}px;"
+>
   <div class="hero__slides" data-hero-slides>
     {%- for block in section.blocks -%}
       <div class="hero__slide{% if forloop.first %} hero__slide--active{% endif %}" data-hero-slide {{ block.shopify_attributes }}>
@@ -15,15 +20,15 @@
         <div class="hero__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
 
         <div class="hero__content hero__content--{{ block.settings.text_alignment }}">
-          <div class="container">
+          <div class="hero__content-inner">
             {%- if block.settings.heading != blank -%}
-              <h2 class="hero__heading h1">{{ block.settings.heading }}</h2>
+              <h2 class="hero__heading">{{ block.settings.heading }}</h2>
             {%- endif -%}
             {%- if block.settings.subheading != blank -%}
               <p class="hero__subheading">{{ block.settings.subheading }}</p>
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
-              <a href="{{ block.settings.button_link }}" class="btn btn--primary hero__button">
+              <a href="{{ block.settings.button_link }}" class="hero__button">
                 {{ block.settings.button_label }}
               </a>
             {%- endif -%}
@@ -201,9 +206,9 @@
           "label": "t:sections.hero_banner.blocks.slide.settings.image.label"
         },
         {
-          "type": "text",
+          "type": "richtext",
           "id": "heading",
-          "default": "Your heading",
+          "default": "<p>Everyday Wear, <strong>Elevated.<\/strong></p>",
           "label": "t:sections.hero_banner.blocks.slide.settings.heading.label"
         },
         {
@@ -214,6 +219,7 @@
         {
           "type": "text",
           "id": "button_label",
+          "default": "New In",
           "label": "t:sections.hero_banner.blocks.slide.settings.button_label.label"
         },
         {
@@ -224,7 +230,7 @@
         {
           "type": "select",
           "id": "text_alignment",
-          "default": "center",
+          "default": "left",
           "label": "t:sections.hero_banner.blocks.slide.settings.text_alignment.label",
           "options": [
             {
@@ -247,7 +253,7 @@
           "min": 0,
           "max": 100,
           "step": 5,
-          "default": 40,
+          "default": 10,
           "label": "t:sections.hero_banner.blocks.slide.settings.overlay_opacity.label"
         }
       ]

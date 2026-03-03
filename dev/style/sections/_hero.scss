@@ -1,3 +1,5 @@
+@use '../base/variables' as *;
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -16,21 +18,38 @@
   display: block;
 }
 
+// Image
 .hero__image {
   width: 100%;
 }
 
 .hero__image img {
   width: 100%;
-  height: 400px;
   object-fit: cover;
+}
+
+.hero--small .hero__image img {
+  height: 400px;
+}
+
+.hero--medium .hero__image img {
+  height: 560px;
+}
+
+.hero--large .hero__image img {
+  height: 720px;
+}
+
+.hero--full .hero__image img {
+  height: 100vh;
 }
 
 .hero__image--placeholder svg {
   width: 100%;
-  height: 400px;
+  height: 560px;
 }
 
+// Overlay
 .hero__overlay {
   position: absolute;
   inset: 0;
@@ -38,38 +57,64 @@
   pointer-events: none;
 }
 
+// Content - positioned at bottom
 .hero__content {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   z-index: 2;
   color: #fff;
+  padding: 60px 110px;
 }
 
 .hero__content--left {
+  justify-content: flex-start;
   text-align: left;
 }
 
 .hero__content--center {
-  text-align: center;
   justify-content: center;
+  text-align: center;
 }
 
 .hero__content--right {
-  text-align: right;
   justify-content: flex-end;
+  text-align: right;
 }
 
+.hero__content-inner {
+  max-width: 500px;
+}
+
+.hero__content--center .hero__content-inner {
+  max-width: 600px;
+}
+
+// Heading - italic with bold support via richtext
 .hero__heading {
   font-size: 3rem;
-  margin-bottom: 16px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #313d65;
+}
+
+.hero__heading strong {
+  font-weight: 700;
+  font-style: italic;
+}
+
+.hero__heading p {
+  margin: 0;
 }
 
 .hero__subheading {
   font-size: 1.125rem;
   margin-bottom: 24px;
-  max-width: 600px;
+  max-width: 500px;
+  line-height: 1.6;
 }
 
 .hero__content--center .hero__subheading {
@@ -77,10 +122,28 @@
   margin-right: auto;
 }
 
+// Button - Figma: 40px height, Outfit SemiBold 14px, capitalize
 .hero__button {
-  /* Uses .btn styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 16px;
+  background: #8fa1b7;
+  color: #faf8f3;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+  text-decoration: none;
+  line-height: 1;
+  transition: opacity $transition-base;
 }
 
+.hero__button:hover {
+  opacity: 0.85;
+}
+
+// Slideshow controls
 .hero__controls {
   position: absolute;
   bottom: 24px;
@@ -95,6 +158,10 @@
 .hero__control {
   color: #fff;
   opacity: 0.8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .hero__control:hover {
@@ -113,19 +180,41 @@
   background: rgba(255, 255, 255, 0.5);
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 
 .hero__dot--active {
   background: #fff;
 }
 
-/* Responsive */
-@media (max-width: 750px) {
-  .hero__heading {
-    font-size: 2rem;
+// Responsive - Mobile
+@media (max-width: $breakpoint-sm) {
+  .hero--small .hero__image img {
+    height: 450px;
   }
 
-  .hero__subheading {
-    font-size: 1rem;
+  .hero--medium .hero__image img {
+    height: 551px;
+  }
+
+  .hero--large .hero__image img {
+    height: 650px;
+  }
+
+  .hero__content {
+    padding: 24px 16px;
+  }
+
+  .hero__heading {
+    font-size: 1.5rem;
+    color: #0c0c0c;
+  }
+
+  .hero__button {
+    background: #fff;
+    color: #0c0c0c;
+    font-weight: 400;
+    height: 40px;
+    padding: 0 16px;
   }
 }
