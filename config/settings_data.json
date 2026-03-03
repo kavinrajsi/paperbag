@@ -1,0 +1,20 @@
+{
+  "current": {
+    "color_primary": "#2C2C2C",
+    "color_secondary": "#F5F5F0",
+    "color_accent": "#C4A35A",
+    "color_background": "#FFFFFF",
+    "color_text": "#1A1A1A",
+    "color_border": "#E5E5E5",
+    "color_error": "#D32F2F",
+    "color_success": "#2E7D32",
+    "cart_type": "drawer",
+    "enable_cart_notes": true,
+    "enable_upsells": true,
+    "enable_size_guide": true,
+    "enable_recently_viewed": true,
+    "enable_sticky_cart": true,
+    "enable_predictive_search": true,
+    "base_font_size": 16
+  }
+}

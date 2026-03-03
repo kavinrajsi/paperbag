@@ -1,0 +1,70 @@
+{
+  "settings_schema": {
+    "colors": {
+      "name": "Colors",
+      "settings": {
+        "color_primary": { "label": "Primary" },
+        "color_secondary": { "label": "Secondary" },
+        "color_accent": { "label": "Accent" },
+        "color_background": { "label": "Background" },
+        "color_text": { "label": "Text" },
+        "color_border": { "label": "Border" },
+        "color_error": { "label": "Error" },
+        "color_success": { "label": "Success" }
+      }
+    },
+    "typography": {
+      "name": "Typography",
+      "settings": {
+        "heading_font": { "label": "Heading font" },
+        "body_font": { "label": "Body font" },
+        "base_font_size": { "label": "Base font size" }
+      }
+    },
+    "logo": {
+      "name": "Logo",
+      "settings": {
+        "logo": { "label": "Logo image" },
+        "logo_width": { "label": "Logo width" },
+        "favicon": { "label": "Favicon" }
+      }
+    },
+    "social_media": {
+      "name": "Social media",
+      "settings": {
+        "social_instagram_link": { "label": "Instagram" },
+        "social_facebook_link": { "label": "Facebook" },
+        "social_twitter_link": { "label": "X (Twitter)" },
+        "social_pinterest_link": { "label": "Pinterest" },
+        "social_tiktok_link": { "label": "TikTok" },
+        "social_youtube_link": { "label": "YouTube" }
+      }
+    },
+    "cart": {
+      "name": "Cart",
+      "settings": {
+        "cart_type": {
+          "label": "Cart type",
+          "options__1": "Drawer",
+          "options__2": "Page"
+        },
+        "enable_cart_notes": { "label": "Enable order notes" },
+        "enable_upsells": { "label": "Enable upsell recommendations" }
+      }
+    },
+    "product": {
+      "name": "Product",
+      "settings": {
+        "enable_size_guide": { "label": "Enable size guide" },
+        "enable_recently_viewed": { "label": "Enable recently viewed" },
+        "enable_sticky_cart": { "label": "Enable sticky add to cart" }
+      }
+    },
+    "search": {
+      "name": "Search",
+      "settings": {
+        "enable_predictive_search": { "label": "Enable predictive search" }
+      }
+    }
+  }
+}
