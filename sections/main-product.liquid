@@ -1,0 +1,307 @@
+{%- comment -%} Product JSON for JS {%- endcomment -%}
+<script type="application/json" data-product-json>
+  {{ product | json }}
+</script>
+
+<div class="product section-padding" data-product-section>
+  <div class="container">
+    <div class="product__grid">
+      {%- comment -%} Gallery {%- endcomment -%}
+      <div class="product__gallery" data-product-gallery>
+        <div class="product__gallery-main" data-gallery-main>
+          {%- if product.featured_image != blank -%}
+            {%- render 'image',
+              image: product.featured_image,
+              widths: '360,535,750,1000',
+              sizes: '(min-width: 990px) 50vw, 100vw',
+              lazy: false,
+              class: 'product__gallery-image'
+            -%}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        {%- if product.images.size > 1 -%}
+          <div class="product__gallery-thumbs" data-gallery-thumbs>
+            {%- for image in product.images -%}
+              <button
+                class="product__gallery-thumb{% if forloop.first %} product__gallery-thumb--active{% endif %}"
+                data-gallery-thumb="{{ forloop.index0 }}"
+                data-image-url="{{ image | image_url: width: 1000 }}"
+                data-image-srcset="{%- for width in '360,535,750,1000' | split: ',' -%}{{ image | image_url: width: width }} {{ width }}w{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}"
+                aria-label="View image {{ forloop.index }}"
+              >
+                <img
+                  src="{{ image | image_url: width: 100 }}"
+                  alt="{{ image.alt | escape | default: product.title }}"
+                  width="80"
+                  height="100"
+                  loading="lazy"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Product Info {%- endcomment -%}
+      <div class="product__info">
+        {%- for block in section.blocks -%}
+          <div class="product__block" {{ block.shopify_attributes }}>
+            {%- case block.type -%}
+              {%- when 'title' -%}
+                <h1 class="product__title h2">{{ product.title }}</h1>
+
+              {%- when 'price' -%}
+                <div class="product__price" data-product-price>
+                  {%- render 'price', product: product -%}
+                </div>
+
+              {%- when 'variant_picker' -%}
+                {%- unless product.has_only_default_variant -%}
+                  <div class="product__variants" data-variant-picker>
+                    {%- for option in product.options_with_values -%}
+                      <div class="product__option">
+                        <label class="product__option-label">{{ option.name }}</label>
+                        <div class="product__option-values">
+                          {%- for value in option.values -%}
+                            <button
+                              class="product__option-btn{% if option.selected_value == value %} product__option-btn--selected{% endif %}"
+                              data-option-index="{{ forloop.parentloop.index0 }}"
+                              data-option-value="{{ value }}"
+                              type="button"
+                            >
+                              {{ value }}
+                            </button>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                {%- endunless -%}
+
+              {%- when 'quantity_selector' -%}
+                <div class="product__quantity">
+                  <label class="product__option-label">{{ 'products.product.quantity' | t }}</label>
+                  <div class="product__quantity-controls">
+                    <button type="button" class="product__quantity-btn" data-quantity-minus>
+                      {%- render 'icon', icon: 'minus', size: 16 -%}
+                    </button>
+                    <input
+                      type="number"
+                      class="product__quantity-input"
+                      value="1"
+                      min="1"
+                      name="quantity"
+                      data-quantity-input
+                    >
+                    <button type="button" class="product__quantity-btn" data-quantity-plus>
+                      {%- render 'icon', icon: 'plus', size: 16 -%}
+                    </button>
+                  </div>
+                </div>
+
+              {%- when 'buy_buttons' -%}
+                <div class="product__buy-buttons">
+                  {%- form 'product', product -%}
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
+                    <button
+                      type="submit"
+                      class="btn btn--primary btn--full product__add-to-cart"
+                      data-add-to-cart
+                      {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+                    >
+                      {%- if product.selected_or_first_available_variant.available -%}
+                        {{ 'products.product.add_to_cart' | t }}
+                      {%- else -%}
+                        {{ 'products.product.sold_out' | t }}
+                      {%- endif -%}
+                    </button>
+                    {{ form | payment_button }}
+                  {%- endform -%}
+                </div>
+
+              {%- when 'description' -%}
+                {%- if product.description != blank -%}
+                  <div class="product__tab" data-product-tab="description">
+                    <button class="product__tab-trigger" data-tab-trigger="description" aria-expanded="true">
+                      {{ 'products.product.description' | t }}
+                      {%- render 'icon', icon: 'chevron-down', size: 16 -%}
+                    </button>
+                    <div class="product__tab-content rte" data-tab-content="description">
+                      {{ product.description }}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'size_guide' -%}
+                {%- if block.settings.content != blank -%}
+                  <div class="product__tab" data-product-tab="size-guide">
+                    <button class="product__tab-trigger" data-tab-trigger="size-guide" aria-expanded="false">
+                      {{ 'products.product.size_guide' | t }}
+                      {%- render 'icon', icon: 'chevron-down', size: 16 -%}
+                    </button>
+                    <div class="product__tab-content rte" data-tab-content="size-guide" hidden>
+                      {{ block.settings.content }}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'shipping' -%}
+                {%- if block.settings.content != blank -%}
+                  <div class="product__tab" data-product-tab="shipping">
+                    <button class="product__tab-trigger" data-tab-trigger="shipping" aria-expanded="false">
+                      {{ 'products.product.shipping' | t }}
+                      {%- render 'icon', icon: 'chevron-down', size: 16 -%}
+                    </button>
+                    <div class="product__tab-content rte" data-tab-content="shipping" hidden>
+                      {{ block.settings.content }}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'share' -%}
+                <div class="product__share">
+                  <button class="product__share-btn" data-share-btn>
+                    {%- render 'icon', icon: 'share', size: 16 -%}
+                    {{ 'products.product.share' | t }}
+                  </button>
+                </div>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} Sticky add-to-cart bar {%- endcomment -%}
+{%- if section.settings.enable_sticky_cart -%}
+  <div class="sticky-cart" data-sticky-cart hidden>
+    <div class="container sticky-cart__inner">
+      <div class="sticky-cart__info">
+        <span class="sticky-cart__title">{{ product.title }}</span>
+        <span class="sticky-cart__price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+      </div>
+      <button class="btn btn--primary sticky-cart__btn" data-sticky-add-to-cart>
+        {{ 'products.product.add_to_cart' | t }}
+      </button>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.product.name",
+  "class": "section-main-product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_cart",
+      "default": true,
+      "label": "t:sections.product.settings.enable_sticky_cart.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "default": true,
+      "label": "t:sections.product.settings.enable_zoom.label"
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "default": "medium",
+      "label": "t:sections.product.settings.media_size.label",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.product.settings.media_size.options.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.product.settings.media_size.options.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.product.settings.media_size.options.large"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "t:sections.product.blocks.title.name",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "t:sections.product.blocks.price.name",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "t:sections.product.blocks.variant_picker.name",
+      "limit": 1
+    },
+    {
+      "type": "quantity_selector",
+      "name": "t:sections.product.blocks.quantity_selector.name",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "t:sections.product.blocks.buy_buttons.name",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "t:sections.product.blocks.description.name",
+      "limit": 1
+    },
+    {
+      "type": "size_guide",
+      "name": "t:sections.product.blocks.size_guide.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.product.blocks.size_guide.settings.content.label"
+        }
+      ]
+    },
+    {
+      "type": "shipping",
+      "name": "t:sections.product.blocks.shipping.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.product.blocks.shipping.settings.content.label"
+        }
+      ]
+    },
+    {
+      "type": "share",
+      "name": "t:sections.product.blocks.share.name",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product page",
+      "blocks": [
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "quantity_selector" },
+        { "type": "buy_buttons" },
+        { "type": "description" }
+      ]
+    }
+  ]
+}
+{% endschema %}

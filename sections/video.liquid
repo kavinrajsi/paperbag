@@ -1,0 +1,144 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign video_url = section.settings.video_url
+  assign cover_image = section.settings.cover_image
+  assign autoplay = section.settings.autoplay
+-%}
+
+<section class="video-section" data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- if heading != blank -%}
+      <h2 class="video-section__heading section-heading">{{ heading }}</h2>
+    {%- endif -%}
+
+    <div class="video-section__wrapper">
+      {%- if cover_image != blank and autoplay == false -%}
+        <div class="video-section__cover" data-video-cover>
+          {%- render 'image', image: cover_image, widths: '535,750,1000,1500', sizes: '100vw' -%}
+          <button type="button" class="video-section__play-btn" data-video-play aria-label="{{ 'sections.video.play' | t }}">
+            {%- render 'icon', icon: 'youtube', size: 48 -%}
+          </button>
+        </div>
+      {%- endif -%}
+
+      {%- if video_url != blank -%}
+        <div class="video-section__embed{% if cover_image != blank and autoplay == false %} video-section__embed--hidden{% endif %}" data-video-embed>
+          {{ video_url | external_video_tag }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .video-section {
+    padding: 48px 0;
+  }
+
+  .video-section__heading {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .video-section__wrapper {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .video-section__cover {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .video-section__cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .video-section__play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .video-section__play-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .video-section__embed iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: block;
+    border: 0;
+  }
+
+  .video-section__embed--hidden {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function () {
+    var covers = document.querySelectorAll('[data-video-cover]');
+    covers.forEach(function (cover) {
+      cover.addEventListener('click', function () {
+        var wrapper = cover.parentElement;
+        var embed = wrapper.querySelector('[data-video-embed]');
+        if (embed) {
+          cover.style.display = 'none';
+          embed.classList.remove('video-section__embed--hidden');
+        }
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.video.name",
+  "class": "section-video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.video.settings.heading.label"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "label": "t:sections.video.settings.video_url.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "t:sections.video.settings.cover_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": false,
+      "label": "t:sections.video.settings.autoplay.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video"
+    }
+  ]
+}
+{% endschema %}

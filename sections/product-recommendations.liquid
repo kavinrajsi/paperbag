@@ -1,0 +1,49 @@
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <div class="product-recommendations section-padding">
+    <div class="container">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="product-recommendations__heading h2 text-center">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      <div class="grid grid--{{ section.settings.columns }}">
+        {%- for product in recommendations.products limit: section.settings.products_to_show -%}
+          {%- render 'product-card', product: product, show_vendor: false -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    }
+  ]
+}
+{% endschema %}

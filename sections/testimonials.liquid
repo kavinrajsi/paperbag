@@ -1,0 +1,147 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign columns = section.settings.columns
+-%}
+
+<section class="testimonials" data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- if heading != blank -%}
+      <h2 class="testimonials__heading section-heading">{{ heading }}</h2>
+    {%- endif -%}
+
+    <div class="grid grid--{{ columns }}">
+      {%- for block in section.blocks -%}
+        <div class="testimonial-card" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__stars">
+            {%- for i in (1..block.settings.rating) -%}
+              {%- render 'icon', icon: 'star-filled', size: 16 -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if block.settings.quote != blank -%}
+            <blockquote class="testimonial-card__quote">
+              {{ block.settings.quote }}
+            </blockquote>
+          {%- endif -%}
+
+          {%- if block.settings.author != blank -%}
+            <cite class="testimonial-card__author">{{ block.settings.author }}</cite>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .testimonials {
+    padding: 48px 0;
+  }
+
+  .testimonials__heading {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .testimonials .grid--2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .testimonials .grid--3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .testimonials .grid--3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .testimonials .grid--2,
+    .testimonials .grid--3 {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.testimonials.name",
+  "class": "section-testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "What our customers say",
+      "label": "t:sections.testimonials.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "default": "3",
+      "label": "t:sections.testimonials.settings.columns.label",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "t:sections.testimonials.blocks.testimonial.name",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "default": "Great product!",
+          "label": "t:sections.testimonials.blocks.testimonial.settings.quote.label"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "default": "Customer name",
+          "label": "t:sections.testimonials.blocks.testimonial.settings.author.label"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "t:sections.testimonials.blocks.testimonial.settings.rating.label"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

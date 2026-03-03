@@ -13,3 +13,9 @@
 // Layout
 @use 'layout/header';
 @use 'layout/footer';
+
+// Sections
+@use 'sections/hero';
+@use 'sections/collection';
+@use 'sections/product';
+@use 'sections/testimonials';

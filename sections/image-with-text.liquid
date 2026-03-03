@@ -1,0 +1,149 @@
+{%- liquid
+  assign image = section.settings.image
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+  assign layout = section.settings.layout
+-%}
+
+<section class="image-with-text image-with-text--{{ layout }}" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="grid grid--2">
+      <div class="image-with-text__image">
+        {%- if image != blank -%}
+          {%- render 'image', image: image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
+        {%- else -%}
+          <div class="image-with-text__placeholder">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="image-with-text__content">
+        {%- if heading != blank -%}
+          <h2 class="image-with-text__heading">{{ heading }}</h2>
+        {%- endif -%}
+
+        {%- if text != blank -%}
+          <div class="image-with-text__text rte">{{ text }}</div>
+        {%- endif -%}
+
+        {%- if button_label != blank -%}
+          <a href="{{ button_link | default: '#' }}" class="btn btn--primary image-with-text__btn">
+            {{ button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .image-with-text {
+    padding: 48px 0;
+  }
+
+  .image-with-text .grid--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .image-with-text--image-right .image-with-text__image {
+    order: 2;
+  }
+
+  .image-with-text--image-right .image-with-text__content {
+    order: 1;
+  }
+
+  .image-with-text__image img,
+  .image-with-text__placeholder svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .image-with-text__heading {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .image-with-text__text {
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  @media screen and (max-width: 989px) {
+    .image-with-text .grid--2 {
+      grid-template-columns: 1fr;
+    }
+
+    .image-with-text--image-right .image-with-text__image {
+      order: 0;
+    }
+
+    .image-with-text--image-right .image-with-text__content {
+      order: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.image_with_text.name",
+  "class": "section-image-with-text",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image_with_text.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Image with text",
+      "label": "t:sections.image_with_text.settings.heading.label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:sections.image_with_text.settings.text.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.image_with_text.settings.button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.image_with_text.settings.button_link.label"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "default": "image-left",
+      "label": "t:sections.image_with_text.settings.layout.label",
+      "options": [
+        {
+          "value": "image-left",
+          "label": "t:sections.image_with_text.settings.layout.options.image_left"
+        },
+        {
+          "value": "image-right",
+          "label": "t:sections.image_with_text.settings.layout.options.image_right"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text"
+    }
+  ]
+}
+{% endschema %}

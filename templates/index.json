@@ -1,0 +1,91 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "heading": "New Season Arrivals",
+            "subheading": "Discover our latest collection of thoughtfully designed essentials.",
+            "button_label": "Shop Now",
+            "button_link": "",
+            "text_alignment": "center",
+            "overlay_opacity": 40
+          }
+        }
+      },
+      "block_order": ["slide_1"],
+      "settings": {
+        "height": "large",
+        "autoplay_speed": 5
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Featured Collection",
+        "products_to_show": 8,
+        "columns": "4",
+        "show_vendor": false,
+        "show_view_all": true
+      }
+    },
+    "image_with_text": {
+      "type": "image-with-text",
+      "settings": {
+        "heading": "Our Story",
+        "text": "<p>We believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p>",
+        "button_label": "Learn More",
+        "button_link": "",
+        "layout": "image-left"
+      }
+    },
+    "collection_list": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {}
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {}
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {}
+        }
+      },
+      "block_order": ["collection_1", "collection_2", "collection_3"],
+      "settings": {
+        "heading": "Our Collections",
+        "columns": "3"
+      }
+    },
+    "rich_text": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Quality You Can Feel",
+        "content": "<p>Each piece in our collection is crafted with care, using premium materials sourced responsibly. We stand behind every product we make.</p>",
+        "narrow_width": true
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Join Our Community",
+        "subtext": "<p>Subscribe to get special offers, free giveaways, and new arrival alerts.</p>",
+        "color_scheme": "light"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured_collection",
+    "image_with_text",
+    "collection_list",
+    "rich_text",
+    "newsletter"
+  ]
+}

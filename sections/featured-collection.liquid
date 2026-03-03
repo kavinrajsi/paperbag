@@ -1,0 +1,106 @@
+{%- liquid
+  assign collection = section.settings.collection
+-%}
+
+<div class="featured-collection section-padding">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="featured-collection__heading h2 text-center">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if collection != blank -%}
+      <div class="grid grid--{{ section.settings.columns }}">
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          {%- render 'product-card', product: product, show_vendor: section.settings.show_vendor -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_view_all -%}
+        <div class="featured-collection__view-all text-center">
+          <a href="{{ collection.url }}" class="btn btn--secondary">
+            {{ 'sections.featured_collection.view_all' | t }}
+          </a>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="grid grid--{{ section.settings.columns }}">
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <div class="card">
+            <div class="card__image">
+              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+            <div class="card__content">
+              <h3 class="card__title">{{ 'products.product.title' | t }}</h3>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.featured_collection.name",
+  "class": "section-featured-collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:sections.featured_collection.settings.collection.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Featured collection",
+      "label": "t:sections.featured_collection.settings.heading.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8,
+      "label": "t:sections.featured_collection.settings.products_to_show.label"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "default": "4",
+      "label": "t:sections.featured_collection.settings.columns.label",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.featured_collection.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "t:sections.featured_collection.settings.show_view_all.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured_collection.presets.featured_collection.name"
+    }
+  ]
+}
+{% endschema %}

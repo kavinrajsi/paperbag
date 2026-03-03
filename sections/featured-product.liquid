@@ -1,0 +1,174 @@
+{%- liquid
+  assign product = section.settings.product
+  assign layout = section.settings.layout
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<section
+  class="featured-product featured-product--{{ layout }} featured-product--{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="container">
+    <div class="grid grid--2">
+      <div class="featured-product__image">
+        {%- if product != blank and product.featured_image -%}
+          {%- render 'image', image: product.featured_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
+        {%- else -%}
+          <div class="featured-product__placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="featured-product__details">
+        {%- if product != blank -%}
+          <h2 class="featured-product__title">{{ product.title }}</h2>
+
+          <div class="featured-product__price">
+            {%- render 'price', product: product -%}
+          </div>
+
+          {%- if product.description != blank -%}
+            <div class="featured-product__description">
+              {{ product.description | strip_html | truncatewords: 30 }}
+            </div>
+          {%- endif -%}
+
+          <a href="{{ product.url }}" class="btn btn--primary featured-product__btn">
+            {{ 'sections.featured_product.view_product' | t }}
+          </a>
+        {%- else -%}
+          <h2 class="featured-product__title">{{ 'sections.featured_product.placeholder_title' | t }}</h2>
+
+          <div class="featured-product__price">
+            <div class="price">
+              <span class="price__regular">{{ 9999 | money }}</span>
+            </div>
+          </div>
+
+          <div class="featured-product__description">
+            {{ 'sections.featured_product.placeholder_description' | t }}
+          </div>
+
+          <a href="#" class="btn btn--primary featured-product__btn">
+            {{ 'sections.featured_product.view_product' | t }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .featured-product {
+    padding: 48px 0;
+  }
+
+  .featured-product--dark {
+    background-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .featured-product .grid--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .featured-product--image-right .featured-product__image {
+    order: 2;
+  }
+
+  .featured-product--image-right .featured-product__details {
+    order: 1;
+  }
+
+  .featured-product__image img,
+  .featured-product__placeholder svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .featured-product__title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .featured-product__price {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+  }
+
+  .featured-product__description {
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  @media screen and (max-width: 989px) {
+    .featured-product .grid--2 {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-product--image-right .featured-product__image {
+      order: 0;
+    }
+
+    .featured-product--image-right .featured-product__details {
+      order: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.featured_product.name",
+  "class": "section-featured-product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:sections.featured_product.settings.product.label"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "default": "image-left",
+      "label": "t:sections.featured_product.settings.layout.label",
+      "options": [
+        {
+          "value": "image-left",
+          "label": "t:sections.featured_product.settings.layout.options.image_left"
+        },
+        {
+          "value": "image-right",
+          "label": "t:sections.featured_product.settings.layout.options.image_right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "light",
+      "label": "t:sections.featured_product.settings.color_scheme.label",
+      "options": [
+        {
+          "value": "light",
+          "label": "t:sections.featured_product.settings.color_scheme.options.light"
+        },
+        {
+          "value": "dark",
+          "label": "t:sections.featured_product.settings.color_scheme.options.dark"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product"
+    }
+  ]
+}
+{% endschema %}

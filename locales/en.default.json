@@ -223,31 +223,237 @@
       "view_all": "View all"
     },
     "featured_product": {
-      "name": "Featured product"
+      "name": "Featured product",
+      "view_product": "View product",
+      "placeholder_title": "Example product title",
+      "placeholder_description": "Use this section to highlight a product you want to feature. Add details about availability, style, or provide a review.",
+      "settings": {
+        "product": {
+          "label": "Product"
+        },
+        "layout": {
+          "label": "Layout",
+          "options": {
+            "image_left": "Image left",
+            "image_right": "Image right"
+          }
+        },
+        "color_scheme": {
+          "label": "Color scheme",
+          "options": {
+            "light": "Light",
+            "dark": "Dark"
+          }
+        }
+      }
     },
     "collection_list": {
-      "name": "Collection list"
+      "name": "Collection list",
+      "placeholder_title": "Collection title",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "columns": {
+          "label": "Columns"
+        }
+      },
+      "blocks": {
+        "collection": {
+          "name": "Collection",
+          "settings": {
+            "collection": {
+              "label": "Collection"
+            }
+          }
+        }
+      }
     },
     "image_with_text": {
-      "name": "Image with text"
+      "name": "Image with text",
+      "settings": {
+        "image": {
+          "label": "Image"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "text": {
+          "label": "Text"
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_link": {
+          "label": "Button link"
+        },
+        "layout": {
+          "label": "Layout",
+          "options": {
+            "image_left": "Image left",
+            "image_right": "Image right"
+          }
+        }
+      }
     },
     "rich_text": {
-      "name": "Rich text"
+      "name": "Rich text",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "content": {
+          "label": "Content"
+        },
+        "narrow_width": {
+          "label": "Narrow width"
+        }
+      }
     },
     "video": {
-      "name": "Video"
+      "name": "Video",
+      "play": "Play video",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "video_url": {
+          "label": "Video URL"
+        },
+        "cover_image": {
+          "label": "Cover image"
+        },
+        "autoplay": {
+          "label": "Autoplay"
+        }
+      }
     },
     "testimonials": {
-      "name": "Testimonials"
+      "name": "Testimonials",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "columns": {
+          "label": "Columns"
+        }
+      },
+      "blocks": {
+        "testimonial": {
+          "name": "Testimonial",
+          "settings": {
+            "quote": {
+              "label": "Quote"
+            },
+            "author": {
+              "label": "Author"
+            },
+            "rating": {
+              "label": "Rating"
+            }
+          }
+        }
+      }
     },
     "newsletter": {
       "name": "Newsletter",
       "email_placeholder": "Your email address",
       "submit": "Subscribe",
-      "success": "Thanks for subscribing!"
+      "success": "Thanks for subscribing!",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "subtext": {
+          "label": "Subtext"
+        },
+        "color_scheme": {
+          "label": "Color scheme",
+          "options": {
+            "light": "Light",
+            "dark": "Dark"
+          }
+        }
+      }
     },
     "logo_list": {
-      "name": "Logo list"
+      "name": "Logo list",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        }
+      },
+      "blocks": {
+        "logo": {
+          "name": "Logo",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "link": {
+              "label": "Link"
+            }
+          }
+        }
+      }
+    },
+    "product": {
+      "name": "Product page",
+      "settings": {
+        "enable_sticky_cart": {
+          "label": "Enable sticky add-to-cart"
+        },
+        "enable_zoom": {
+          "label": "Enable image zoom"
+        },
+        "media_size": {
+          "label": "Media size",
+          "options": {
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        }
+      },
+      "blocks": {
+        "title": {
+          "name": "Title"
+        },
+        "price": {
+          "name": "Price"
+        },
+        "variant_picker": {
+          "name": "Variant picker"
+        },
+        "quantity_selector": {
+          "name": "Quantity selector"
+        },
+        "buy_buttons": {
+          "name": "Buy buttons"
+        },
+        "description": {
+          "name": "Description"
+        },
+        "size_guide": {
+          "name": "Size guide",
+          "settings": {
+            "content": {
+              "label": "Content"
+            }
+          }
+        },
+        "shipping": {
+          "name": "Shipping & returns",
+          "settings": {
+            "content": {
+              "label": "Content"
+            }
+          }
+        },
+        "share": {
+          "name": "Share"
+        }
+      }
     },
     "header": {
       "name": "Header",
