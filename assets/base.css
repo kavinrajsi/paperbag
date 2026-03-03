@@ -132,7 +132,6 @@ small {
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
@@ -806,7 +805,7 @@ small {
 .footer__newsletter-input {
   flex: 1;
   padding: 10px 14px;
-  border: 1px solid currentColor;
+  border: 1px solid currentcolor;
   border-right: none;
   background: transparent;
   color: inherit;
@@ -824,7 +823,7 @@ small {
 
 .footer__newsletter-button {
   padding: 10px 14px;
-  border: 1px solid currentColor;
+  border: 1px solid currentcolor;
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -838,7 +837,7 @@ small {
 }
 
 .footer__bottom {
-  border-top: 1px solid currentColor;
+  border-top: 1px solid currentcolor;
   padding-top: 24px;
   margin-top: 48px;
   display: flex;

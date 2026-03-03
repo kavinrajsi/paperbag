@@ -42,7 +42,6 @@
       var header = document.querySelector('[data-header]');
       if (!header) return;
 
-      var lastScroll = 0;
       var ticking = false;
 
       window.addEventListener('scroll', function() {
@@ -54,7 +53,6 @@
             } else {
               header.classList.remove('header--sticky');
             }
-            lastScroll = currentScroll;
             ticking = false;
           });
           ticking = true;
@@ -152,17 +150,17 @@
         method: 'POST',
         body: formData
       })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function() {
-        Cart.refreshDrawer();
-        Cart.openDrawer();
-      })
-      .catch(function(error) {
-        // eslint-disable-next-line no-console
-        console.error('Add to cart error:', error);
-      });
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function() {
+          Cart.refreshDrawer();
+          Cart.openDrawer();
+        })
+        .catch(function(error) {
+          // eslint-disable-next-line no-console
+          console.error('Add to cart error:', error);
+        });
     },
 
     updateItem: function(key, quantity) {
@@ -171,41 +169,41 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: key, quantity: quantity })
       })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(cart) {
-        Cart.updateCartCount(cart.item_count);
-        Cart.refreshDrawer();
-      })
-      .catch(function(error) {
-        // eslint-disable-next-line no-console
-        console.error('Update cart error:', error);
-      });
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(cart) {
+          Cart.updateCartCount(cart.item_count);
+          Cart.refreshDrawer();
+        })
+        .catch(function(error) {
+          // eslint-disable-next-line no-console
+          console.error('Update cart error:', error);
+        });
     },
 
     refreshDrawer: function() {
       fetch('/?section_id=cart-drawer')
-      .then(function(response) {
-        return response.text();
-      })
-      .then(function(html) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, 'text/html');
-        var newDrawer = doc.querySelector('[data-cart-drawer]');
-        var currentDrawer = document.querySelector('[data-cart-drawer]');
+        .then(function(response) {
+          return response.text();
+        })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+          var newDrawer = doc.querySelector('[data-cart-drawer]');
+          var currentDrawer = document.querySelector('[data-cart-drawer]');
 
-        if (newDrawer && currentDrawer) {
-          currentDrawer.innerHTML = newDrawer.innerHTML;
-        }
+          if (newDrawer && currentDrawer) {
+            currentDrawer.innerHTML = newDrawer.innerHTML;
+          }
 
-        // Update cart count
-        fetch('/cart.js')
-        .then(function(r) { return r.json(); })
-        .then(function(cart) {
-          Cart.updateCartCount(cart.item_count);
+          // Update cart count
+          fetch('/cart.js')
+            .then(function(r) { return r.json(); })
+            .then(function(cart) {
+              Cart.updateCartCount(cart.item_count);
+            });
         });
-      });
     },
 
     updateCartCount: function(count) {

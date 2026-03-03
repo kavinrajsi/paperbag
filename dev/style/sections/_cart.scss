@@ -1,6 +1,8 @@
 @use '../base/variables' as *;
 
-.cart-page__title { margin-bottom: $spacing-6; }
+.cart-page__title {
+  margin-bottom: $spacing-6;
+}
 
 .cart-page__grid {
   display: grid;
@@ -26,12 +28,37 @@
   }
 }
 
-.cart-page__item-image img { width: 100%; border-radius: 4px; }
-.cart-page__item-title { font-weight: 500; text-decoration: none; display: block; margin-bottom: $spacing-1; }
-.cart-page__item-variant { font-size: 0.8125rem; color: var(--color-border); }
-.cart-page__item-price { font-size: 0.875rem; margin-top: $spacing-2; }
-.cart-page__item-discounted { font-size: 0.875rem; color: var(--color-accent); }
-.cart-page__item-total { font-weight: 600; text-align: right; }
+.cart-page__item-image img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.cart-page__item-title {
+  font-weight: 500;
+  text-decoration: none;
+  display: block;
+  margin-bottom: $spacing-1;
+}
+
+.cart-page__item-variant {
+  font-size: 0.8125rem;
+  color: var(--color-border);
+}
+
+.cart-page__item-price {
+  font-size: 0.875rem;
+  margin-top: $spacing-2;
+}
+
+.cart-page__item-discounted {
+  font-size: 0.875rem;
+  color: var(--color-accent);
+}
+
+.cart-page__item-total {
+  font-weight: 600;
+  text-align: right;
+}
 
 .cart-page__summary {
   background: var(--color-secondary);
@@ -42,8 +69,28 @@
   top: 100px;
 }
 
-.cart-page__notes { margin-bottom: $spacing-5; }
-.cart-page__subtotal { display: flex; justify-content: space-between; font-size: 1.125rem; font-weight: 600; margin-bottom: $spacing-2; }
-.cart-page__taxes { font-size: 0.75rem; color: var(--color-border); margin-bottom: $spacing-5; }
-.cart-page__empty { padding: $spacing-8 0; }
-.cart-page__empty p { margin-bottom: $spacing-4; }
+.cart-page__notes {
+  margin-bottom: $spacing-5;
+}
+
+.cart-page__subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: $spacing-2;
+}
+
+.cart-page__taxes {
+  font-size: 0.75rem;
+  color: var(--color-border);
+  margin-bottom: $spacing-5;
+}
+
+.cart-page__empty {
+  padding: $spacing-8 0;
+}
+
+.cart-page__empty p {
+  margin-bottom: $spacing-4;
+}
