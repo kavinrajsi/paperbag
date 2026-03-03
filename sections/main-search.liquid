@@ -1,0 +1,58 @@
+<div class="search-page section-padding">
+  <div class="container">
+    <h1 class="search-page__title h1 text-center">{{ 'search.title' | t }}</h1>
+
+    <form action="{{ routes.search_url }}" method="get" class="search-page__form" style="max-width: 600px; margin: 0 auto 48px;">
+      <div class="search-page__input-group">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" class="form__input" autofocus>
+        <button type="submit" class="btn btn--primary">
+          {%- render 'icon', icon: 'search', size: 20 -%}
+        </button>
+      </div>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="search-page__count text-center">
+          {{ 'search.results' | t: count: search.results_count }}
+        </p>
+        <div class="grid grid--4">
+          {%- for result in search.results -%}
+            {%- if result.object_type == 'product' -%}
+              {%- render 'product-card', product: result -%}
+            {%- elsif result.object_type == 'article' -%}
+              <article class="card">
+                {%- if result.image != blank -%}
+                  <a href="{{ result.url }}" class="card__image">
+                    {%- render 'image', image: result.image, widths: '360,535', sizes: '25vw' -%}
+                  </a>
+                {%- endif -%}
+                <div class="card__content">
+                  <p class="card__vendor">{{ 'search.articles' | t }}</p>
+                  <h3 class="card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                  <p>{{ result.content | strip_html | truncatewords: 15 }}</p>
+                </div>
+              </article>
+            {%- elsif result.object_type == 'page' -%}
+              <div class="card">
+                <div class="card__content">
+                  <p class="card__vendor">{{ 'search.pages' | t }}</p>
+                  <h3 class="card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                  <p>{{ result.content | strip_html | truncatewords: 15 }}</p>
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="search-page__empty text-center">
+          {{ 'search.no_results' | t: terms: search.terms }}
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Search page", "settings": [] }
+{% endschema %}

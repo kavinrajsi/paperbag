@@ -1,0 +1,84 @@
+<div class="cart-page section-padding">
+  <div class="container">
+    {%- render 'breadcrumb' -%}
+    <h1 class="cart-page__title h1">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
+        <div class="cart-page__grid">
+          <div class="cart-page__items">
+            {%- for item in cart.items -%}
+              <div class="cart-page__item">
+                <a href="{{ item.url }}" class="cart-page__item-image">
+                  {%- if item.image -%}
+                    <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" width="100" height="125" loading="lazy">
+                  {%- endif -%}
+                </a>
+                <div class="cart-page__item-details">
+                  <a href="{{ item.url }}" class="cart-page__item-title">{{ item.product.title }}</a>
+                  {%- if item.variant.title != 'Default Title' -%}
+                    <p class="cart-page__item-variant">{{ item.variant.title }}</p>
+                  {%- endif -%}
+                  <p class="cart-page__item-price">{{ item.original_line_price | money }}</p>
+                  {%- if item.original_line_price != item.final_line_price -%}
+                    <p class="cart-page__item-discounted">{{ item.final_line_price | money }}</p>
+                  {%- endif -%}
+                </div>
+                <div class="cart-page__item-quantity">
+                  <div class="product__quantity-controls">
+                    <button type="button" class="product__quantity-btn" onclick="this.parentNode.querySelector('input').stepDown(); this.closest('form').submit();">
+                      {%- render 'icon', icon: 'minus', size: 16 -%}
+                    </button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="product__quantity-input" aria-label="{{ 'products.product.quantity' | t }}">
+                    <button type="button" class="product__quantity-btn" onclick="this.parentNode.querySelector('input').stepUp(); this.closest('form').submit();">
+                      {%- render 'icon', icon: 'plus', size: 16 -%}
+                    </button>
+                  </div>
+                </div>
+                <div class="cart-page__item-total">
+                  {{ item.final_line_price | money }}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="cart-page__summary">
+            {%- if settings.enable_cart_notes -%}
+              <div class="cart-page__notes">
+                <label for="CartNote" class="form__label">{{ 'cart.note' | t }}</label>
+                <textarea id="CartNote" name="note" class="form__textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+              </div>
+            {%- endif -%}
+
+            <div class="cart-page__subtotal">
+              <span>{{ 'cart.subtotal' | t }}</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+            <p class="cart-page__taxes">{{ 'cart.taxes_and_shipping' | t }}</p>
+
+            <button type="submit" name="checkout" class="btn btn--primary btn--full">
+              {{ 'cart.checkout' | t }}
+            </button>
+            <a href="{{ routes.all_products_collection_url }}" class="btn btn--text btn--full">
+              {{ 'general.continue_shopping' | t }}
+            </a>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="cart-page__empty text-center">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+          {{ 'general.continue_shopping' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "settings": []
+}
+{% endschema %}

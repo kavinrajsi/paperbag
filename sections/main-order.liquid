@@ -1,0 +1,55 @@
+<div class="customer section-padding">
+  <div class="container">
+    <h1 class="h1">{{ 'customer.order.title' | t: name: order.name }}</h1>
+    <p>{{ 'customer.order.date' | t }}: {{ order.created_at | date: '%B %d, %Y' }}</p>
+
+    <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 24px;">
+      <thead>
+        <tr style="border-bottom: 2px solid var(--color-border);">
+          <th style="padding: 12px 0;">{{ 'customer.order.product' | t }}</th>
+          <th style="padding: 12px 0;">{{ 'customer.order.sku' | t }}</th>
+          <th style="padding: 12px 0;">{{ 'customer.order.price' | t }}</th>
+          <th style="padding: 12px 0;">{{ 'customer.order.quantity' | t }}</th>
+          <th style="padding: 12px 0; text-align: right;">{{ 'customer.order.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 12px 0;">{{ line_item.title }}</td>
+            <td style="padding: 12px 0;">{{ line_item.sku }}</td>
+            <td style="padding: 12px 0;">{{ line_item.final_price | money }}</td>
+            <td style="padding: 12px 0;">{{ line_item.quantity }}</td>
+            <td style="padding: 12px 0; text-align: right;">{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px;">
+      <div>
+        <h3 class="h4">{{ 'customer.order.billing_address' | t }}</h3>
+        {{ order.billing_address | format_address }}
+      </div>
+      <div>
+        <h3 class="h4">{{ 'customer.order.shipping_address' | t }}</h3>
+        {{ order.shipping_address | format_address }}
+      </div>
+    </div>
+
+    <div style="text-align: right; margin-top: 32px;">
+      <p>{{ 'customer.order.subtotal' | t }}: {{ order.subtotal_price | money }}</p>
+      {%- for shipping_method in order.shipping_methods -%}
+        <p>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }}): {{ shipping_method.price | money }}</p>
+      {%- endfor -%}
+      {%- for tax_line in order.tax_lines -%}
+        <p>{{ 'customer.order.tax' | t }} ({{ tax_line.title }}): {{ tax_line.price | money }}</p>
+      {%- endfor -%}
+      <p><strong>{{ 'customer.order.total' | t }}: {{ order.total_price | money }}</strong></p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Customer order", "settings": [] }
+{% endschema %}

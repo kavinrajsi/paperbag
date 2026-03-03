@@ -1,0 +1,14 @@
+<div class="page-404 section-padding">
+  <div class="container text-center">
+    <h1 class="h1">{{ '404.title' | t }}</h1>
+    <p>{{ '404.subtext' | t }}</p>
+    <form action="{{ routes.search_url }}" method="get" style="max-width: 400px; margin: 24px auto;">
+      <input type="search" name="q" placeholder="{{ 'search.placeholder' | t }}" class="form__input">
+    </form>
+    <a href="{{ routes.root_url }}" class="btn btn--primary">{{ 'general.continue_shopping' | t }}</a>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "404 page", "settings": [] }
+{% endschema %}

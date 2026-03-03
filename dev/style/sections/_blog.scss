@@ -1,0 +1,19 @@
+@use '../base/variables' as *;
+
+.blog__title { margin-bottom: $spacing-6; }
+.article-card__date { font-size: 0.75rem; color: var(--color-border); display: block; margin-bottom: $spacing-2; }
+.article-card__excerpt { font-size: 0.875rem; color: var(--color-text); margin-bottom: $spacing-3; line-height: 1.6; }
+
+.article__header { margin-bottom: $spacing-6; }
+.article__title { margin-bottom: $spacing-3; }
+.article__meta { font-size: 0.875rem; color: var(--color-border); }
+.article__meta span { margin-right: $spacing-4; }
+.article__image { margin-bottom: $spacing-6; border-radius: 8px; overflow: hidden; max-width: 800px; margin-left: auto; margin-right: auto; }
+.article__content { max-width: 800px; margin: 0 auto $spacing-6; }
+.article__tags { max-width: 800px; margin: 0 auto $spacing-6; font-size: 0.875rem; }
+.article__tags a { color: var(--color-primary); text-decoration: underline; }
+.article__comments { max-width: 800px; margin: 0 auto; }
+.article__comment { padding: $spacing-4 0; border-bottom: 1px solid var(--color-border); }
+.article__comment-author { font-weight: 600; }
+.article__comment-date { font-size: 0.75rem; color: var(--color-border); }
+.article__comment-body { margin-top: $spacing-2; }

@@ -1,0 +1,47 @@
+<div class="contact section-padding">
+  <div class="container" style="max-width: 600px;">
+    {%- render 'breadcrumb' -%}
+    <h1 class="contact__title h1 text-center">{{ 'contact.title' | t }}</h1>
+
+    {%- if section.settings.subtext != blank -%}
+      <div class="contact__subtext text-center rte">{{ section.settings.subtext }}</div>
+    {%- endif -%}
+
+    {% form 'contact' %}
+      {%- if form.posted_successfully? -%}
+        <p class="form__success">{{ 'contact.form.success' | t }}</p>
+      {%- endif -%}
+
+      {%- if form.errors -%}
+        <div class="form__error">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+
+      <div class="form__group">
+        <label for="ContactName" class="form__label">{{ 'contact.form.name' | t }}</label>
+        <input type="text" id="ContactName" name="contact[{{ 'contact.form.name' | t }}]" required class="form__input">
+      </div>
+      <div class="form__group">
+        <label for="ContactEmail" class="form__label">{{ 'contact.form.email' | t }}</label>
+        <input type="email" id="ContactEmail" name="contact[email]" required class="form__input">
+      </div>
+      <div class="form__group">
+        <label for="ContactPhone" class="form__label">{{ 'contact.form.phone' | t }}</label>
+        <input type="tel" id="ContactPhone" name="contact[{{ 'contact.form.phone' | t }}]" class="form__input">
+      </div>
+      <div class="form__group">
+        <label for="ContactMessage" class="form__label">{{ 'contact.form.message' | t }}</label>
+        <textarea id="ContactMessage" name="contact[{{ 'contact.form.message' | t }}]" required class="form__textarea"></textarea>
+      </div>
+      <button type="submit" class="btn btn--primary btn--full">{{ 'contact.form.submit' | t }}</button>
+    {% endform %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { "type": "richtext", "id": "subtext", "label": "Subtext" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,63 @@
+<div class="customer section-padding">
+  <div class="container" style="max-width: 500px;">
+    <h1 class="h1 text-center">{{ 'customer.login.title' | t }}</h1>
+
+    {% form 'customer_login' %}
+      {%- if form.errors -%}
+        <div class="form__error">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="form__group">
+        <label for="CustomerEmail" class="form__label">{{ 'customer.login.email' | t }}</label>
+        <input type="email" id="CustomerEmail" name="customer[email]" required class="form__input" autocomplete="email">
+      </div>
+      <div class="form__group">
+        <label for="CustomerPassword" class="form__label">{{ 'customer.login.password' | t }}</label>
+        <input type="password" id="CustomerPassword" name="customer[password]" required class="form__input">
+      </div>
+      <button type="submit" class="btn btn--primary btn--full">{{ 'customer.login.sign_in' | t }}</button>
+      <p class="text-center" style="margin-top: 16px;">
+        <a href="#recover" class="btn btn--text">{{ 'customer.login.forgot_password' | t }}</a>
+      </p>
+    {% endform %}
+
+    <div id="recover" style="display: none;">
+      <h2 class="h3 text-center">{{ 'customer.reset_password.title' | t }}</h2>
+      {% form 'recover_customer_password' %}
+        {%- if form.posted_successfully? -%}
+          <p class="form__success">{{ 'customer.reset_password.success' | t }}</p>
+        {%- endif -%}
+        <div class="form__group">
+          <label for="RecoverEmail" class="form__label">{{ 'customer.reset_password.email' | t }}</label>
+          <input type="email" id="RecoverEmail" name="email" required class="form__input">
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">{{ 'customer.reset_password.submit' | t }}</button>
+      {% endform %}
+    </div>
+
+    <p class="text-center" style="margin-top: 32px;">
+      {{ 'customer.register.already_have_account' | t }}
+      <a href="{{ routes.account_register_url }}" class="btn btn--text">{{ 'customer.register.title' | t }}</a>
+    </p>
+  </div>
+</div>
+
+{% javascript %}
+(function() {
+  'use strict';
+  if (window.location.hash === '#recover') {
+    document.getElementById('recover').style.display = 'block';
+  }
+  var recoverLink = document.querySelector('a[href="#recover"]');
+  if (recoverLink) {
+    recoverLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('recover').style.display = 'block';
+      window.location.hash = '#recover';
+    });
+  }
+})();
+{% endjavascript %}
+
+{% schema %}
+{ "name": "Customer login", "settings": [] }
+{% endschema %}

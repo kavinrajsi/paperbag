@@ -1,0 +1,182 @@
+{%- paginate collection.products by section.settings.products_per_page -%}
+<div class="collection section-padding">
+  <div class="container">
+    {%- render 'breadcrumb' -%}
+
+    <div class="collection__header">
+      {%- if collection.image != blank -%}
+        <div class="collection__banner">
+          {%- render 'image', image: collection.image, widths: '750,1000,1500', sizes: '100vw', lazy: false -%}
+        </div>
+      {%- endif -%}
+      <h1 class="collection__title h1">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection__description rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="collection__toolbar">
+      {%- if section.settings.enable_filtering -%}
+        <button class="collection__filter-toggle btn btn--secondary" data-filter-toggle>
+          {%- render 'icon', icon: 'plus', size: 16 -%}
+          {{ 'collections.filtering.filter' | t }}
+        </button>
+      {%- endif -%}
+
+      {%- if section.settings.enable_sorting -%}
+        <div class="collection__sort">
+          <label for="SortBy" class="visually-hidden">{{ 'collections.sorting.title' | t }}</label>
+          <select id="SortBy" class="form__select collection__sort-select" data-sort-select>
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      {%- endif -%}
+
+      <p class="collection__count">
+        {{ 'collections.filtering.results_count' | t: count: collection.products_count }}
+      </p>
+    </div>
+
+    {%- if section.settings.enable_filtering -%}
+      <div class="collection__filters" data-collection-filters hidden>
+        {%- for filter in collection.filters -%}
+          <div class="collection__filter-group">
+            <h3 class="collection__filter-heading">{{ filter.label }}</h3>
+            {%- case filter.type -%}
+              {%- when 'list' -%}
+                <ul class="collection__filter-list">
+                  {%- for value in filter.values -%}
+                    <li>
+                      <label class="collection__filter-item">
+                        <input
+                          type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                        >
+                        {{ value.label }} ({{ value.count }})
+                      </label>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- when 'price_range' -%}
+                <div class="collection__filter-price">
+                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency }}" min="0" placeholder="{{ filter.min_value.value | money_without_currency }}" class="form__input">
+                  <span>-</span>
+                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency }}" min="0" placeholder="{{ filter.max_value.value | money_without_currency }}" class="form__input">
+                </div>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+
+        <div class="collection__filter-actions">
+          <a href="{{ collection.url }}" class="btn btn--text">{{ 'collections.filtering.clear_all' | t }}</a>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <div class="grid grid--{{ section.settings.columns }}">
+        {%- for product in collection.products -%}
+          {%- render 'product-card', product: product, show_vendor: section.settings.show_vendor -%}
+        {%- endfor -%}
+      </div>
+
+      {%- render 'pagination', paginate: paginate -%}
+    {%- else -%}
+      <p class="collection__empty text-center">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+  </div>
+</div>
+{%- endpaginate -%}
+
+{% javascript %}
+(function() {
+  'use strict';
+  var sortSelect = document.querySelector('[data-sort-select]');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      var url = new URL(window.location.href);
+      url.searchParams.set('sort_by', this.value);
+      window.location.href = url.toString();
+    });
+  }
+
+  var filterToggle = document.querySelector('[data-filter-toggle]');
+  var filters = document.querySelector('[data-collection-filters]');
+  if (filterToggle && filters) {
+    filterToggle.addEventListener('click', function() {
+      filters.hidden = !filters.hidden;
+    });
+  }
+
+  // Filter checkboxes auto-submit
+  var checkboxes = document.querySelectorAll('[data-collection-filters] input[type="checkbox"]');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('change', function() {
+      var url = new URL(window.location.href);
+      var checked = document.querySelectorAll('[data-collection-filters] input[type="checkbox"]:checked');
+      // Clear existing filter params
+      var params = new URLSearchParams();
+      if (url.searchParams.get('sort_by')) {
+        params.set('sort_by', url.searchParams.get('sort_by'));
+      }
+      for (var j = 0; j < checked.length; j++) {
+        params.append(checked[j].name, checked[j].value);
+      }
+      window.location.href = url.pathname + '?' + params.toString();
+    });
+  }
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Collection page",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

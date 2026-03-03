@@ -1,0 +1,45 @@
+<div class="customer section-padding">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+      <h1 class="h1">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--text">{{ 'customer.account.logout' | t }}</a>
+    </div>
+
+    <h2 class="h3">{{ 'customer.account.orders' | t }}</h2>
+
+    {%- if customer.orders.size > 0 -%}
+      <table class="customer__table" style="width: 100%; text-align: left; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-border);">
+            <th style="padding: 12px 0;">{{ 'customer.order.title' | t }}</th>
+            <th style="padding: 12px 0;">{{ 'customer.order.date' | t }}</th>
+            <th style="padding: 12px 0;">{{ 'customer.order.payment_status' | t }}</th>
+            <th style="padding: 12px 0;">{{ 'customer.order.fulfillment_status' | t }}</th>
+            <th style="padding: 12px 0; text-align: right;">{{ 'customer.order.total' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr style="border-bottom: 1px solid var(--color-border);">
+              <td style="padding: 12px 0;"><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+              <td style="padding: 12px 0;">{{ order.created_at | date: '%B %d, %Y' }}</td>
+              <td style="padding: 12px 0;">{{ order.financial_status_label }}</td>
+              <td style="padding: 12px 0;">{{ order.fulfillment_status_label }}</td>
+              <td style="padding: 12px 0; text-align: right;">{{ order.total_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- else -%}
+      <p>{{ 'customer.account.no_orders' | t }}</p>
+    {%- endif -%}
+
+    <div style="margin-top: 32px;">
+      <a href="{{ routes.account_addresses_url }}" class="btn btn--secondary">{{ 'customer.account.addresses' | t }}</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Customer account", "settings": [] }
+{% endschema %}

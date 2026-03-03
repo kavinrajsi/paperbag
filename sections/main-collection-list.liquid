@@ -1,0 +1,32 @@
+<div class="collection-list section-padding">
+  <div class="container">
+    {%- render 'breadcrumb' -%}
+    <h1 class="collection-list__title h1 text-center">{{ 'collections.title' | t }}</h1>
+    <div class="grid grid--3">
+      {%- for collection in collections -%}
+        {%- if collection.handle != 'all' -%}
+          <a href="{{ collection.url }}" class="card collection-card">
+            <div class="card__image">
+              {%- if collection.image != blank -%}
+                {%- render 'image', image: collection.image, widths: '360,535', sizes: '(min-width: 990px) 33vw, 50vw' -%}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            <div class="card__content text-center">
+              <h2 class="card__title">{{ collection.title }}</h2>
+              <p class="card__vendor">{{ collection.products_count }} {{ 'collections.filtering.results_count.other' | t: count: collection.products_count }}</p>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection list page",
+  "settings": []
+}
+{% endschema %}
