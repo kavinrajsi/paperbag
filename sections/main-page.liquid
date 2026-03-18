@@ -1,12 +1,19 @@
-<div class="page section-padding">
+<div class="generic-page">
   <div class="container">
     {%- render 'breadcrumb' -%}
-    <h1 class="page__title h1 text-center">{{ page.title }}</h1>
-    <div class="page__content rte" style="max-width: 800px; margin: 0 auto;">
-      {{ page.content }}
-    </div>
+    <h1 class="generic-page__title">{{ page.title }}</h1>
+    <div class="generic-page__content rte">{{ page.content }}</div>
   </div>
 </div>
+
+{% stylesheet %}
+  .generic-page { padding: 32px 0 64px; }
+  .generic-page__title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 32px; color: #313D65; font-weight: normal; text-align: center; margin: 0 0 32px; }
+  .generic-page__content { max-width: 800px; margin: 0 auto; font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
+  .generic-page__content h2, .generic-page__content h3 { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; color: #313D65; font-weight: normal; }
+  .generic-page__content a { color: #313D65; }
+  @media (max-width: 749px) { .generic-page__title { font-size: 22px; } .generic-page__content { font-size: 14px; } }
+{% endstylesheet %}
 
 {% schema %}
 { "name": "Page", "settings": [] }

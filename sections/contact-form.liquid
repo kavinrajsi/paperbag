@@ -1,41 +1,52 @@
-<div class="contact section-padding">
-  <div class="container" style="max-width: 600px;">
+<div class="contact-page">
+  <div class="container">
     {%- render 'breadcrumb' -%}
-    <h1 class="contact__title h1 text-center">{{ 'contact.title' | t }}</h1>
+    <div class="contact-page__card">
+      <h1 class="contact-page__title">{{ 'contact.title' | t }}</h1>
 
-    {%- if section.settings.subtext != blank -%}
-      <div class="contact__subtext text-center rte">{{ section.settings.subtext }}</div>
-    {%- endif -%}
-
-    {% form 'contact' %}
-      {%- if form.posted_successfully? -%}
-        <p class="form__success">{{ 'contact.form.success' | t }}</p>
+      {%- if section.settings.subtext != blank -%}
+        <div class="contact-page__subtext">{{ section.settings.subtext }}</div>
       {%- endif -%}
 
-      {%- if form.errors -%}
-        <div class="form__error">{{ form.errors | default_errors }}</div>
-      {%- endif -%}
+      {% form 'contact' %}
+        {%- if form.posted_successfully? -%}
+          <p class="auth-page__success">{{ 'contact.form.success' | t }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <div class="auth-page__error">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
 
-      <div class="form__group">
-        <label for="ContactName" class="form__label">{{ 'contact.form.name' | t }}</label>
-        <input type="text" id="ContactName" name="contact[{{ 'contact.form.name' | t }}]" required class="form__input">
-      </div>
-      <div class="form__group">
-        <label for="ContactEmail" class="form__label">{{ 'contact.form.email' | t }}</label>
-        <input type="email" id="ContactEmail" name="contact[email]" required class="form__input">
-      </div>
-      <div class="form__group">
-        <label for="ContactPhone" class="form__label">{{ 'contact.form.phone' | t }}</label>
-        <input type="tel" id="ContactPhone" name="contact[{{ 'contact.form.phone' | t }}]" class="form__input">
-      </div>
-      <div class="form__group">
-        <label for="ContactMessage" class="form__label">{{ 'contact.form.message' | t }}</label>
-        <textarea id="ContactMessage" name="contact[{{ 'contact.form.message' | t }}]" required class="form__textarea"></textarea>
-      </div>
-      <button type="submit" class="btn btn--primary btn--full">{{ 'contact.form.submit' | t }}</button>
-    {% endform %}
+        <div class="auth-page__row">
+          <div class="auth-page__field">
+            <label for="ContactName" class="auth-page__label">{{ 'contact.form.name' | t }}</label>
+            <input type="text" id="ContactName" name="contact[{{ 'contact.form.name' | t }}]" required class="auth-page__input">
+          </div>
+          <div class="auth-page__field">
+            <label for="ContactEmail" class="auth-page__label">{{ 'contact.form.email' | t }}</label>
+            <input type="email" id="ContactEmail" name="contact[email]" required class="auth-page__input">
+          </div>
+        </div>
+        <div class="auth-page__field">
+          <label for="ContactPhone" class="auth-page__label">{{ 'contact.form.phone' | t }}</label>
+          <input type="tel" id="ContactPhone" name="contact[{{ 'contact.form.phone' | t }}]" class="auth-page__input">
+        </div>
+        <div class="auth-page__field">
+          <label for="ContactMessage" class="auth-page__label">{{ 'contact.form.message' | t }}</label>
+          <textarea id="ContactMessage" name="contact[{{ 'contact.form.message' | t }}]" required class="auth-page__input" rows="5" style="height: auto;"></textarea>
+        </div>
+        <button type="submit" class="auth-page__btn">{{ 'contact.form.submit' | t }}</button>
+      {% endform %}
+    </div>
   </div>
 </div>
+
+{% stylesheet %}
+  .contact-page { padding: 32px 0 64px; }
+  .contact-page__card { max-width: 600px; margin: 0 auto; }
+  .contact-page__title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 32px; color: #313D65; font-weight: normal; text-align: center; margin: 0 0 12px; }
+  .contact-page__subtext { font-family: 'Outfit', sans-serif; font-size: 16px; color: #353535; text-align: center; line-height: 1.8; margin-bottom: 32px; }
+  @media (max-width: 749px) { .contact-page__title { font-size: 22px; } }
+{% endstylesheet %}
 
 {% schema %}
 {

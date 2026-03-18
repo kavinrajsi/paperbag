@@ -1,45 +1,44 @@
-<article class="article section-padding" itemscope itemtype="https://schema.org/BlogPosting">
+<article class="article-page" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="container">
     {%- render 'breadcrumb' -%}
 
-    <header class="article__header text-center">
-      <h1 class="article__title h1" itemprop="headline">{{ article.title }}</h1>
-      <div class="article__meta">
+    <header class="article-page__header">
+      <h1 class="article-page__title" itemprop="headline">{{ article.title }}</h1>
+      <div class="article-page__meta">
         <span itemprop="author">{{ 'blog.by_author' | t: author: article.author }}</span>
         <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" itemprop="datePublished">
-          {{ 'blog.posted_on' | t: date: article.published_at | date: '%B %d, %Y' }}
+          {{ article.published_at | date: '%B %d, %Y' }}
         </time>
       </div>
     </header>
 
     {%- if article.image != blank -%}
-      <div class="article__image">
+      <div class="article-page__image">
         {%- render 'image', image: article.image, widths: '750,1000,1500', sizes: '(min-width: 990px) 800px, 100vw', lazy: false -%}
       </div>
     {%- endif -%}
 
-    <div class="article__content rte" itemprop="articleBody">
+    <div class="article-page__body rte" itemprop="articleBody">
       {{ article.content }}
     </div>
 
     {%- if article.tags.size > 0 -%}
-      <div class="article__tags">
-        <span>{{ 'blog.tags' | t }}:</span>
+      <div class="article-page__tags">
         {%- for tag in article.tags -%}
-          <a href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+          <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="article-page__tag">{{ tag }}</a>
         {%- endfor -%}
       </div>
     {%- endif -%}
 
     {%- if blog.comments_enabled? -%}
-      <div class="article__comments">
-        <h2 class="h3">{{ 'blog.comments' | t: count: article.comments_count }}</h2>
+      <div class="article-page__comments">
+        <h2 class="article-page__comments-title">{{ 'blog.comments' | t: count: article.comments_count }}</h2>
 
         {%- for comment in article.comments -%}
-          <div class="article__comment">
-            <p class="article__comment-author">{{ comment.author }}</p>
-            <time class="article__comment-date">{{ comment.created_at | date: '%B %d, %Y' }}</time>
-            <div class="article__comment-body">{{ comment.content }}</div>
+          <div class="article-page__comment">
+            <p class="article-page__comment-author">{{ comment.author }}</p>
+            <time class="article-page__comment-date">{{ comment.created_at | date: '%B %d, %Y' }}</time>
+            <div class="article-page__comment-body">{{ comment.content }}</div>
           </div>
         {%- endfor -%}
 
@@ -48,29 +47,51 @@
         {%- endpaginate -%}
 
         {% form 'new_comment', article %}
-          <h3 class="h4">{{ 'blog.comment_form.submit' | t }}</h3>
-          <div class="form__group">
-            <label for="CommentAuthor" class="form__label">{{ 'blog.comment_form.name' | t }}</label>
-            <input type="text" id="CommentAuthor" name="comment[author]" required class="form__input">
+          <h3 class="article-page__form-title">{{ 'blog.comment_form.submit' | t | default: 'Leave a Comment' }}</h3>
+          <div class="auth-page__row">
+            <div class="auth-page__field">
+              <label for="CommentAuthor" class="auth-page__label">{{ 'blog.comment_form.name' | t }}</label>
+              <input type="text" id="CommentAuthor" name="comment[author]" required class="auth-page__input">
+            </div>
+            <div class="auth-page__field">
+              <label for="CommentEmail" class="auth-page__label">{{ 'blog.comment_form.email' | t }}</label>
+              <input type="email" id="CommentEmail" name="comment[email]" required class="auth-page__input">
+            </div>
           </div>
-          <div class="form__group">
-            <label for="CommentEmail" class="form__label">{{ 'blog.comment_form.email' | t }}</label>
-            <input type="email" id="CommentEmail" name="comment[email]" required class="form__input">
+          <div class="auth-page__field">
+            <label for="CommentBody" class="auth-page__label">{{ 'blog.comment_form.body' | t }}</label>
+            <textarea id="CommentBody" name="comment[body]" required class="auth-page__input" rows="5" style="height: auto;"></textarea>
           </div>
-          <div class="form__group">
-            <label for="CommentBody" class="form__label">{{ 'blog.comment_form.body' | t }}</label>
-            <textarea id="CommentBody" name="comment[body]" required class="form__textarea"></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary">{{ 'blog.comment_form.submit' | t }}</button>
+          <button type="submit" class="auth-page__btn" style="width: auto; padding: 0 32px;">{{ 'blog.comment_form.submit' | t }}</button>
         {% endform %}
       </div>
     {%- endif -%}
   </div>
 </article>
 
+{% stylesheet %}
+  .article-page { padding: 32px 0 64px; }
+  .article-page__header { text-align: center; margin-bottom: 32px; }
+  .article-page__title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 36px; color: #313D65; font-weight: normal; margin: 0 0 12px; }
+  .article-page__meta { font-family: 'Outfit', sans-serif; font-size: 14px; color: #ADADAD; display: flex; gap: 16px; justify-content: center; }
+  .article-page__image { max-width: 800px; margin: 0 auto 40px; overflow: hidden; }
+  .article-page__image img { width: 100%; height: auto; display: block; }
+  .article-page__body { max-width: 800px; margin: 0 auto 40px; font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
+  .article-page__body h2, .article-page__body h3 { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; color: #313D65; font-weight: normal; }
+  .article-page__body a { color: #313D65; }
+  .article-page__tags { max-width: 800px; margin: 0 auto 40px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .article-page__tag { display: inline-flex; align-items: center; height: 32px; padding: 0 16px; background: #F2F4F6; font-family: 'Outfit', sans-serif; font-size: 14px; color: #353535; text-decoration: none; text-transform: capitalize; }
+  .article-page__tag:hover { background: #E3E7EB; }
+  .article-page__comments { max-width: 800px; margin: 0 auto; }
+  .article-page__comments-title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 24px; color: #313D65; font-weight: normal; margin: 0 0 24px; }
+  .article-page__comment { padding: 16px 0; border-bottom: 1px solid #DFDFDF; }
+  .article-page__comment-author { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 14px; color: #353535; margin: 0 0 4px; }
+  .article-page__comment-date { font-family: 'Outfit', sans-serif; font-size: 12px; color: #ADADAD; }
+  .article-page__comment-body { font-family: 'Outfit', sans-serif; font-size: 16px; color: #353535; line-height: 1.8; margin-top: 8px; }
+  .article-page__form-title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 20px; color: #313D65; font-weight: normal; margin: 32px 0 16px; }
+  @media (max-width: 749px) { .article-page__title { font-size: 24px; } .article-page__body { font-size: 14px; } }
+{% endstylesheet %}
+
 {% schema %}
-{
-  "name": "Article page",
-  "settings": []
-}
+{ "name": "Article page", "settings": [] }
 {% endschema %}

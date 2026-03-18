@@ -1,60 +1,57 @@
-<div class="customer section-padding">
-  <div class="container" style="max-width: 500px;">
-    <h1 class="h1 text-center">{{ 'customer.login.title' | t }}</h1>
+<div class="auth-page">
+  <div class="container">
+    <div class="auth-page__card">
+      <h1 class="auth-page__title">{{ 'customer.login.title' | t }}</h1>
 
-    {% form 'customer_login' %}
-      {%- if form.errors -%}
-        <div class="form__error">{{ form.errors | default_errors }}</div>
-      {%- endif -%}
-      <div class="form__group">
-        <label for="CustomerEmail" class="form__label">{{ 'customer.login.email' | t }}</label>
-        <input type="email" id="CustomerEmail" name="customer[email]" required class="form__input" autocomplete="email">
-      </div>
-      <div class="form__group">
-        <label for="CustomerPassword" class="form__label">{{ 'customer.login.password' | t }}</label>
-        <input type="password" id="CustomerPassword" name="customer[password]" required class="form__input">
-      </div>
-      <button type="submit" class="btn btn--primary btn--full">{{ 'customer.login.sign_in' | t }}</button>
-      <p class="text-center" style="margin-top: 16px;">
-        <a href="#recover" class="btn btn--text">{{ 'customer.login.forgot_password' | t }}</a>
-      </p>
-    {% endform %}
-
-    <div id="recover" style="display: none;">
-      <h2 class="h3 text-center">{{ 'customer.reset_password.title' | t }}</h2>
-      {% form 'recover_customer_password' %}
-        {%- if form.posted_successfully? -%}
-          <p class="form__success">{{ 'customer.reset_password.success' | t }}</p>
+      {% form 'customer_login' %}
+        {%- if form.errors -%}
+          <div class="auth-page__error">{{ form.errors | default_errors }}</div>
         {%- endif -%}
-        <div class="form__group">
-          <label for="RecoverEmail" class="form__label">{{ 'customer.reset_password.email' | t }}</label>
-          <input type="email" id="RecoverEmail" name="email" required class="form__input">
+        <div class="auth-page__field">
+          <label for="CustomerEmail" class="auth-page__label">{{ 'customer.login.email' | t }}</label>
+          <input type="email" id="CustomerEmail" name="customer[email]" required class="auth-page__input" autocomplete="email">
         </div>
-        <button type="submit" class="btn btn--primary btn--full">{{ 'customer.reset_password.submit' | t }}</button>
+        <div class="auth-page__field">
+          <label for="CustomerPassword" class="auth-page__label">{{ 'customer.login.password' | t }}</label>
+          <input type="password" id="CustomerPassword" name="customer[password]" required class="auth-page__input">
+        </div>
+        <button type="submit" class="auth-page__btn">{{ 'customer.login.sign_in' | t }}</button>
+        <p class="auth-page__link-row">
+          <a href="#recover" class="auth-page__link" data-recover-link>{{ 'customer.login.forgot_password' | t }}</a>
+        </p>
       {% endform %}
-    </div>
 
-    <p class="text-center" style="margin-top: 32px;">
-      {{ 'customer.register.already_have_account' | t }}
-      <a href="{{ routes.account_register_url }}" class="btn btn--text">{{ 'customer.register.title' | t }}</a>
-    </p>
+      <div id="recover" class="auth-page__recover" style="display: none;">
+        <h2 class="auth-page__subtitle">{{ 'customer.reset_password.title' | t }}</h2>
+        {% form 'recover_customer_password' %}
+          {%- if form.posted_successfully? -%}
+            <p class="auth-page__success">{{ 'customer.reset_password.success' | t }}</p>
+          {%- endif -%}
+          <div class="auth-page__field">
+            <label for="RecoverEmail" class="auth-page__label">{{ 'customer.reset_password.email' | t }}</label>
+            <input type="email" id="RecoverEmail" name="email" required class="auth-page__input">
+          </div>
+          <button type="submit" class="auth-page__btn">{{ 'customer.reset_password.submit' | t }}</button>
+        {% endform %}
+      </div>
+
+      <p class="auth-page__link-row" style="margin-top: 32px;">
+        {{ 'customer.register.already_have_account' | t }}
+        <a href="{{ routes.account_register_url }}" class="auth-page__link">{{ 'customer.register.title' | t }}</a>
+      </p>
+    </div>
   </div>
 </div>
 
 {% javascript %}
 (function() {
-  'use strict';
-  if (window.location.hash === '#recover') {
+  if (window.location.hash === '#recover') document.getElementById('recover').style.display = 'block';
+  var link = document.querySelector('[data-recover-link]');
+  if (link) link.addEventListener('click', function(e) {
+    e.preventDefault();
     document.getElementById('recover').style.display = 'block';
-  }
-  var recoverLink = document.querySelector('a[href="#recover"]');
-  if (recoverLink) {
-    recoverLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('recover').style.display = 'block';
-      window.location.hash = '#recover';
-    });
-  }
+    window.location.hash = '#recover';
+  });
 })();
 {% endjavascript %}
 

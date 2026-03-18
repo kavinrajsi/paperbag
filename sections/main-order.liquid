@@ -1,54 +1,68 @@
-<div class="customer section-padding">
+<div class="account-page">
   <div class="container">
-    <h1 class="h1">{{ 'customer.order.title' | t: name: order.name }}</h1>
-    <p>{{ 'customer.order.date' | t }}: {{ order.created_at | date: '%B %d, %Y' }}</p>
+    {%- render 'breadcrumb' -%}
+    <h1 class="account-page__title">{{ 'customer.order.title' | t: name: order.name }}</h1>
+    <p class="order-page__date">{{ 'customer.order.date' | t }}: {{ order.created_at | date: '%B %d, %Y' }}</p>
 
-    <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 24px;">
-      <thead>
-        <tr style="border-bottom: 2px solid var(--color-border);">
-          <th style="padding: 12px 0;">{{ 'customer.order.product' | t }}</th>
-          <th style="padding: 12px 0;">{{ 'customer.order.sku' | t }}</th>
-          <th style="padding: 12px 0;">{{ 'customer.order.price' | t }}</th>
-          <th style="padding: 12px 0;">{{ 'customer.order.quantity' | t }}</th>
-          <th style="padding: 12px 0; text-align: right;">{{ 'customer.order.total' | t }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {%- for line_item in order.line_items -%}
-          <tr style="border-bottom: 1px solid var(--color-border);">
-            <td style="padding: 12px 0;">{{ line_item.title }}</td>
-            <td style="padding: 12px 0;">{{ line_item.sku }}</td>
-            <td style="padding: 12px 0;">{{ line_item.final_price | money }}</td>
-            <td style="padding: 12px 0;">{{ line_item.quantity }}</td>
-            <td style="padding: 12px 0; text-align: right;">{{ line_item.final_line_price | money }}</td>
+    <div class="account-page__table-wrap">
+      <table class="account-page__table">
+        <thead>
+          <tr>
+            <th>{{ 'customer.order.product' | t }}</th>
+            <th>{{ 'customer.order.sku' | t }}</th>
+            <th>{{ 'customer.order.price' | t }}</th>
+            <th>{{ 'customer.order.quantity' | t }}</th>
+            <th class="text-right">{{ 'customer.order.total' | t }}</th>
           </tr>
-        {%- endfor -%}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {%- for line_item in order.line_items -%}
+            <tr>
+              <td>{{ line_item.title }}</td>
+              <td>{{ line_item.sku }}</td>
+              <td>{{ line_item.final_price | money }}</td>
+              <td>{{ line_item.quantity }}</td>
+              <td class="text-right">{{ line_item.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px;">
+    <div class="order-page__addresses">
       <div>
-        <h3 class="h4">{{ 'customer.order.billing_address' | t }}</h3>
-        {{ order.billing_address | format_address }}
+        <h3 class="order-page__address-title">{{ 'customer.order.billing_address' | t }}</h3>
+        <div class="order-page__address-body">{{ order.billing_address | format_address }}</div>
       </div>
       <div>
-        <h3 class="h4">{{ 'customer.order.shipping_address' | t }}</h3>
-        {{ order.shipping_address | format_address }}
+        <h3 class="order-page__address-title">{{ 'customer.order.shipping_address' | t }}</h3>
+        <div class="order-page__address-body">{{ order.shipping_address | format_address }}</div>
       </div>
     </div>
 
-    <div style="text-align: right; margin-top: 32px;">
-      <p>{{ 'customer.order.subtotal' | t }}: {{ order.subtotal_price | money }}</p>
+    <div class="order-page__totals">
+      <div class="order-page__total-row"><span>{{ 'customer.order.subtotal' | t }}</span><span>{{ order.subtotal_price | money }}</span></div>
       {%- for shipping_method in order.shipping_methods -%}
-        <p>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }}): {{ shipping_method.price | money }}</p>
+        <div class="order-page__total-row"><span>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</span><span>{{ shipping_method.price | money }}</span></div>
       {%- endfor -%}
       {%- for tax_line in order.tax_lines -%}
-        <p>{{ 'customer.order.tax' | t }} ({{ tax_line.title }}): {{ tax_line.price | money }}</p>
+        <div class="order-page__total-row"><span>{{ 'customer.order.tax' | t }} ({{ tax_line.title }})</span><span>{{ tax_line.price | money }}</span></div>
       {%- endfor -%}
-      <p><strong>{{ 'customer.order.total' | t }}: {{ order.total_price | money }}</strong></p>
+      <div class="order-page__total-row order-page__total-row--final"><span>{{ 'customer.order.total' | t }}</span><span>{{ order.total_price | money }}</span></div>
     </div>
   </div>
 </div>
+
+{% stylesheet %}
+  .order-page__date { font-family: 'Outfit', sans-serif; font-size: 16px; color: #404040; margin: 0 0 24px; }
+  .order-page__addresses { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; }
+  .order-page__address-title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 18px; color: #313D65; font-weight: normal; margin: 0 0 8px; }
+  .order-page__address-body { font-family: 'Outfit', sans-serif; font-size: 16px; color: #353535; line-height: 1.8; }
+  .order-page__totals { margin-top: 32px; max-width: 400px; margin-left: auto; }
+  .order-page__total-row { display: flex; justify-content: space-between; font-family: 'Outfit', sans-serif; font-size: 16px; color: #0C0C0C; padding: 4px 0; }
+  .order-page__total-row--final { font-weight: 600; border-top: 1px solid #DFDFDF; padding-top: 12px; margin-top: 8px; }
+  @media (max-width: 749px) { .order-page__addresses { grid-template-columns: 1fr; } }
+{% endstylesheet %}
 
 {% schema %}
 { "name": "Customer order", "settings": [] }

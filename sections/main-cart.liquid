@@ -1,80 +1,566 @@
-<div class="cart-page section-padding">
+<div class="cart-pg">
   <div class="container">
-    {%- render 'breadcrumb' -%}
-    <h1 class="cart-page__title h1">{{ 'cart.title' | t }}</h1>
+    <div class="cart-pg__top">
+      <a href="javascript:history.back()" class="cart-pg__back">{{ 'cart.back' | t | default: 'Back' }}</a>
+      <h1 class="cart-pg__title">{{ 'cart.title' | t }}</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-pg__continue">{{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}</a>
+    </div>
 
     {%- if cart.item_count > 0 -%}
-      <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
-        <div class="cart-page__grid">
-          <div class="cart-page__items">
-            {%- for item in cart.items -%}
-              <div class="cart-page__item">
-                <a href="{{ item.url }}" class="cart-page__item-image">
-                  {%- if item.image -%}
-                    <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" width="100" height="125" loading="lazy">
-                  {%- endif -%}
-                </a>
-                <div class="cart-page__item-details">
-                  <a href="{{ item.url }}" class="cart-page__item-title">{{ item.product.title }}</a>
-                  {%- if item.variant.title != 'Default Title' -%}
-                    <p class="cart-page__item-variant">{{ item.variant.title }}</p>
-                  {%- endif -%}
-                  <p class="cart-page__item-price">{{ item.original_line_price | money }}</p>
-                  {%- if item.original_line_price != item.final_line_price -%}
-                    <p class="cart-page__item-discounted">{{ item.final_line_price | money }}</p>
-                  {%- endif -%}
-                </div>
-                <div class="cart-page__item-quantity">
-                  <div class="product__quantity-controls">
-                    <button type="button" class="product__quantity-btn" onclick="this.parentNode.querySelector('input').stepDown(); this.closest('form').submit();">
-                      {%- render 'icon', icon: 'minus', size: 16 -%}
-                    </button>
-                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="product__quantity-input" aria-label="{{ 'products.product.quantity' | t }}">
-                    <button type="button" class="product__quantity-btn" onclick="this.parentNode.querySelector('input').stepUp(); this.closest('form').submit();">
-                      {%- render 'icon', icon: 'plus', size: 16 -%}
-                    </button>
+      <form action="{{ routes.cart_url }}" method="post" class="cart-pg__form">
+        <div class="cart-pg__layout">
+          {%- comment -%} Left: Order Summary items {%- endcomment -%}
+          <div class="cart-pg__items-section">
+            <h2 class="cart-pg__section-heading">{{ 'cart.order_summary' | t | default: 'Order Summary' }}</h2>
+            <div class="cart-pg__items">
+              {%- for item in cart.items -%}
+                <div class="cart-pg__item" data-cart-item data-key="{{ item.key }}">
+                  <a href="{{ item.url }}" class="cart-pg__item-image">
+                    {%- if item.image -%}
+                      <img src="{{ item.image | image_url: width: 284 }}" alt="{{ item.title | escape }}" loading="lazy">
+                    {%- endif -%}
+                    {%- if item.quantity > 1 -%}
+                      <span class="cart-pg__item-badge">{{ item.quantity }}</span>
+                    {%- endif -%}
+                  </a>
+
+                  <div class="cart-pg__item-info">
+                    <h3 class="cart-pg__item-title">{{ item.product.title }}</h3>
+                    <div class="cart-pg__item-options">
+                      {%- for option in item.options_with_values -%}
+                        <p>{{ option.name }}: {{ option.value }}</p>
+                      {%- endfor -%}
+                    </div>
                   </div>
+
+                  <button type="button" class="cart-pg__item-remove" data-cart-remove aria-label="{{ 'cart.remove' | t | default: 'Remove' }}">
+                    {%- render 'icon', icon: 'close', size: 24 -%}
+                  </button>
                 </div>
-                <div class="cart-page__item-total">
-                  {{ item.final_line_price | money }}
-                </div>
-              </div>
-            {%- endfor -%}
+              {%- endfor -%}
+            </div>
           </div>
 
-          <div class="cart-page__summary">
-            {%- if settings.enable_cart_notes -%}
-              <div class="cart-page__notes">
-                <label for="CartNote" class="form__label">{{ 'cart.note' | t }}</label>
-                <textarea id="CartNote" name="note" class="form__textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
-              </div>
-            {%- endif -%}
+          {%- comment -%} Right: Price / Quantity / Total table {%- endcomment -%}
+          <div class="cart-pg__totals-section">
+            <div class="cart-pg__table-header">
+              <span>{{ 'cart.price' | t | default: 'Price' }}</span>
+              <span>{{ 'cart.quantity' | t | default: 'Quantity' }}</span>
+              <span>{{ 'cart.total' | t | default: 'Total' }}</span>
+            </div>
 
-            <div class="cart-page__subtotal">
-              <span>{{ 'cart.subtotal' | t }}</span>
+            <div class="cart-pg__table-body">
+              {%- for item in cart.items -%}
+                <div class="cart-pg__table-row">
+                  <span class="cart-pg__cell-price">{{ item.original_price | money }}</span>
+                  <div class="cart-pg__cell-qty">
+                    <div class="cart-pg__qty-control">
+                      <button type="button" class="cart-pg__qty-btn" aria-label="Decrease quantity" data-quantity-minus>
+                        {%- render 'icon', icon: 'minus', size: 16 -%}
+                      </button>
+                      <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
+                      <button type="button" class="cart-pg__qty-btn" aria-label="Increase quantity" data-quantity-plus>
+                        {%- render 'icon', icon: 'plus', size: 16 -%}
+                      </button>
+                    </div>
+                  </div>
+                  <span class="cart-pg__cell-total">{{ item.final_line_price | money }}</span>
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <div class="cart-pg__summary-divider"></div>
+
+            <div class="cart-pg__summary-row">
+              <span>{{ 'cart.subtotal' | t | default: 'Subtotal' }} ({{ cart.item_count }})</span>
+              <span>{{ cart.items_subtotal_price | money }}</span>
+            </div>
+
+            <div class="cart-pg__summary-row">
+              <span>{{ 'cart.tax' | t | default: 'Tax' }}</span>
+              <span>{{ cart.total_price | minus: cart.items_subtotal_price | money }}</span>
+            </div>
+
+            <div class="cart-pg__summary-row">
+              <span>{{ 'cart.shipping' | t | default: 'Shipping' }}</span>
+              <span>{{ 'cart.free' | t | default: 'Free' }}</span>
+            </div>
+
+            <div class="cart-pg__summary-divider"></div>
+
+            <div class="cart-pg__summary-row cart-pg__summary-row--total">
+              <span>{{ 'cart.total_orders' | t | default: 'Total Orders:' }}</span>
               <span>{{ cart.total_price | money }}</span>
             </div>
-            <p class="cart-page__taxes">{{ 'cart.taxes_and_shipping' | t }}</p>
 
-            <button type="submit" name="checkout" class="btn btn--primary btn--full">
-              {{ 'cart.checkout' | t }}
+            <p class="cart-pg__disclaimer">
+              {{ 'cart.disclaimer' | t | default: 'The total amount you pay includes all applicable customs duties & taxes. We guarantee no additional charges on delivery' }}
+            </p>
+
+            <button type="submit" name="checkout" class="cart-pg__checkout-btn">
+              {{ 'cart.next' | t | default: 'Next' }}
             </button>
-            <a href="{{ routes.all_products_collection_url }}" class="btn btn--text btn--full">
-              {{ 'general.continue_shopping' | t }}
-            </a>
           </div>
         </div>
       </form>
     {%- else -%}
-      <div class="cart-page__empty text-center">
-        <p>{{ 'cart.empty' | t }}</p>
-        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
-          {{ 'general.continue_shopping' | t }}
+      <div class="cart-pg__empty">
+        <p class="cart-pg__empty-text">{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="cart-pg__empty-btn">
+          {{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}
         </a>
       </div>
     {%- endif -%}
   </div>
 </div>
+
+{% stylesheet %}
+  .cart-pg {
+    padding: 32px 0 64px;
+  }
+
+  /* ── Top bar ── */
+  .cart-pg__top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+    gap: 24px;
+  }
+
+  .cart-pg__back {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #313D65;
+    text-transform: capitalize;
+    text-decoration: none;
+  }
+
+  .cart-pg__back:hover {
+    text-decoration: underline;
+  }
+
+  .cart-pg__title {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 24px;
+    line-height: 1.2;
+    color: #353535;
+    font-weight: normal;
+    font-style: normal;
+    margin: 0;
+  }
+
+  .cart-pg__continue {
+    margin-left: auto;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #313D65;
+    text-transform: capitalize;
+    text-decoration: none;
+  }
+
+  .cart-pg__continue:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Layout: items left + totals right ── */
+  .cart-pg__layout {
+    display: grid;
+    grid-template-columns: 600px 1fr;
+    gap: 48px;
+    align-items: start;
+    border-top: 1px solid #DFDFDF;
+    padding-top: 32px;
+  }
+
+  /* ── Items section (left) ── */
+  .cart-pg__section-heading {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 20px;
+    line-height: 1.2;
+    color: #353535;
+    font-weight: normal;
+    font-style: normal;
+    margin: 0 0 24px;
+  }
+
+  .cart-pg__items {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .cart-pg__item {
+    display: flex;
+    gap: 8px;
+    position: relative;
+  }
+
+  .cart-pg__item-image {
+    position: relative;
+    width: 142px;
+    height: 163px;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: block;
+  }
+
+  .cart-pg__item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cart-pg__item-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 40px;
+    height: 32px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #353535;
+  }
+
+  .cart-pg__item-info {
+    flex: 1;
+    padding: 0 8px;
+    min-width: 0;
+  }
+
+  .cart-pg__item-title {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #353535;
+    margin: 8px 0 8px;
+    line-height: 1.2;
+  }
+
+  .cart-pg__item-options {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #404040;
+    text-transform: capitalize;
+  }
+
+  .cart-pg__item-options p {
+    margin: 0;
+  }
+
+  .cart-pg__item-remove {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #353535;
+    transition: opacity 0.2s ease;
+  }
+
+  .cart-pg__item-remove:hover {
+    opacity: 0.6;
+  }
+
+  /* ── Totals section (right) ── */
+  .cart-pg__table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    color: #353535;
+    margin-bottom: 24px;
+  }
+
+  .cart-pg__table-header span:last-child {
+    text-align: right;
+  }
+
+  .cart-pg__table-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .cart-pg__table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .cart-pg__cell-price,
+  .cart-pg__cell-total {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #0C0C0C;
+    text-transform: capitalize;
+    line-height: 1.8;
+  }
+
+  .cart-pg__cell-total {
+    text-align: right;
+  }
+
+  .cart-pg__cell-qty {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cart-pg__qty-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #E3E7EB;
+    width: 80px;
+  }
+
+  .cart-pg__qty-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #353535;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-pg__qty-input {
+    width: 24px;
+    text-align: center;
+    border: none;
+    background: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #353535;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+
+  .cart-pg__qty-input::-webkit-inner-spin-button,
+  .cart-pg__qty-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* ── Summary rows ── */
+  .cart-pg__summary-divider {
+    height: 1px;
+    background: #DFDFDF;
+    margin: 16px 0;
+  }
+
+  .cart-pg__summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #0C0C0C;
+    text-transform: capitalize;
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+
+  .cart-pg__summary-row--total {
+    font-weight: 600;
+  }
+
+  .cart-pg__disclaimer {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #202020;
+    text-transform: capitalize;
+    line-height: 1.8;
+    margin: 16px 0 24px;
+  }
+
+  .cart-pg__checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 184px;
+    height: 40px;
+    background-color: #8FA1B7;
+    border: none;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    cursor: pointer;
+    margin-left: auto;
+    transition: opacity 0.2s ease;
+  }
+
+  .cart-pg__checkout-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Empty cart ── */
+  .cart-pg__empty {
+    text-align: center;
+    padding: 64px 0;
+  }
+
+  .cart-pg__empty-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    color: #ADADAD;
+    margin: 0 0 24px;
+  }
+
+  .cart-pg__empty-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 32px;
+    background-color: #8FA1B7;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .cart-pg__empty-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Tablet ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .cart-pg__layout {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .cart-pg__item-image {
+      width: 110px;
+      height: 130px;
+    }
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .cart-pg {
+      padding: 24px 0 40px;
+    }
+
+    .cart-pg__top {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cart-pg__title {
+      font-size: 20px;
+    }
+
+    .cart-pg__layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .cart-pg__item-image {
+      width: 100px;
+      height: 120px;
+    }
+
+    .cart-pg__item-title {
+      font-size: 14px;
+    }
+
+    .cart-pg__item-options {
+      font-size: 14px;
+    }
+
+    .cart-pg__table-header {
+      font-size: 16px;
+    }
+
+    .cart-pg__cell-price,
+    .cart-pg__cell-total {
+      font-size: 14px;
+    }
+
+    .cart-pg__qty-input {
+      font-size: 14px;
+    }
+
+    .cart-pg__summary-row {
+      font-size: 14px;
+    }
+
+    .cart-pg__checkout-btn {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  'use strict';
+
+  // Quantity buttons
+  document.addEventListener('click', function(e) {
+    var minus = e.target.closest('[data-quantity-minus]');
+    var plus = e.target.closest('[data-quantity-plus]');
+    if (!minus && !plus) return;
+
+    var row = (minus || plus).closest('.cart-pg__qty-control');
+    if (!row) return;
+    var input = row.querySelector('.cart-pg__qty-input');
+    if (!input) return;
+
+    var val = parseInt(input.value, 10);
+    if (minus) input.value = Math.max(0, val - 1);
+    if (plus) input.value = val + 1;
+
+    input.closest('form').submit();
+  });
+
+  // Remove buttons
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-cart-remove]');
+    if (!btn) return;
+    e.preventDefault();
+
+    var item = btn.closest('[data-cart-item]');
+    if (!item) return;
+    var key = item.getAttribute('data-key');
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: 0 })
+    }).then(function() {
+      window.location.reload();
+    });
+  });
+})();
+{% endjavascript %}
 
 {% schema %}
 {

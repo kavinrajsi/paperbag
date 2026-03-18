@@ -4,7 +4,26 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {}
+      "blocks": {
+        "menu_1": {
+          "type": "menu",
+          "settings": {
+            "heading": "Paperbag",
+            "menu": "footer"
+          }
+        },
+        "menu_2": {
+          "type": "menu",
+          "settings": {
+            "heading": "Help & Support",
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": ["menu_1", "menu_2"],
+      "settings": {
+        "tagline": "Effortless. Elevated."
+      }
     }
   },
   "order": ["footer"]
