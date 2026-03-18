@@ -1,0 +1,168 @@
+{%- liquid
+  assign image = section.settings.image
+  assign text = section.settings.text
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+-%}
+
+<section class="sustainability" data-section-id="{{ section.id }}">
+  <div class="sustainability__media">
+    {%- if image != blank -%}
+      {%- render 'image',
+        image: image,
+        widths: '375,750,1000,1440,1920',
+        sizes: '100vw',
+        lazy: true
+      -%}
+    {%- else -%}
+      <div class="sustainability__placeholder"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="sustainability__content">
+    {%- if text != blank -%}
+      <p class="sustainability__text">{{ text }}</p>
+    {%- endif -%}
+
+    {%- if button_label != blank -%}
+      <a href="{{ button_link | default: '#' }}" class="sustainability__btn">
+        {{ button_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sustainability {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .sustainability__media {
+    width: 100%;
+  }
+
+  .sustainability__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sustainability__placeholder {
+    width: 100%;
+    aspect-ratio: 1440 / 440;
+    background-color: #d5cfc5;
+  }
+
+  /* ── Overlaid content ── */
+  .sustainability__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 48px max(32px, calc((100vw - 1200px) / 2 + 32px)) 48px 0;
+  }
+
+  .sustainability__text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #272F25;
+    text-transform: capitalize;
+    margin: 0 0 24px;
+    max-width: 618px;
+  }
+
+  .sustainability__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 32px;
+    background-color: #313D65;
+    color: #FAF8F3;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.8;
+    text-transform: capitalize;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  .sustainability__btn:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 989px) {
+    .sustainability__placeholder {
+      aspect-ratio: 390 / 390;
+    }
+
+    .sustainability__content {
+      width: 100%;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 24px 20px;
+    }
+
+    .sustainability__text {
+      font-size: 12px;
+      line-height: 1.4;
+      max-width: 225px;
+      margin-bottom: 12px;
+    }
+
+    .sustainability__btn {
+      height: 32px;
+      padding: 0 24px;
+      align-self: flex-end;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.sustainability.name",
+  "class": "section-sustainability",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.sustainability.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "default": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
+      "label": "t:sections.sustainability.settings.text.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "About Us",
+      "label": "t:sections.sustainability.settings.button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.sustainability.settings.button_link.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sustainability"
+    }
+  ]
+}
+{% endschema %}

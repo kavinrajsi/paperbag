@@ -1,18 +1,64 @@
 {%- if recommendations.performed and recommendations.products_count > 0 -%}
-  <div class="product-recommendations section-padding">
+  <div class="pdp-recs">
     <div class="container">
       {%- if section.settings.heading != blank -%}
-        <h2 class="product-recommendations__heading h2 text-center">{{ section.settings.heading }}</h2>
+        <h2 class="pdp-recs__heading">{{ section.settings.heading }}</h2>
       {%- endif -%}
 
-      <div class="grid grid--{{ section.settings.columns }}">
+      <div class="pdp-recs__grid">
         {%- for product in recommendations.products limit: section.settings.products_to_show -%}
-          {%- render 'product-card', product: product, show_vendor: false -%}
+          <div class="pdp-recs__item">
+            {%- render 'best-sellers-card', product: product -%}
+          </div>
         {%- endfor -%}
       </div>
     </div>
   </div>
 {%- endif -%}
+
+{% stylesheet %}
+  .pdp-recs {
+    padding: 48px 0 64px;
+  }
+
+  .pdp-recs__heading {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #313D65;
+    font-weight: normal;
+    font-style: normal;
+    margin: 0 0 32px;
+  }
+
+  .pdp-recs__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .pdp-recs__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .pdp-recs {
+      padding: 32px 0 40px;
+    }
+
+    .pdp-recs__heading {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .pdp-recs__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
@@ -29,20 +75,9 @@
       "id": "products_to_show",
       "label": "Products to show",
       "min": 2,
-      "max": 8,
+      "max": 6,
       "step": 1,
-      "default": 4
-    },
-    {
-      "type": "select",
-      "id": "columns",
-      "label": "Columns",
-      "options": [
-        { "value": "2", "label": "2" },
-        { "value": "3", "label": "3" },
-        { "value": "4", "label": "4" }
-      ],
-      "default": "4"
+      "default": 3
     }
   ]
 }

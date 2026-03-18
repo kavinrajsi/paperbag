@@ -3,30 +3,30 @@
   {{ product | json }}
 </script>
 
-<div class="product section-padding" data-product-section>
-  <div class="container">
-    <div class="product__grid">
-      {%- comment -%} Gallery {%- endcomment -%}
-      <div class="product__gallery" data-product-gallery>
-        <div class="product__gallery-main" data-gallery-main>
-          {%- if product.featured_image != blank -%}
-            {%- render 'image',
-              image: product.featured_image,
-              widths: '360,535,750,1000',
-              sizes: '(min-width: 990px) 50vw, 100vw',
-              lazy: false,
-              class: 'product__gallery-image'
-            -%}
-          {%- else -%}
-            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-          {%- endif -%}
-        </div>
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign color_option_index = nil
+  for option in product.options_with_values
+    assign option_name_lower = option.name | downcase
+    if option_name_lower == 'color' or option_name_lower == 'colour'
+      assign color_option_index = forloop.index0
+      assign color_values = option.values
+    endif
+  endfor
+-%}
 
+<div class="pdp" data-product-section>
+  <div class="container">
+    {%- render 'breadcrumb' -%}
+
+    <div class="pdp__main">
+      {%- comment -%} Gallery {%- endcomment -%}
+      <div class="pdp__gallery">
         {%- if product.images.size > 1 -%}
-          <div class="product__gallery-thumbs" data-gallery-thumbs>
+          <div class="pdp__thumbs" data-gallery-thumbs>
             {%- for image in product.images -%}
               <button
-                class="product__gallery-thumb{% if forloop.first %} product__gallery-thumb--active{% endif %}"
+                class="pdp__thumb{% if forloop.first %} pdp__thumb--active{% endif %}"
                 data-gallery-thumb="{{ forloop.index0 }}"
                 data-image-url="{{ image | image_url: width: 1000 }}"
                 {%- assign thumb_widths = '360,535,750,1000' | split: ',' -%}
@@ -34,163 +34,683 @@
                 aria-label="View image {{ forloop.index }}"
               >
                 <img
-                  src="{{ image | image_url: width: 100 }}"
+                  src="{{ image | image_url: width: 125 }}"
                   alt="{{ image.alt | escape | default: product.title }}"
-                  width="80"
-                  height="100"
                   loading="lazy"
                 >
               </button>
             {%- endfor -%}
           </div>
         {%- endif -%}
+
+        <div class="pdp__main-image" data-gallery-main>
+          {%- if product.featured_image != blank -%}
+            {%- render 'image',
+              image: product.featured_image,
+              widths: '360,535,750,1000',
+              sizes: '(min-width: 990px) 450px, 100vw',
+              lazy: false,
+              class: 'pdp__image'
+            -%}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
       </div>
 
       {%- comment -%} Product Info {%- endcomment -%}
-      <div class="product__info">
-        {%- for block in section.blocks -%}
-          <div class="product__block" {{ block.shopify_attributes }}>
-            {%- case block.type -%}
-              {%- when 'title' -%}
-                <h1 class="product__title h2">{{ product.title }}</h1>
+      <div class="pdp__info">
+        <h1 class="pdp__title">{{ product.title }}</h1>
 
-              {%- when 'price' -%}
-                <div class="product__price" data-product-price>
-                  {%- render 'price', product: product -%}
-                </div>
+        {%- if product.description != blank -%}
+          <p class="pdp__description">{{ product.description | strip_html | truncatewords: 30 }}</p>
+        {%- endif -%}
 
-              {%- when 'variant_picker' -%}
-                {%- unless product.has_only_default_variant -%}
-                  <div class="product__variants" data-variant-picker>
-                    {%- for option in product.options_with_values -%}
-                      <div class="product__option">
-                        <label class="product__option-label">{{ option.name }}</label>
-                        <div class="product__option-values">
-                          {%- for value in option.values -%}
-                            <button
-                              class="product__option-btn{% if option.selected_value == value %} product__option-btn--selected{% endif %}"
-                              data-option-index="{{ forloop.parentloop.index0 }}"
-                              data-option-value="{{ value }}"
-                              type="button"
-                            >
-                              {{ value }}
-                            </button>
-                          {%- endfor -%}
-                        </div>
-                      </div>
-                    {%- endfor -%}
-                  </div>
-                {%- endunless -%}
-
-              {%- when 'quantity_selector' -%}
-                <div class="product__quantity">
-                  <label class="product__option-label">{{ 'products.product.quantity' | t }}</label>
-                  <div class="product__quantity-controls">
-                    <button type="button" class="product__quantity-btn" data-quantity-minus>
-                      {%- render 'icon', icon: 'minus', size: 16 -%}
-                    </button>
-                    <input
-                      type="number"
-                      class="product__quantity-input"
-                      value="1"
-                      min="1"
-                      name="quantity"
-                      data-quantity-input
-                    >
-                    <button type="button" class="product__quantity-btn" data-quantity-plus>
-                      {%- render 'icon', icon: 'plus', size: 16 -%}
-                    </button>
-                  </div>
-                </div>
-
-              {%- when 'buy_buttons' -%}
-                <div class="product__buy-buttons">
-                  {%- form 'product', product -%}
-                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id>
-                    <button
-                      type="submit"
-                      class="btn btn--primary btn--full product__add-to-cart"
-                      data-add-to-cart
-                      {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
-                    >
-                      {%- if product.selected_or_first_available_variant.available -%}
-                        {{ 'products.product.add_to_cart' | t }}
-                      {%- else -%}
-                        {{ 'products.product.sold_out' | t }}
-                      {%- endif -%}
-                    </button>
-                    {{ form | payment_button }}
-                  {%- endform -%}
-                </div>
-
-              {%- when 'description' -%}
-                {%- if product.description != blank -%}
-                  <div class="product__tab" data-product-tab="description">
-                    <button class="product__tab-trigger" data-tab-trigger="description" aria-expanded="true">
-                      {{ 'products.product.description' | t }}
-                      {%- render 'icon', icon: 'chevron-down', size: 16 -%}
-                    </button>
-                    <div class="product__tab-content rte" data-tab-content="description">
-                      {{ product.description }}
-                    </div>
-                  </div>
-                {%- endif -%}
-
-              {%- when 'size_guide' -%}
-                {%- if block.settings.content != blank -%}
-                  <div class="product__tab" data-product-tab="size-guide">
-                    <button class="product__tab-trigger" data-tab-trigger="size-guide" aria-expanded="false">
-                      {{ 'products.product.size_guide' | t }}
-                      {%- render 'icon', icon: 'chevron-down', size: 16 -%}
-                    </button>
-                    <div class="product__tab-content rte" data-tab-content="size-guide" hidden>
-                      {{ block.settings.content }}
-                    </div>
-                  </div>
-                {%- endif -%}
-
-              {%- when 'shipping' -%}
-                {%- if block.settings.content != blank -%}
-                  <div class="product__tab" data-product-tab="shipping">
-                    <button class="product__tab-trigger" data-tab-trigger="shipping" aria-expanded="false">
-                      {{ 'products.product.shipping' | t }}
-                      {%- render 'icon', icon: 'chevron-down', size: 16 -%}
-                    </button>
-                    <div class="product__tab-content rte" data-tab-content="shipping" hidden>
-                      {{ block.settings.content }}
-                    </div>
-                  </div>
-                {%- endif -%}
-
-              {%- when 'share' -%}
-                <div class="product__share">
-                  <button class="product__share-btn" data-share-btn>
-                    {%- render 'icon', icon: 'share', size: 16 -%}
-                    {{ 'products.product.share' | t }}
-                  </button>
-                </div>
-            {%- endcase -%}
+        {%- if color_option_index != nil and color_values.size > 0 -%}
+          <div class="pdp__colors">
+            <p class="pdp__label">{{ 'products.product.color' | t | default: 'Colors' }}</p>
+            <div class="pdp__color-swatches">
+              {%- for color in color_values -%}
+                <button
+                  type="button"
+                  class="pdp__swatch{% if product.options[color_option_index] == color %} pdp__swatch--selected{% endif %}"
+                  style="background-color: {{ color | downcase | replace: ' ', '' | escape }};"
+                  data-option-index="{{ color_option_index }}"
+                  data-option-value="{{ color | escape }}"
+                  title="{{ color | escape }}"
+                ></button>
+              {%- endfor -%}
+            </div>
           </div>
-        {%- endfor -%}
+        {%- endif -%}
+
+        <div class="pdp__size-row">
+          <a href="#" class="pdp__size-guide">{{ 'products.product.size_guide' | t | default: 'Size Guide' }}</a>
+        </div>
+
+        {%- comment -%} Size select {%- endcomment -%}
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            {%- assign opt_lower = option.name | downcase -%}
+            {%- unless opt_lower == 'color' or opt_lower == 'colour' -%}
+              <div class="pdp__select-wrap">
+                <select class="pdp__select" data-option-select="{{ forloop.index0 }}">
+                  {%- for value in option.values -%}
+                    <option value="{{ value }}"{% if option.selected_value == value %} selected{% endif %}>
+                      {{ option.name }}: {{ value }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+                {%- render 'icon', icon: 'chevron-down', size: 20 -%}
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endunless -%}
+
+        {%- comment -%} Add to cart {%- endcomment -%}
+        {%- form 'product', product -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="pdp__add-to-cart"
+            data-add-to-cart
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            {%- if current_variant.available -%}
+              {{ 'products.product.add_to_cart' | t }} &nbsp;+{{ current_variant.price | money }}
+            {%- else -%}
+              {{ 'products.product.sold_out' | t }}
+            {%- endif -%}
+          </button>
+        {%- endform -%}
+
+        <div class="pdp__actions">
+          <span class="pdp__easy-return">
+            {%- render 'icon', icon: 'cart', size: 20 -%}
+            {{ 'products.product.easy_return' | t | default: 'Easy Return' }}
+          </span>
+          <button type="button" class="pdp__wishlist-btn" data-wishlist-toggle="{{ product.handle }}">
+            {%- render 'icon', icon: 'heart', size: 18 -%}
+            {{ 'products.product.add_to_wishlist' | t | default: 'Add to Wish List' }}
+          </button>
+        </div>
       </div>
+    </div>
+
+    {%- comment -%} Details section: Accordions + Material card {%- endcomment -%}
+    <div class="pdp__details">
+      <div class="pdp__accordions">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'accordion' -%}
+              <div class="pdp__accordion" {{ block.shopify_attributes }}>
+                <button type="button" class="pdp__accordion-trigger" data-pdp-accordion aria-expanded="false">
+                  <span>{{ block.settings.heading }}</span>
+                  {%- render 'icon', icon: 'plus', size: 20 -%}
+                </button>
+                <div class="pdp__accordion-content" hidden>
+                  <div class="rte">{{ block.settings.content }}</div>
+                </div>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+
+        {%- if product.description != blank -%}
+          <div class="pdp__accordion">
+            <button type="button" class="pdp__accordion-trigger" data-pdp-accordion aria-expanded="false">
+              <span>{{ 'products.product.description' | t | default: 'Product Details' }}</span>
+              {%- render 'icon', icon: 'plus', size: 20 -%}
+            </button>
+            <div class="pdp__accordion-content" hidden>
+              <div class="rte">{{ product.description }}</div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Material card {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'material_card' -%}
+          <div class="pdp__material-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h3 class="pdp__material-heading">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="pdp__material-text">{{ block.settings.text }}</p>
+            {%- endif -%}
+            {%- if block.settings.tags != blank -%}
+              <div class="pdp__material-tags">
+                {%- assign tags_arr = block.settings.tags | split: ',' -%}
+                {%- for tag in tags_arr -%}
+                  <span class="pdp__material-tag">{{ tag | strip }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 </div>
 
-{%- comment -%} Sticky add-to-cart bar {%- endcomment -%}
-{%- if section.settings.enable_sticky_cart -%}
-  <div class="sticky-cart" data-sticky-cart hidden>
-    <div class="container sticky-cart__inner">
-      <div class="sticky-cart__info">
-        <span class="sticky-cart__title">{{ product.title }}</span>
-        <span class="sticky-cart__price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
-      </div>
-      <button class="btn btn--primary sticky-cart__btn" data-sticky-add-to-cart>
-        {{ 'products.product.add_to_cart' | t }}
-      </button>
-    </div>
-  </div>
-{%- endif -%}
+{% stylesheet %}
+  .pdp {
+    padding: 0 0 64px;
+  }
+
+  .pdp .breadcrumb {
+    margin-bottom: 24px;
+  }
+
+  /* ── Main: gallery + info ── */
+  .pdp__main {
+    display: grid;
+    grid-template-columns: 600px 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  /* ── Gallery ── */
+  .pdp__gallery {
+    display: flex;
+    gap: 16px;
+  }
+
+  .pdp__thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 512px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .pdp__thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pdp__thumb {
+    width: 125px;
+    height: 160px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+    background: #f5f5f5;
+  }
+
+  .pdp__thumb--active {
+    opacity: 1;
+  }
+
+  .pdp__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pdp__main-image {
+    flex: 1;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+
+  .pdp__main-image img,
+  .pdp__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    max-height: 512px;
+  }
+
+  /* ── Product info ── */
+  .pdp__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pdp__title {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #313D65;
+    font-weight: normal;
+    margin: 0 0 16px;
+  }
+
+  .pdp__description {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #353535;
+    margin: 0 0 24px;
+  }
+
+  .pdp__colors {
+    margin-bottom: 24px;
+  }
+
+  .pdp__label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #353535;
+    text-transform: capitalize;
+    margin: 0 0 12px;
+  }
+
+  .pdp__color-swatches {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pdp__swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: box-shadow 0.15s ease;
+  }
+
+  .pdp__swatch--selected {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #0c0c0c;
+  }
+
+  .pdp__size-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+
+  .pdp__size-guide {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #353535;
+    text-transform: capitalize;
+    text-decoration: none;
+  }
+
+  .pdp__size-guide:hover {
+    text-decoration: underline;
+  }
+
+  .pdp__select-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .pdp__select {
+    width: 100%;
+    height: 40px;
+    padding: 0 40px 0 16px;
+    border: 1px solid #DFDFDF;
+    background: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #353535;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .pdp__select-wrap .icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #353535;
+  }
+
+  /* ── Add to cart ── */
+  .pdp__add-to-cart {
+    width: 100%;
+    height: 40px;
+    background-color: #8FA1B7;
+    border: none;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: opacity 0.2s ease;
+  }
+
+  .pdp__add-to-cart:hover {
+    opacity: 0.9;
+  }
+
+  .pdp__add-to-cart:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ── Actions row ── */
+  .pdp__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pdp__easy-return {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #353535;
+    text-transform: capitalize;
+  }
+
+  .pdp__wishlist-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 16px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #868686;
+    text-transform: capitalize;
+  }
+
+  .pdp__wishlist-btn:hover {
+    color: #313D65;
+  }
+
+  /* ── Details: accordions + material ── */
+  .pdp__details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .pdp__accordion {
+    border: 1px solid #CBCBCB;
+    background: #F2F4F6;
+  }
+
+  .pdp__accordion + .pdp__accordion {
+    border-top: none;
+  }
+
+  .pdp__accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: #353535;
+    text-transform: capitalize;
+  }
+
+  .pdp__accordion-trigger[aria-expanded="true"] {
+    color: #313D65;
+  }
+
+  .pdp__accordion-trigger .icon {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .pdp__accordion-trigger[aria-expanded="true"] .icon {
+    transform: rotate(45deg);
+  }
+
+  .pdp__accordion-content {
+    padding: 0 24px 24px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #353535;
+    text-transform: capitalize;
+  }
+
+  /* ── Material card ── */
+  .pdp__material-card {
+    border: 1px solid #ADADAD;
+    background: #F2F4F6;
+    padding: 24px;
+  }
+
+  .pdp__material-heading {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: #353535;
+    border-bottom: 1px solid #ADADAD;
+    padding-bottom: 8px;
+    margin: 0 0 24px;
+  }
+
+  .pdp__material-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #353535;
+    text-transform: capitalize;
+    margin: 0 0 24px;
+  }
+
+  .pdp__material-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .pdp__material-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 16px;
+    background: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: #353535;
+    text-transform: capitalize;
+  }
+
+  /* ── Tablet ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .pdp__main {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .pdp__thumb {
+      width: 80px;
+      height: 100px;
+    }
+
+    .pdp__title {
+      font-size: 26px;
+    }
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .pdp {
+      padding-bottom: 40px;
+    }
+
+    .pdp__main {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .pdp__gallery {
+      flex-direction: column-reverse;
+      gap: 12px;
+    }
+
+    .pdp__thumbs {
+      flex-direction: row;
+      max-height: none;
+      overflow-x: auto;
+      gap: 8px;
+    }
+
+    .pdp__thumb {
+      width: 64px;
+      height: 80px;
+    }
+
+    .pdp__main-image img,
+    .pdp__image {
+      max-height: 400px;
+    }
+
+    .pdp__title {
+      font-size: 22px;
+    }
+
+    .pdp__description {
+      font-size: 14px;
+    }
+
+    .pdp__details {
+      grid-template-columns: 1fr;
+    }
+
+    .pdp__accordion-trigger {
+      font-size: 18px;
+      padding: 12px 16px;
+    }
+
+    .pdp__accordion-content {
+      font-size: 14px;
+      padding: 0 16px 16px;
+    }
+
+    .pdp__material-card {
+      padding: 16px;
+    }
+
+    .pdp__material-heading {
+      font-size: 18px;
+    }
+
+    .pdp__material-text {
+      font-size: 14px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  'use strict';
+  // Gallery thumbnails
+  var thumbs = document.querySelectorAll('[data-gallery-thumb]');
+  var mainImg = document.querySelector('[data-gallery-main] img');
+  if (mainImg && thumbs.length) {
+    for (var i = 0; i < thumbs.length; i++) {
+      thumbs[i].addEventListener('click', function() {
+        for (var j = 0; j < thumbs.length; j++) thumbs[j].classList.remove('pdp__thumb--active');
+        this.classList.add('pdp__thumb--active');
+        var srcset = this.getAttribute('data-image-srcset');
+        var src = this.getAttribute('data-image-url');
+        if (srcset) mainImg.setAttribute('srcset', srcset);
+        if (src) mainImg.setAttribute('src', src);
+      });
+    }
+  }
+
+  // Accordions
+  var triggers = document.querySelectorAll('[data-pdp-accordion]');
+  for (var k = 0; k < triggers.length; k++) {
+    triggers[k].addEventListener('click', function() {
+      var content = this.nextElementSibling;
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      content.hidden = expanded;
+    });
+  }
+
+  // Variant selection (color swatches + size selects)
+  var productJson = document.querySelector('[data-product-json]');
+  if (!productJson) return;
+  var productData = JSON.parse(productJson.textContent);
+  var variantIdInput = document.querySelector('[data-variant-id]');
+  var addToCartBtn = document.querySelector('[data-add-to-cart]');
+  var selectedOptions = productData.options.map(function(_, i) {
+    return productData.selected_variant ? productData.selected_variant.options[i] : productData.variants[0].options[i];
+  });
+
+  // Color swatch clicks
+  var colorBtns = document.querySelectorAll('.pdp__swatch');
+  for (var c = 0; c < colorBtns.length; c++) {
+    colorBtns[c].addEventListener('click', function() {
+      var idx = parseInt(this.getAttribute('data-option-index'), 10);
+      var val = this.getAttribute('data-option-value');
+      selectedOptions[idx] = val;
+      for (var s = 0; s < colorBtns.length; s++) colorBtns[s].classList.remove('pdp__swatch--selected');
+      this.classList.add('pdp__swatch--selected');
+      updateVariant();
+    });
+  }
+
+  // Select dropdowns
+  var selects = document.querySelectorAll('[data-option-select]');
+  for (var d = 0; d < selects.length; d++) {
+    selects[d].addEventListener('change', function() {
+      var idx = parseInt(this.getAttribute('data-option-select'), 10);
+      selectedOptions[idx] = this.value;
+      updateVariant();
+    });
+  }
+
+  function updateVariant() {
+    var match = productData.variants.find(function(v) {
+      return v.options.every(function(opt, i) {
+        return opt === selectedOptions[i];
+      });
+    });
+    if (match && variantIdInput) {
+      variantIdInput.value = match.id;
+      if (addToCartBtn) {
+        addToCartBtn.disabled = !match.available;
+        if (match.available) {
+          addToCartBtn.textContent = 'Add To Cart  +' + formatMoney(match.price);
+        } else {
+          addToCartBtn.textContent = 'Sold Out';
+        }
+      }
+      // Update URL
+      var url = new URL(window.location.href);
+      url.searchParams.set('variant', match.id);
+      window.history.replaceState({}, '', url.toString());
+    }
+  }
+
+  function formatMoney(cents) {
+    return Shopify.formatMoney ? Shopify.formatMoney(cents) : (cents / 100).toFixed(2);
+  }
+})();
+{% endjavascript %}
 
 {% schema %}
 {
@@ -200,107 +720,61 @@
     {
       "type": "checkbox",
       "id": "enable_sticky_cart",
-      "default": true,
-      "label": "t:sections.product.settings.enable_sticky_cart.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_zoom",
-      "default": true,
-      "label": "t:sections.product.settings.enable_zoom.label"
-    },
-    {
-      "type": "select",
-      "id": "media_size",
-      "default": "medium",
-      "label": "t:sections.product.settings.media_size.label",
-      "options": [
-        {
-          "value": "small",
-          "label": "t:sections.product.settings.media_size.options.small"
-        },
-        {
-          "value": "medium",
-          "label": "t:sections.product.settings.media_size.options.medium"
-        },
-        {
-          "value": "large",
-          "label": "t:sections.product.settings.media_size.options.large"
-        }
-      ]
+      "default": false,
+      "label": "Enable sticky cart bar"
     }
   ],
   "blocks": [
     {
-      "type": "title",
-      "name": "t:sections.product.blocks.title.name",
-      "limit": 1
-    },
-    {
-      "type": "price",
-      "name": "t:sections.product.blocks.price.name",
-      "limit": 1
-    },
-    {
-      "type": "variant_picker",
-      "name": "t:sections.product.blocks.variant_picker.name",
-      "limit": 1
-    },
-    {
-      "type": "quantity_selector",
-      "name": "t:sections.product.blocks.quantity_selector.name",
-      "limit": 1
-    },
-    {
-      "type": "buy_buttons",
-      "name": "t:sections.product.blocks.buy_buttons.name",
-      "limit": 1
-    },
-    {
-      "type": "description",
-      "name": "t:sections.product.blocks.description.name",
-      "limit": 1
-    },
-    {
-      "type": "size_guide",
-      "name": "t:sections.product.blocks.size_guide.name",
-      "limit": 1,
+      "type": "accordion",
+      "name": "Accordion",
       "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Fabric & Care",
+          "label": "Heading"
+        },
         {
           "type": "richtext",
           "id": "content",
-          "label": "t:sections.product.blocks.size_guide.settings.content.label"
+          "label": "Content"
         }
       ]
     },
     {
-      "type": "shipping",
-      "name": "t:sections.product.blocks.shipping.name",
+      "type": "material_card",
+      "name": "Material card",
       "limit": 1,
       "settings": [
         {
-          "type": "richtext",
-          "id": "content",
-          "label": "t:sections.product.blocks.shipping.settings.content.label"
+          "type": "text",
+          "id": "heading",
+          "default": "Silk",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "default": "Quick Dry, Chemical Free, Machine Washable",
+          "label": "Tags (comma-separated)"
         }
       ]
-    },
-    {
-      "type": "share",
-      "name": "t:sections.product.blocks.share.name",
-      "limit": 1
     }
   ],
   "presets": [
     {
       "name": "Product page",
       "blocks": [
-        { "type": "title" },
-        { "type": "price" },
-        { "type": "variant_picker" },
-        { "type": "quantity_selector" },
-        { "type": "buy_buttons" },
-        { "type": "description" }
+        { "type": "accordion", "settings": { "heading": "Fitting" } },
+        { "type": "accordion", "settings": { "heading": "Fabric & Care" } },
+        { "type": "accordion", "settings": { "heading": "Shipping And Return" } },
+        { "type": "material_card", "settings": { "heading": "Silk", "tags": "Quick Dry, Chemical Free, Machine Washable" } }
       ]
     }
   ]

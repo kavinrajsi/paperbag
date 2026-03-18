@@ -26,6 +26,7 @@
         class="header__icon-btn header__icon-btn--mobile-only"
         aria-label="{{ 'general.search' | t }}"
         type="button"
+        data-search-toggle
       >
         {%- render 'icon', icon: 'search' -%}
       </button>
@@ -76,6 +77,7 @@
         class="header__icon-btn header__icon-btn--desktop-only"
         aria-label="{{ 'general.search' | t }}"
         type="button"
+        data-search-toggle
       >
         {%- render 'icon', icon: 'search' -%}
       </button>
@@ -88,13 +90,13 @@
         {%- render 'icon', icon: 'person' -%}
       </a>
 
-      <button
+      <a
         class="header__icon-btn header__icon-btn--mobile-only"
-        aria-label="{{ 'accessibility.close' | t }}"
-        type="button"
+        href="/pages/wishlist"
+        aria-label="{{ 'accessibility.wishlist' | t | default: 'Wishlist' }}"
       >
         {%- render 'icon', icon: 'heart' -%}
-      </button>
+      </a>
 
       <a
         class="header__icon-btn"
@@ -103,6 +105,28 @@
       >
         {%- render 'icon', icon: 'cart' -%}
       </a>
+    </div>
+  </div>
+
+  <div class="search-overlay" data-search-overlay aria-hidden="true">
+    <div class="search-overlay__inner">
+      <div class="search-overlay__input-wrap">
+        {%- render 'icon', icon: 'search' -%}
+        <input
+          type="search"
+          class="search-overlay__input"
+          placeholder="{{ 'general.search' | t }}"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-search-input
+        >
+        <button type="button" class="search-overlay__close" data-search-close aria-label="{{ 'general.close' | t }}">
+          {%- render 'icon', icon: 'close', size: 20 -%}
+        </button>
+      </div>
+      <div class="search-overlay__results" data-search-results></div>
     </div>
   </div>
 
@@ -141,6 +165,158 @@
     {%- endif -%}
   </div>
 </header>
+
+<div class="search-backdrop" data-search-backdrop></div>
+
+<script>
+  (function() {
+    var overlay = document.querySelector('[data-search-overlay]');
+    var backdrop = document.querySelector('[data-search-backdrop]');
+    var input = document.querySelector('[data-search-input]');
+    var results = document.querySelector('[data-search-results]');
+    var closeBtn = document.querySelector('[data-search-close]');
+    var toggles = document.querySelectorAll('[data-search-toggle]');
+    var debounceTimer;
+
+    if (!overlay || !input) return;
+
+    function openSearch() {
+      overlay.classList.add('search-overlay--open');
+      overlay.setAttribute('aria-hidden', 'false');
+      backdrop.classList.add('search-backdrop--open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() { input.focus(); }, 100);
+    }
+
+    function closeSearch() {
+      overlay.classList.remove('search-overlay--open');
+      overlay.setAttribute('aria-hidden', 'true');
+      backdrop.classList.remove('search-backdrop--open');
+      document.body.style.overflow = '';
+      input.value = '';
+      results.innerHTML = '';
+    }
+
+    for (var i = 0; i < toggles.length; i++) {
+      toggles[i].addEventListener('click', function(e) {
+        e.preventDefault();
+        if (overlay.classList.contains('search-overlay--open')) {
+          closeSearch();
+        } else {
+          openSearch();
+        }
+      });
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+    if (backdrop) backdrop.addEventListener('click', closeSearch);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('search-overlay--open')) {
+        closeSearch();
+      }
+    });
+
+    input.addEventListener('input', function() {
+      var query = input.value.trim();
+      clearTimeout(debounceTimer);
+
+      if (query.length < 2) {
+        results.innerHTML = '';
+        return;
+      }
+
+      debounceTimer = setTimeout(function() {
+        fetch('/search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product,collection,page&resources[limit]=4')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            renderResults(data, query);
+          })
+          .catch(function() {
+            results.innerHTML = '';
+          });
+      }, 300);
+    });
+
+    function renderResults(data, query) {
+      var html = '';
+      var res = data.resources && data.resources.results;
+      if (!res) { results.innerHTML = ''; return; }
+
+      var products = res.products || [];
+      var collections = res.collections || [];
+      var pages = res.pages || [];
+
+      if (products.length === 0 && collections.length === 0 && pages.length === 0) {
+        results.innerHTML = '<p class="search-results__empty">No results found for "' + escapeHtml(query) + '"</p>';
+        return;
+      }
+
+      if (products.length > 0) {
+        html += '<div class="search-results__group">';
+        html += '<p class="search-results__title">Products</p>';
+        html += '<ul class="search-results__list">';
+        for (var i = 0; i < products.length; i++) {
+          var p = products[i];
+          var img = p.image || (p.featured_image && p.featured_image.url) || '';
+          html += '<li class="search-results__item"><a href="' + escapeHtml(p.url) + '">';
+          if (img) {
+            html += '<div class="search-results__item-image"><img src="' + escapeHtml(img) + '" alt="' + escapeHtml(p.title) + '" loading="lazy"></div>';
+          }
+          html += '<div class="search-results__item-info">';
+          html += '<p class="search-results__item-title">' + escapeHtml(p.title) + '</p>';
+          if (p.price) {
+            html += '<p class="search-results__item-price">' + formatMoney(p.price) + '</p>';
+          }
+          html += '</div></a></li>';
+        }
+        html += '</ul>';
+        html += '<a href="/search?q=' + encodeURIComponent(query) + '&type=product" class="search-results__view-all">View all products</a>';
+        html += '</div>';
+      }
+
+      if (collections.length > 0) {
+        html += '<div class="search-results__group">';
+        html += '<p class="search-results__title">Collections</p>';
+        html += '<ul class="search-results__list">';
+        for (var j = 0; j < collections.length; j++) {
+          var c = collections[j];
+          html += '<li class="search-results__item"><a href="' + escapeHtml(c.url) + '">';
+          html += '<div class="search-results__item-info">';
+          html += '<p class="search-results__item-title">' + escapeHtml(c.title) + '</p>';
+          html += '</div></a></li>';
+        }
+        html += '</ul></div>';
+      }
+
+      if (pages.length > 0) {
+        html += '<div class="search-results__group">';
+        html += '<p class="search-results__title">Pages</p>';
+        html += '<ul class="search-results__list">';
+        for (var k = 0; k < pages.length; k++) {
+          var pg = pages[k];
+          html += '<li class="search-results__item"><a href="' + escapeHtml(pg.url) + '">';
+          html += '<div class="search-results__item-info">';
+          html += '<p class="search-results__item-title">' + escapeHtml(pg.title) + '</p>';
+          html += '</div></a></li>';
+        }
+        html += '</ul></div>';
+      }
+
+      results.innerHTML = html;
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function formatMoney(cents) {
+      return '{{ cart.currency.symbol }}' + (parseInt(cents, 10) / 100).toFixed(2);
+    }
+  })();
+</script>
 
 {% schema %}
 {

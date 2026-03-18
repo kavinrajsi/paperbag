@@ -1,0 +1,67 @@
+{% doc %}
+  Renders a product card for the best sellers section.
+
+  @param {product} product - The product object
+
+  @example
+  {% render 'best-sellers-card', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign color_option_index = nil
+  for option in product.options_with_values
+    assign option_name_lower = option.name | downcase
+    if option_name_lower == 'color' or option_name_lower == 'colour'
+      assign color_option_index = forloop.index0
+      assign color_values = option.values
+      break
+    endif
+  endfor
+-%}
+
+<div class="bs-card">
+  <a href="{{ product.url }}" class="bs-card__image-wrap" aria-label="{{ product.title | escape }}">
+    {%- if product.featured_image != blank -%}
+      {%- render 'image',
+        image: product.featured_image,
+        widths: '168,336,392,535,784',
+        sizes: '(min-width: 990px) 392px, 168px',
+        alt: product.title
+      -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+
+    <button type="button" class="bs-card__wishlist" data-wishlist-toggle="{{ product.handle }}" aria-label="{{ 'accessibility.wishlist' | t | default: 'Add to wishlist' }}">
+      {%- render 'icon', icon: 'heart', size: 24 -%}
+    </button>
+  </a>
+
+  <div class="bs-card__info">
+    <div class="bs-card__details">
+      {%- if product.vendor != blank -%}
+        <p class="bs-card__vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+
+      <h3 class="bs-card__title">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h3>
+
+      {%- if color_option_index != nil and color_values.size > 0 -%}
+        <div class="bs-card__swatches">
+          {%- for color in color_values -%}
+            <span
+              class="bs-card__swatch"
+              style="background-color: {{ color | downcase | replace: ' ', '' | escape }};"
+              title="{{ color | escape }}"
+            ></span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="bs-card__price">
+      {%- render 'price', product: product -%}
+    </div>
+  </div>
+</div>

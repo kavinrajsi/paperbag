@@ -1,51 +1,76 @@
-<div class="search-page section-padding">
+<div class="search-page" data-section-id="{{ section.id }}">
   <div class="container">
-    <h1 class="search-page__title h1 text-center">{{ 'search.title' | t }}</h1>
-
-    <form action="{{ routes.search_url }}" method="get" class="search-page__form" style="max-width: 600px; margin: 0 auto 48px;">
-      <div class="search-page__input-group">
-        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" class="form__input" autofocus>
-        <button type="submit" class="btn btn--primary">
-          {%- render 'icon', icon: 'search', size: 20 -%}
-        </button>
+    <form action="{{ routes.search_url }}" method="get" class="search-page__form">
+      <div class="search-page__input-wrap">
+        {%- render 'icon', icon: 'search' -%}
+        <input
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'search.placeholder' | t }}"
+          class="search-page__input"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          autofocus
+        >
+        {%- if search.terms != blank -%}
+          <a href="{{ routes.search_url }}" class="search-page__clear" aria-label="{{ 'general.close' | t }}">
+            {%- render 'icon', icon: 'close', size: 20 -%}
+          </a>
+        {%- endif -%}
       </div>
+      <input type="hidden" name="type" value="product">
     </form>
 
     {%- if search.performed -%}
       {%- if search.results_count > 0 -%}
-        <p class="search-page__count text-center">
-          {{ 'search.results' | t: count: search.results_count }}
+        <p class="search-page__count">
+          {{ search.results_count }} {{ 'search.items' | t | default: 'items' }}
         </p>
-        <div class="grid grid--4">
+
+        <div class="search-page__grid">
           {%- for result in search.results -%}
             {%- if result.object_type == 'product' -%}
-              {%- render 'product-card', product: result -%}
+              <div class="search-page__item">
+                {%- render 'best-sellers-card', product: result -%}
+              </div>
             {%- elsif result.object_type == 'article' -%}
-              <article class="card">
-                {%- if result.image != blank -%}
-                  <a href="{{ result.url }}" class="card__image">
-                    {%- render 'image', image: result.image, widths: '360,535', sizes: '25vw' -%}
-                  </a>
-                {%- endif -%}
-                <div class="card__content">
-                  <p class="card__vendor">{{ 'search.articles' | t }}</p>
-                  <h3 class="card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
-                  <p>{{ result.content | strip_html | truncatewords: 15 }}</p>
-                </div>
-              </article>
+              <div class="search-page__item">
+                <article class="bs-card">
+                  {%- if result.image != blank -%}
+                    <a href="{{ result.url }}" class="bs-card__image-wrap">
+                      {%- render 'image', image: result.image, widths: '360,535,750', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 50vw' -%}
+                    </a>
+                  {%- endif -%}
+                  <div class="bs-card__info">
+                    <div class="bs-card__details">
+                      <p class="bs-card__vendor">{{ 'search.articles' | t }}</p>
+                      <h3 class="bs-card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                    </div>
+                  </div>
+                </article>
+              </div>
             {%- elsif result.object_type == 'page' -%}
-              <div class="card">
-                <div class="card__content">
-                  <p class="card__vendor">{{ 'search.pages' | t }}</p>
-                  <h3 class="card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
-                  <p>{{ result.content | strip_html | truncatewords: 15 }}</p>
+              <div class="search-page__item">
+                <div class="bs-card">
+                  <div class="bs-card__info" style="padding-top: 0;">
+                    <div class="bs-card__details">
+                      <p class="bs-card__vendor">{{ 'search.pages' | t }}</p>
+                      <h3 class="bs-card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                    </div>
+                  </div>
                 </div>
               </div>
             {%- endif -%}
           {%- endfor -%}
         </div>
+
+        {%- if paginate.pages > 1 -%}
+          {%- render 'pagination', paginate: paginate -%}
+        {%- endif -%}
       {%- else -%}
-        <p class="search-page__empty text-center">
+        <p class="search-page__empty">
           {{ 'search.no_results' | t: terms: search.terms }}
         </p>
       {%- endif -%}
@@ -53,6 +78,124 @@
   </div>
 </div>
 
+{% stylesheet %}
+  .search-page {
+    padding: 32px 0 64px;
+  }
+
+  /* ── Search input ── */
+  .search-page__form {
+    margin-bottom: 24px;
+  }
+
+  .search-page__input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #748C70;
+    padding: 8px 16px 12px;
+  }
+
+  .search-page__input-wrap .icon {
+    flex-shrink: 0;
+    color: #ADADAD;
+  }
+
+  .search-page__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #0C0C0C;
+    text-transform: capitalize;
+  }
+
+  .search-page__input::placeholder {
+    color: #ADADAD;
+    text-transform: capitalize;
+  }
+
+  .search-page__clear {
+    flex-shrink: 0;
+    color: #ADADAD;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+  }
+
+  .search-page__clear:hover {
+    color: #313D65;
+  }
+
+  /* ── Result count ── */
+  .search-page__count {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #0C0C0C;
+    text-transform: capitalize;
+    text-align: center;
+    margin: 0 0 32px;
+  }
+
+  /* ── Product grid — 3 columns desktop ── */
+  .search-page__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* ── Empty state ── */
+  .search-page__empty {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    color: #ADADAD;
+    text-align: center;
+    padding: 48px 0;
+  }
+
+  /* ── Tablet (750–989px) — 2 columns ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .search-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ── Mobile (< 750px) — 2 columns, compact ── */
+  @media screen and (max-width: 749px) {
+    .search-page {
+      padding: 24px 0 48px;
+    }
+
+    .search-page__input-wrap {
+      padding: 4px 0 8px;
+    }
+
+    .search-page__input {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .search-page__count {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .search-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
-{ "name": "Search page", "settings": [] }
+{
+  "name": "Search page",
+  "settings": []
+}
 {% endschema %}

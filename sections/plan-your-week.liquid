@@ -1,0 +1,319 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign blocks = section.blocks
+-%}
+
+<section class="plan-week" data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- if heading != blank -%}
+      <h2 class="plan-week__heading">{{ heading }}</h2>
+    {%- endif -%}
+  </div>
+
+  <div class="plan-week__track">
+    {%- for block in blocks -%}
+      <div class="plan-week__card" {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.link | default: '#' }}" class="plan-week__card-link" aria-label="{{ block.settings.day | escape }}">
+          <div class="plan-week__image">
+            {%- if block.settings.image != blank -%}
+              {%- render 'image',
+                image: block.settings.image,
+                widths: '168,288,336,576',
+                sizes: '(min-width: 990px) 288px, 168px'
+              -%}
+            {%- else -%}
+              <div class="plan-week__placeholder">
+                {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- endif -%}
+
+            <button type="button" class="plan-week__wishlist" aria-label="{{ 'accessibility.wishlist' | t | default: 'Add to wishlist' }}">
+              {%- render 'icon', icon: 'heart', size: 24 -%}
+            </button>
+          </div>
+        </a>
+
+        {%- if block.settings.day != blank -%}
+          <p class="plan-week__day">{{ block.settings.day }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+
+    {%- if blocks.size == 0 -%}
+      {%- assign placeholder_days = 'Sunday,Monday,Tuesday,Wednesday,Thursday' | split: ',' -%}
+      {%- for day in placeholder_days -%}
+        <div class="plan-week__card">
+          <div class="plan-week__card-link">
+            <div class="plan-week__image">
+              <div class="plan-week__placeholder">
+                {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+          </div>
+          <p class="plan-week__day">{{ day }}</p>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  <div class="plan-week__dots">
+    {%- for block in blocks -%}
+      <span class="plan-week__dot{% if forloop.first %} plan-week__dot--active{% endif %}"></span>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .plan-week {
+    padding: 64px 0;
+    overflow: hidden;
+  }
+
+  .plan-week__heading {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #313D65;
+    font-weight: normal;
+    font-style: normal;
+    margin: 0 0 32px;
+  }
+
+  /* ── Horizontal scroll track ── */
+  .plan-week__track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-left: max(16px, calc((100vw - 1200px) / 2 + 32px));
+    padding-right: 48px;
+  }
+
+  .plan-week__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .plan-week__card {
+    flex: 0 0 288px;
+    scroll-snap-align: start;
+  }
+
+  /* ── Card image ── */
+  .plan-week__card-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .plan-week__image {
+    position: relative;
+    aspect-ratio: 288 / 426;
+    overflow: hidden;
+    background-color: #f5f5f5;
+  }
+
+  .plan-week__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .plan-week__card-link:hover .plan-week__image img {
+    transform: scale(1.03);
+  }
+
+  .plan-week__placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+  }
+
+  .plan-week__placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── Wishlist ── */
+  .plan-week__wishlist {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #313D65;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .plan-week__wishlist:hover {
+    opacity: 1;
+  }
+
+  /* ── Day name ── */
+  .plan-week__day {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.8;
+    color: #313D65;
+    text-transform: capitalize;
+    margin: 8px 0 0;
+    padding: 0 8px;
+  }
+
+  /* ── Dots (hidden on desktop) ── */
+  .plan-week__dots {
+    display: none;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 989px) {
+    .plan-week {
+      padding: 40px 0;
+    }
+
+    .plan-week__heading {
+      font-size: 20px;
+      line-height: 1.4;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .plan-week__track {
+      gap: 16px;
+      padding-left: 20px;
+      padding-right: 20px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .plan-week__card {
+      flex: 0 0 calc(50% - 8px);
+    }
+
+    .plan-week__image {
+      aspect-ratio: 168 / 213;
+    }
+
+    .plan-week__wishlist {
+      top: 8px;
+      right: 14px;
+    }
+
+    .plan-week__wishlist .icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .plan-week__day {
+      font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 1.2;
+      margin-top: 8px;
+      padding: 0;
+    }
+
+    .plan-week__dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      margin-top: 20px;
+    }
+
+    .plan-week__dot {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #DFDFDF;
+      transition: all 0.2s ease;
+    }
+
+    .plan-week__dot--active {
+      width: 12px;
+      height: 12px;
+      background-color: #313D65;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function() {
+    var section = document.querySelector('[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    var track = section.querySelector('.plan-week__track');
+    var dots = section.querySelectorAll('.plan-week__dot');
+    if (!track || dots.length === 0) return;
+
+    function updateDots() {
+      var items = track.querySelectorAll('.plan-week__card');
+      if (items.length === 0) return;
+      var itemWidth = items[0].offsetWidth + 16;
+      var activeIndex = Math.round(track.scrollLeft / itemWidth);
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('plan-week__dot--active', i === activeIndex);
+      });
+    }
+
+    track.addEventListener('scroll', updateDots, { passive: true });
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.plan_your_week.name",
+  "class": "section-plan-week",
+  "max_blocks": 7,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Plan Your Week with Paperbag",
+      "label": "t:sections.plan_your_week.settings.heading.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "day",
+      "name": "t:sections.plan_your_week.blocks.day.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "day",
+          "label": "t:sections.plan_your_week.blocks.day.settings.day.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.plan_your_week.blocks.day.settings.image.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.plan_your_week.blocks.day.settings.link.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Plan Your Week",
+      "blocks": [
+        { "type": "day", "settings": { "day": "Sunday" } },
+        { "type": "day", "settings": { "day": "Monday" } },
+        { "type": "day", "settings": { "day": "Tuesday" } },
+        { "type": "day", "settings": { "day": "Wednesday" } },
+        { "type": "day", "settings": { "day": "Thursday" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

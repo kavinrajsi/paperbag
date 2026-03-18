@@ -1,0 +1,154 @@
+{%- liquid
+  assign image = section.settings.image
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+-%}
+
+<section class="at-bag" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="at-bag__grid">
+      <div class="at-bag__content">
+        {%- if heading != blank -%}
+          <h2 class="at-bag__heading">{{ heading }}</h2>
+        {%- endif -%}
+
+        {%- if text != blank -%}
+          <div class="at-bag__text rte">{{ text }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="at-bag__image">
+        {%- if image != blank -%}
+          {%- render 'image', image: image, widths: '360,498,535,750,1000', sizes: '(min-width: 990px) 498px, 229px' -%}
+        {%- else -%}
+          <div class="at-bag__placeholder">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .at-bag {
+    padding: 64px 0;
+  }
+
+  .at-bag__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .at-bag__content {
+    max-width: 400px;
+  }
+
+  .at-bag__heading {
+    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-size: 40px;
+    line-height: 1.3;
+    color: #313D65;
+    margin-bottom: 24px;
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .at-bag__text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    line-height: 1.5;
+    color: #8FA1B7;
+    font-weight: 400;
+  }
+
+  .at-bag__text p {
+    margin: 0;
+  }
+
+  .at-bag__image img,
+  .at-bag__placeholder svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .at-bag__image img {
+    aspect-ratio: 498 / 713;
+  }
+
+  @media screen and (max-width: 989px) {
+    .at-bag {
+      padding: 40px 0;
+    }
+
+    .at-bag__grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .at-bag__content {
+      max-width: 260px;
+    }
+
+    .at-bag__heading {
+      font-size: 26px;
+      line-height: 1.38;
+      margin-bottom: 12px;
+    }
+
+    .at-bag__text {
+      font-size: 14px;
+      line-height: 1.57;
+    }
+
+    .at-bag__image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .at-bag__image img {
+      max-width: 229px;
+      aspect-ratio: 229 / 323;
+    }
+
+    .at-bag__placeholder {
+      max-width: 229px;
+      margin: 0 auto;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.at_bag.name",
+  "class": "section-at-bag",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "At Paperbag, less is always more.",
+      "label": "t:sections.at_bag.settings.heading.label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+      "label": "t:sections.at_bag.settings.text.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.at_bag.settings.image.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "At Bag"
+    }
+  ]
+}
+{% endschema %}
