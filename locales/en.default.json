@@ -32,6 +32,9 @@
       "sku": "SKU",
       "share": "Share",
       "title": "Product title",
+      "color": "Colors",
+      "easy_return": "Easy Return",
+      "add_to_wishlist": "Add to Wish List",
       "you_may_also_like": "You may also like",
       "recently_viewed": "Recently viewed"
     }
@@ -120,7 +123,8 @@
       "title": "Reset your password",
       "email": "Email",
       "submit": "Submit",
-      "success": "We've sent you an email with a link to update your password."
+      "success": "We've sent you an email with a link to update your password.",
+      "confirm": "Confirm password"
     },
     "order": {
       "title": "Order {{ name }}",
@@ -229,7 +233,8 @@
     "previous_slide": "Previous slide",
     "loading": "Loading",
     "of": "of",
-    "slider": "Slider"
+    "slider": "Slider",
+    "wishlist": "Wishlist"
   },
   "sections": {
     "sustainability": {
