@@ -36,7 +36,7 @@
           {%- assign logo_style = 'max-width: ' | append: logo_width | append: 'px;' -%}
           {{ logo | image_url: width: logo_width | image_tag: widths: '50, 100, 150, 200', style: logo_style, alt: shop.name }}
         {%- else -%}
-          <span class="header__logo-text">{{ shop.name }}</span>
+          <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" style="max-width: {{ logo_width }}px;">
         {%- endif -%}
       </a>
     </div>
@@ -46,7 +46,7 @@
         {%- assign logo_style = 'max-width: ' | append: logo_width | append: 'px;' -%}
         {{ logo | image_url: width: logo_width | image_tag: widths: '50, 100, 150, 200', style: logo_style, alt: shop.name }}
       {%- else -%}
-        <span class="header__logo-text">{{ shop.name }}</span>
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" style="max-width: {{ logo_width }}px;">
       {%- endif -%}
     </a>
 
