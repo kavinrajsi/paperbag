@@ -1,0 +1,151 @@
+<div class="about-us">
+  <div class="container">
+    {%- render 'breadcrumb' -%}
+
+    {%- comment -%} Hero {%- endcomment -%}
+    <div class="about-us__hero">
+      <h1 class="about-us__title">{{ section.settings.heading | default: page.title }}</h1>
+      {%- if section.settings.subheading != blank -%}
+        <p class="about-us__subtitle">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Story section {%- endcomment -%}
+    {%- if section.settings.story_text != blank -%}
+      <div class="about-us__story">
+        {%- if section.settings.story_image != blank -%}
+          <div class="about-us__story-image">
+            {%- render 'image', image: section.settings.story_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
+          </div>
+        {%- endif -%}
+        <div class="about-us__story-content">
+          {%- if section.settings.story_heading != blank -%}
+            <h2 class="about-us__section-heading">{{ section.settings.story_heading }}</h2>
+          {%- endif -%}
+          <div class="about-us__story-text rte">{{ section.settings.story_text }}</div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Values {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="about-us__values">
+        {%- if section.settings.values_heading != blank -%}
+          <h2 class="about-us__values-heading">{{ section.settings.values_heading }}</h2>
+        {%- endif -%}
+        <div class="about-us__values-grid">
+          {%- for block in section.blocks -%}
+            <div class="about-us__value" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <div class="about-us__value-icon">{{ block.settings.icon }}</div>
+              {%- endif -%}
+              <h3 class="about-us__value-title">{{ block.settings.title }}</h3>
+              {%- if block.settings.text != blank -%}
+                <p class="about-us__value-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Mission statement {%- endcomment -%}
+    {%- if section.settings.mission_text != blank -%}
+      <div class="about-us__mission">
+        <p class="about-us__mission-text">{{ section.settings.mission_text }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} CMS page content fallback {%- endcomment -%}
+    {%- if page.content != blank -%}
+      <div class="about-us__page-content rte">{{ page.content }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .about-us { padding: 32px 0 64px; }
+
+  /* Hero */
+  .about-us__hero { text-align: center; margin-bottom: 56px; }
+  .about-us__title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 36px; color: #313D65; font-weight: normal; margin: 0 0 12px; }
+  .about-us__subtitle { font-family: 'Outfit', sans-serif; font-size: 20px; color: #8FA1B7; font-style: italic; margin: 0; line-height: 1.8; }
+
+  /* Story */
+  .about-us__story { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 64px; }
+  .about-us__story-image { overflow: hidden; }
+  .about-us__story-image img { width: 100%; height: auto; display: block; }
+  .about-us__section-heading { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 28px; color: #313D65; font-weight: normal; margin: 0 0 20px; }
+  .about-us__story-text { font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
+  .about-us__story-text p { margin: 0 0 16px; }
+
+  /* Values */
+  .about-us__values { margin-bottom: 64px; }
+  .about-us__values-heading { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 28px; color: #313D65; font-weight: normal; text-align: center; margin: 0 0 40px; }
+  .about-us__values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .about-us__value { text-align: center; padding: 32px 24px; background: #F2F4F6; }
+  .about-us__value-icon { font-size: 32px; margin-bottom: 16px; }
+  .about-us__value-title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 20px; color: #313D65; font-weight: normal; margin: 0 0 12px; }
+  .about-us__value-text { font-family: 'Outfit', sans-serif; font-size: 16px; line-height: 1.8; color: #353535; margin: 0; }
+
+  /* Mission */
+  .about-us__mission { background: #8FA1B7; padding: 48px; margin-bottom: 48px; text-align: center; }
+  .about-us__mission-text { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 24px; color: #fff; font-weight: normal; line-height: 1.5; margin: 0; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+  /* Page content fallback */
+  .about-us__page-content { max-width: 800px; margin: 0 auto; font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
+  .about-us__page-content h2, .about-us__page-content h3 { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; color: #313D65; font-weight: normal; }
+
+  @media (max-width: 989px) {
+    .about-us__values-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 749px) {
+    .about-us__title { font-size: 24px; }
+    .about-us__subtitle { font-size: 16px; }
+    .about-us__story { grid-template-columns: 1fr; gap: 24px; }
+    .about-us__section-heading { font-size: 22px; }
+    .about-us__story-text { font-size: 14px; }
+    .about-us__values-grid { grid-template-columns: 1fr; }
+    .about-us__mission { padding: 32px 20px; }
+    .about-us__mission-text { font-size: 18px; }
+    .about-us__page-content { font-size: 14px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "About Us",
+  "settings": [
+    { "type": "text", "id": "heading", "default": "About Paperbag", "label": "Heading" },
+    { "type": "text", "id": "subheading", "default": "Effortless. Elevated. Everyday.", "label": "Subheading" },
+    { "type": "image_picker", "id": "story_image", "label": "Story image" },
+    { "type": "text", "id": "story_heading", "default": "Our Story", "label": "Story heading" },
+    { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>At Paperbag, we believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p><p>Our clothing is designed to move with you — light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>" },
+    { "type": "text", "id": "values_heading", "default": "What We Stand For", "label": "Values heading" },
+    { "type": "textarea", "id": "mission_text", "default": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.", "label": "Mission statement" }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon/emoji", "default": "" },
+        { "type": "text", "id": "title", "default": "Sustainability", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "We use responsibly sourced materials and partner with mills powered by renewable energy." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "About Us",
+      "blocks": [
+        { "type": "value", "settings": { "title": "Sustainability", "text": "We use responsibly sourced materials and partner with mills powered by renewable energy." } },
+        { "type": "value", "settings": { "title": "Quality", "text": "Every piece is crafted with care, using premium fabrics that feel as good as they look." } },
+        { "type": "value", "settings": { "title": "Timeless Design", "text": "We create versatile pieces that transcend seasons and trends — made to be worn again and again." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

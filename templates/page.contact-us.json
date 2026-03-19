@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-contact-us",
+      "settings": {
+        "heading": "Contact Us",
+        "subheading": "We'd love to hear from you",
+        "email": "hello@paperbag.com",
+        "phone": "+1 (800) 123-4567",
+        "address": "123 Fashion Street, New York, NY 10001",
+        "hours": "Mon-Fri: 9am - 6pm EST",
+        "form_heading": "Send Us a Message"
+      }
+    }
+  },
+  "order": ["main"]
+}

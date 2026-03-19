@@ -1,0 +1,135 @@
+<div class="contact-us">
+  <div class="container">
+    {%- render 'breadcrumb' -%}
+
+    <div class="contact-us__hero">
+      <h1 class="contact-us__title">{{ section.settings.heading | default: page.title }}</h1>
+      {%- if section.settings.subheading != blank -%}
+        <p class="contact-us__subtitle">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="contact-us__layout">
+      {%- comment -%} Left: Contact info {%- endcomment -%}
+      <div class="contact-us__info">
+        {%- if section.settings.intro_text != blank -%}
+          <div class="contact-us__intro rte">{{ section.settings.intro_text }}</div>
+        {%- endif -%}
+
+        <div class="contact-us__details">
+          {%- if section.settings.email != blank -%}
+            <div class="contact-us__detail">
+              <h3 class="contact-us__detail-label">Email</h3>
+              <a href="mailto:{{ section.settings.email }}" class="contact-us__detail-value">{{ section.settings.email }}</a>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.phone != blank -%}
+            <div class="contact-us__detail">
+              <h3 class="contact-us__detail-label">Phone</h3>
+              <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="contact-us__detail-value">{{ section.settings.phone }}</a>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.address != blank -%}
+            <div class="contact-us__detail">
+              <h3 class="contact-us__detail-label">Address</h3>
+              <p class="contact-us__detail-value">{{ section.settings.address }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.hours != blank -%}
+            <div class="contact-us__detail">
+              <h3 class="contact-us__detail-label">Hours</h3>
+              <p class="contact-us__detail-value">{{ section.settings.hours }}</p>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Right: Contact form {%- endcomment -%}
+      <div class="contact-us__form-wrap">
+        <h2 class="contact-us__form-heading">{{ section.settings.form_heading | default: 'Send Us a Message' }}</h2>
+
+        {% form 'contact' %}
+          {%- if form.posted_successfully? -%}
+            <p class="auth-page__success">{{ 'contact.form.success' | t }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="auth-page__error">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+
+          <div class="auth-page__row">
+            <div class="auth-page__field">
+              <label for="ContactName" class="auth-page__label">{{ 'contact.form.name' | t }}</label>
+              <input type="text" id="ContactName" name="contact[{{ 'contact.form.name' | t }}]" required class="auth-page__input" placeholder="Your name">
+            </div>
+            <div class="auth-page__field">
+              <label for="ContactEmail" class="auth-page__label">{{ 'contact.form.email' | t }}</label>
+              <input type="email" id="ContactEmail" name="contact[email]" required class="auth-page__input" placeholder="your@email.com">
+            </div>
+          </div>
+          <div class="auth-page__field">
+            <label for="ContactPhone" class="auth-page__label">{{ 'contact.form.phone' | t }}</label>
+            <input type="tel" id="ContactPhone" name="contact[{{ 'contact.form.phone' | t }}]" class="auth-page__input" placeholder="Your phone number">
+          </div>
+          <div class="auth-page__field">
+            <label for="ContactSubject" class="auth-page__label">Subject</label>
+            <input type="text" id="ContactSubject" name="contact[Subject]" class="auth-page__input" placeholder="How can we help?">
+          </div>
+          <div class="auth-page__field">
+            <label for="ContactMessage" class="auth-page__label">{{ 'contact.form.message' | t }}</label>
+            <textarea id="ContactMessage" name="contact[{{ 'contact.form.message' | t }}]" required class="auth-page__input" rows="6" style="height: auto;" placeholder="Tell us more..."></textarea>
+          </div>
+          <button type="submit" class="contact-us__submit">{{ 'contact.form.submit' | t }}</button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact-us { padding: 32px 0 64px; }
+
+  .contact-us__hero { text-align: center; margin-bottom: 48px; }
+  .contact-us__title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 32px; color: #313D65; font-weight: normal; margin: 0 0 12px; }
+  .contact-us__subtitle { font-family: 'Outfit', sans-serif; font-size: 18px; color: #8FA1B7; font-style: italic; margin: 0; line-height: 1.8; }
+
+  .contact-us__layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+
+  /* Info column */
+  .contact-us__intro { font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; margin-bottom: 32px; }
+  .contact-us__details { display: flex; flex-direction: column; gap: 24px; }
+  .contact-us__detail-label { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 14px; color: #313D65; font-weight: normal; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 4px; }
+  .contact-us__detail-value { font-family: 'Outfit', sans-serif; font-size: 18px; color: #353535; line-height: 1.8; margin: 0; text-decoration: none; }
+  a.contact-us__detail-value:hover { text-decoration: underline; color: #313D65; }
+
+  /* Form column */
+  .contact-us__form-heading { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 24px; color: #313D65; font-weight: normal; margin: 0 0 24px; }
+  .contact-us__submit { display: flex; align-items: center; justify-content: center; width: 100%; height: 44px; background: #8FA1B7; border: none; color: #fff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; text-transform: capitalize; cursor: pointer; transition: opacity 0.2s; }
+  .contact-us__submit:hover { opacity: 0.9; }
+
+  @media (max-width: 749px) {
+    .contact-us__layout { grid-template-columns: 1fr; gap: 40px; }
+    .contact-us__title { font-size: 22px; }
+    .contact-us__subtitle { font-size: 14px; }
+    .contact-us__intro { font-size: 14px; }
+    .contact-us__detail-value { font-size: 16px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact Us",
+  "settings": [
+    { "type": "text", "id": "heading", "default": "Contact Us", "label": "Heading" },
+    { "type": "text", "id": "subheading", "default": "We'd love to hear from you", "label": "Subheading" },
+    { "type": "richtext", "id": "intro_text", "label": "Introduction text", "default": "<p>Have a question about an order, our products, or just want to say hello? We're here to help and typically respond within 24 hours.</p>" },
+    { "type": "text", "id": "email", "default": "hello@paperbag.com", "label": "Email" },
+    { "type": "text", "id": "phone", "default": "+1 (800) 123-4567", "label": "Phone" },
+    { "type": "textarea", "id": "address", "default": "123 Fashion Street, New York, NY 10001", "label": "Address" },
+    { "type": "text", "id": "hours", "default": "Mon–Fri: 9am – 6pm EST", "label": "Business hours" },
+    { "type": "text", "id": "form_heading", "default": "Send Us a Message", "label": "Form heading" }
+  ]
+}
+{% endschema %}

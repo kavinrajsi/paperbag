@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-policy",
+      "blocks": {
+        "overview": {
+          "type": "section",
+          "settings": {
+            "heading": "Overview"
+          }
+        },
+        "shipping": {
+          "type": "section",
+          "settings": {
+            "heading": "Shipping Policy"
+          }
+        },
+        "returns": {
+          "type": "section",
+          "settings": {
+            "heading": "Returns & Exchanges"
+          }
+        },
+        "privacy": {
+          "type": "section",
+          "settings": {
+            "heading": "Privacy Policy"
+          }
+        },
+        "terms": {
+          "type": "section",
+          "settings": {
+            "heading": "Terms of Service"
+          }
+        }
+      },
+      "block_order": ["overview", "shipping", "returns", "privacy", "terms"],
+      "settings": {
+        "last_updated": "March 2025"
+      }
+    }
+  },
+  "order": ["main"]
+}
