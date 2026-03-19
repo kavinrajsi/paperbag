@@ -685,5 +685,68 @@
         }
       }
     }
+  },
+  "settings_schema": {
+    "colors": {
+      "settings": {
+        "color_primary": { "label": "Primary color" },
+        "color_secondary": { "label": "Secondary color" },
+        "color_accent": { "label": "Accent color" },
+        "color_background": { "label": "Background color" },
+        "color_text": { "label": "Text color" },
+        "color_border": { "label": "Border color" },
+        "color_error": { "label": "Error color" },
+        "color_success": { "label": "Success color" }
+      }
+    },
+    "typography": {
+      "settings": {
+        "heading_font": { "label": "Heading font" },
+        "body_font": { "label": "Body font" },
+        "base_font_size": { "label": "Base font size" }
+      }
+    },
+    "logo": {
+      "settings": {
+        "logo": { "label": "Logo" },
+        "logo_width": { "label": "Logo width" },
+        "favicon": { "label": "Favicon" }
+      }
+    },
+    "cart": {
+      "settings": {
+        "cart_type": {
+          "label": "Cart type",
+          "options": {
+            "drawer": "Drawer",
+            "page": "Page"
+          }
+        },
+        "enable_cart_notes": { "label": "Enable cart notes" },
+        "enable_upsells": { "label": "Enable upsells" }
+      }
+    },
+    "product": {
+      "settings": {
+        "enable_sticky_cart": { "label": "Enable sticky add-to-cart" },
+        "enable_size_guide": { "label": "Enable size guide" },
+        "enable_recently_viewed": { "label": "Enable recently viewed" }
+      }
+    },
+    "search": {
+      "settings": {
+        "enable_predictive_search": { "label": "Enable predictive search" }
+      }
+    },
+    "social_media": {
+      "settings": {
+        "social_instagram_link": { "label": "Instagram" },
+        "social_facebook_link": { "label": "Facebook" },
+        "social_twitter_link": { "label": "X (Twitter)" },
+        "social_pinterest_link": { "label": "Pinterest" },
+        "social_tiktok_link": { "label": "TikTok" },
+        "social_youtube_link": { "label": "YouTube" }
+      }
+    }
   }
 }

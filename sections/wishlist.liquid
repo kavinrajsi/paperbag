@@ -266,8 +266,6 @@
       var img = product.featured_image || '';
       var url = '/products/' + encodeURIComponent(product.handle);
       var price = product.price ? (parseInt(product.price, 10) / 100).toFixed(2) : '';
-      var vendor = product.vendor || '';
-
       var card = document.createElement('div');
       card.className = 'wishlist-card';
       card.setAttribute('data-handle', product.handle);
@@ -281,7 +279,6 @@
         '</button>' +
         '<div class="wishlist-card__info">' +
           '<div class="wishlist-card__details">' +
-            (vendor ? '<p class="wishlist-card__vendor">' + escapeHtml(vendor) + '</p>' : '') +
             '<h3 class="wishlist-card__title"><a href="' + escapeHtml(url) + '">' + escapeHtml(product.title) + '</a></h3>' +
           '</div>' +
           (price ? '<span class="wishlist-card__price">{{ cart.currency.symbol }}' + price + '</span>' : '') +
