@@ -10,7 +10,7 @@
 {
   "sections": {
     "main": {
-      "type": "page-policy",
+      "type": "main-policy",
       "blocks": {
         "overview": {
           "type": "section",

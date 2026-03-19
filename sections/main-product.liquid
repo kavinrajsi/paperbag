@@ -84,10 +84,6 @@
           </div>
         {%- endif -%}
 
-        <div class="pdp__size-row">
-          <a href="#" class="pdp__size-guide">{{ 'products.product.size_guide' | t | default: 'Size Guide' }}</a>
-        </div>
-
         {%- comment -%} Size select {%- endcomment -%}
         {%- unless product.has_only_default_variant -%}
           {%- for option in product.options_with_values -%}
@@ -332,17 +328,6 @@
     margin-bottom: 8px;
   }
 
-  .pdp__size-guide {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    color: #353535;
-    text-transform: capitalize;
-    text-decoration: none;
-  }
-
-  .pdp__size-guide:hover {
-    text-decoration: underline;
-  }
 
   .pdp__select-wrap {
     position: relative;

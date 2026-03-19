@@ -10,7 +10,7 @@
 {
   "sections": {
     "main": {
-      "type": "page-contact-us",
+      "type": "main-contact-us",
       "settings": {
         "heading": "Contact Us",
         "subheading": "We'd love to hear from you",
