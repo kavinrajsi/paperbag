@@ -99,13 +99,29 @@
           </div>
 
           {%- if paginate.pages > 1 -%}
-            <div class="collection-page__load-more">
-              {%- if paginate.next -%}
-                <a href="{{ paginate.next.url }}" class="collection-page__load-more-btn">
-                  {{ 'collections.pagination.load_more' | t | default: 'Load More' }}
+            <nav class="collection-page__pagination" aria-label="Pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="pagination__btn pagination__btn--prev" aria-label="Previous page">
+                  &larr;
                 </a>
               {%- endif -%}
-            </div>
+
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="pagination__page pagination__page--current" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="pagination__page pagination__page--gap">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="pagination__btn pagination__btn--next" aria-label="Next page">
+                  &rarr;
+                </a>
+              {%- endif -%}
+            </nav>
           {%- endif -%}
         {%- else -%}
           <p class="collection-page__empty">{{ 'collections.empty' | t | default: 'No products found' }}</p>
@@ -146,7 +162,7 @@
   /* ── Layout: sidebar + products ── */
   .collection-page__layout {
     display: grid;
-    grid-template-columns: 392px 1fr;
+    grid-template-columns: 30% 70%;
     gap: 24px;
     align-items: start;
   }
@@ -266,39 +282,56 @@
     padding: 48px 0;
   }
 
-  /* ── Load more button ── */
-  .collection-page__load-more {
+  /* ── Pagination ── */
+  .collection-page__pagination {
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 8px;
     margin-top: 40px;
   }
 
-  .collection-page__load-more-btn {
+  .pagination__page,
+  .pagination__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 40px;
     height: 40px;
-    padding: 0 32px;
-    border: 1px solid #5A6D57;
-    background: none;
-    font-family: 'Montserrat', sans-serif;
+    padding: 0 8px;
+    font-family: 'Outfit', sans-serif;
     font-size: 14px;
-    font-weight: 400;
-    color: #5A6D57;
-    text-transform: capitalize;
+    font-weight: 500;
+    color: #313D65;
     text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
-  .collection-page__load-more-btn:hover {
-    background-color: #5A6D57;
+  .pagination__page:hover,
+  .pagination__btn:hover {
+    border-color: #313D65;
+  }
+
+  .pagination__page--current {
+    background-color: #313D65;
     color: #fff;
+    border-color: #313D65;
+  }
+
+  .pagination__page--gap {
+    border: none;
+    cursor: default;
+  }
+
+  .pagination__page--gap:hover {
+    border-color: transparent;
   }
 
   /* ── Tablet (750–989px) ── */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .collection-page__layout {
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 30% 70%;
       gap: 20px;
     }
 
