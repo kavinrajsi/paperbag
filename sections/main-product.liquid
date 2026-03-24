@@ -66,9 +66,11 @@
           <p class="pdp__description">{{ product.description | strip_html | truncatewords: 30 }}</p>
         {%- endif -%}
 
+        <p class="pdp__price" data-pdp-price>{{ current_variant.price | money }}</p>
+
         {%- if color_option_index != nil and color_values.size > 0 -%}
-          <div class="pdp__colors">
-            <p class="pdp__label">{{ 'products.product.color' | t | default: 'Colors' }}</p>
+          <div class="pdp__option-group">
+            <p class="pdp__label">{{ 'products.product.color' | t | default: 'Color' }}: <span class="pdp__label-value" data-color-label>{{ product.options[color_option_index] }}</span></p>
             <div class="pdp__color-swatches">
               {%- for color in color_values -%}
                 <button
@@ -84,41 +86,56 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} Size select {%- endcomment -%}
+        {%- comment -%} Size / other options as buttons {%- endcomment -%}
         {%- unless product.has_only_default_variant -%}
           {%- for option in product.options_with_values -%}
             {%- assign opt_lower = option.name | downcase -%}
             {%- unless opt_lower == 'color' or opt_lower == 'colour' -%}
-              <div class="pdp__select-wrap">
-                <select class="pdp__select" data-option-select="{{ forloop.index0 }}">
+              <div class="pdp__option-group">
+                <p class="pdp__label">{{ option.name }}: <span class="pdp__label-value">{{ option.selected_value }}</span></p>
+                <div class="pdp__option-buttons">
                   {%- for value in option.values -%}
-                    <option value="{{ value }}"{% if option.selected_value == value %} selected{% endif %}>
-                      {{ option.name }}: {{ value }}
-                    </option>
+                    <button
+                      type="button"
+                      class="pdp__option-btn{% if option.selected_value == value %} pdp__option-btn--selected{% endif %}"
+                      data-option-index="{{ forloop.index0 }}"
+                      data-option-value="{{ value | escape }}"
+                    >
+                      {{ value }}
+                    </button>
                   {%- endfor -%}
-                </select>
-                {%- render 'icon', icon: 'chevron-down', size: 20 -%}
+                </div>
               </div>
             {%- endunless -%}
           {%- endfor -%}
         {%- endunless -%}
 
-        {%- comment -%} Add to cart {%- endcomment -%}
+        {%- comment -%} Quantity + Add to cart {%- endcomment -%}
         {%- form 'product', product -%}
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-          <input type="hidden" name="quantity" value="1">
-          <button
-            type="submit"
-            class="pdp__add-to-cart"
-            data-add-to-cart
-            {% unless current_variant.available %}disabled{% endunless %}
-          >
-            {%- if current_variant.available -%}
-              {{ 'products.product.add_to_cart' | t }} &nbsp;+{{ current_variant.price | money }}
-            {%- else -%}
-              {{ 'products.product.sold_out' | t }}
-            {%- endif -%}
-          </button>
+
+          <div class="pdp__option-group">
+            <p class="pdp__label">{{ 'products.product.quantity' | t | default: 'Quantity' }}</p>
+            <div class="pdp__cart-row">
+              <div class="pdp__qty">
+                <button type="button" class="pdp__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
+                <input type="number" name="quantity" value="1" min="1" class="pdp__qty-input" data-qty-input aria-label="Quantity">
+                <button type="button" class="pdp__qty-btn" data-qty-plus aria-label="Increase quantity">&plus;</button>
+              </div>
+              <button
+                type="submit"
+                class="pdp__add-to-cart"
+                data-add-to-cart
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </button>
+            </div>
+          </div>
         {%- endform -%}
 
         <div class="pdp__care-instructions">
@@ -276,34 +293,45 @@
   }
 
   .pdp__title {
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 32px;
     line-height: 1.2;
-    color: #313D65;
-    font-weight: normal;
-    margin: 0 0 16px;
+    color: #0C0C0C;
+    font-weight: 700;
+    margin: 0 0 12px;
   }
 
   .pdp__description {
     font-family: 'Outfit', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 1.8;
+    line-height: 1.6;
     color: #353535;
+    margin: 0 0 20px;
+  }
+
+  .pdp__price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0C0C0C;
     margin: 0 0 24px;
   }
 
-  .pdp__colors {
+  .pdp__option-group {
     margin-bottom: 24px;
   }
 
   .pdp__label {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 16px;
-    font-weight: 400;
-    color: #353535;
-    text-transform: capitalize;
+    font-weight: 600;
+    color: #0C0C0C;
     margin: 0 0 12px;
+  }
+
+  .pdp__label-value {
+    font-weight: 400;
   }
 
   .pdp__color-swatches {
@@ -312,69 +340,117 @@
   }
 
   .pdp__swatch {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid transparent;
     cursor: pointer;
     padding: 0;
-    transition: box-shadow 0.15s ease;
+    transition: border-color 0.15s ease;
   }
 
   .pdp__swatch--selected {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #0c0c0c;
+    border-color: #0C0C0C;
   }
 
-  .pdp__size-row {
+  .pdp__option-buttons {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-
-  .pdp__select-wrap {
-    position: relative;
-    margin-bottom: 16px;
-  }
-
-  .pdp__select {
-    width: 100%;
-    height: 40px;
-    padding: 0 40px 0 16px;
+  .pdp__option-btn {
+    min-width: 80px;
+    height: 44px;
+    padding: 0 20px;
     border: 1px solid #DFDFDF;
     background: #fff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
     color: #353535;
-    appearance: none;
-    -webkit-appearance: none;
     cursor: pointer;
-    outline: none;
+    border-radius: 4px;
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
 
-  .pdp__select-wrap .icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
+  .pdp__option-btn:hover {
+    border-color: #0C0C0C;
+  }
+
+  .pdp__option-btn--selected {
+    background: #F2E8E1;
+    border-color: #F2E8E1;
+    color: #0C0C0C;
+    font-weight: 600;
+  }
+
+  /* ── Quantity + Add to cart row ── */
+  .pdp__cart-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pdp__qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid #DFDFDF;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 48px;
+  }
+
+  .pdp__qty-btn {
+    width: 44px;
+    height: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
     color: #353535;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+  }
+
+  .pdp__qty-btn:hover {
+    background: #f5f5f5;
+  }
+
+  .pdp__qty-input {
+    width: 44px;
+    height: 100%;
+    border: none;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #0C0C0C;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+
+  .pdp__qty-input::-webkit-inner-spin-button,
+  .pdp__qty-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   /* ── Add to cart ── */
   .pdp__add-to-cart {
-    width: 100%;
-    height: 40px;
+    flex: 1;
+    height: 48px;
     background-color: #8FA1B7;
     border: none;
+    border-radius: 4px;
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
     text-transform: capitalize;
     cursor: pointer;
-    margin-bottom: 16px;
     transition: opacity 0.2s ease;
   }
 
@@ -494,23 +570,13 @@
     }
   }
 
-  // Accordions
-  var triggers = document.querySelectorAll('[data-pdp-accordion]');
-  for (var k = 0; k < triggers.length; k++) {
-    triggers[k].addEventListener('click', function() {
-      var content = this.nextElementSibling;
-      var expanded = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', !expanded);
-      content.hidden = expanded;
-    });
-  }
-
-  // Variant selection (color swatches + size selects)
+  // Variant selection
   var productJson = document.querySelector('[data-product-json]');
   if (!productJson) return;
   var productData = JSON.parse(productJson.textContent);
   var variantIdInput = document.querySelector('[data-variant-id]');
   var addToCartBtn = document.querySelector('[data-add-to-cart]');
+  var priceEl = document.querySelector('[data-pdp-price]');
   var selectedOptions = productData.options.map(function(_, i) {
     return productData.selected_variant ? productData.selected_variant.options[i] : productData.variants[0].options[i];
   });
@@ -524,17 +590,40 @@
       selectedOptions[idx] = val;
       for (var s = 0; s < colorBtns.length; s++) colorBtns[s].classList.remove('pdp__swatch--selected');
       this.classList.add('pdp__swatch--selected');
+      var colorLabel = document.querySelector('[data-color-label]');
+      if (colorLabel) colorLabel.textContent = val;
       updateVariant();
     });
   }
 
-  // Select dropdowns
-  var selects = document.querySelectorAll('[data-option-select]');
-  for (var d = 0; d < selects.length; d++) {
-    selects[d].addEventListener('change', function() {
-      var idx = parseInt(this.getAttribute('data-option-select'), 10);
-      selectedOptions[idx] = this.value;
+  // Option button clicks (size, etc.)
+  var optionBtns = document.querySelectorAll('.pdp__option-btn');
+  for (var d = 0; d < optionBtns.length; d++) {
+    optionBtns[d].addEventListener('click', function() {
+      var idx = parseInt(this.getAttribute('data-option-index'), 10);
+      var val = this.getAttribute('data-option-value');
+      selectedOptions[idx] = val;
+      var siblings = this.parentElement.querySelectorAll('.pdp__option-btn');
+      for (var s = 0; s < siblings.length; s++) siblings[s].classList.remove('pdp__option-btn--selected');
+      this.classList.add('pdp__option-btn--selected');
+      var labelValue = this.closest('.pdp__option-group').querySelector('.pdp__label-value');
+      if (labelValue) labelValue.textContent = val;
       updateVariant();
+    });
+  }
+
+  // Quantity stepper
+  var qtyInput = document.querySelector('[data-qty-input]');
+  var minusBtn = document.querySelector('[data-qty-minus]');
+  var plusBtn = document.querySelector('[data-qty-plus]');
+  if (qtyInput && minusBtn && plusBtn) {
+    minusBtn.addEventListener('click', function() {
+      var val = parseInt(qtyInput.value, 10) || 1;
+      if (val > 1) qtyInput.value = val - 1;
+    });
+    plusBtn.addEventListener('click', function() {
+      var val = parseInt(qtyInput.value, 10) || 1;
+      qtyInput.value = val + 1;
     });
   }
 
@@ -546,15 +635,11 @@
     });
     if (match && variantIdInput) {
       variantIdInput.value = match.id;
+      if (priceEl) priceEl.textContent = formatMoney(match.price);
       if (addToCartBtn) {
         addToCartBtn.disabled = !match.available;
-        if (match.available) {
-          addToCartBtn.textContent = 'Add To Cart  +' + formatMoney(match.price);
-        } else {
-          addToCartBtn.textContent = 'Sold Out';
-        }
+        addToCartBtn.textContent = match.available ? 'Add To Cart' : 'Sold Out';
       }
-      // Update URL
       var url = new URL(window.location.href);
       url.searchParams.set('variant', match.id);
       window.history.replaceState({}, '', url.toString());
