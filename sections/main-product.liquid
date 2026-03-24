@@ -134,27 +134,6 @@
       </div>
     </div>
 
-      {%- comment -%} Material card {%- endcomment -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'material_card' -%}
-          <div class="pdp__material-card" {{ block.shopify_attributes }}>
-            {%- if block.settings.heading != blank -%}
-              <h3 class="pdp__material-heading">{{ block.settings.heading }}</h3>
-            {%- endif -%}
-            {%- if block.settings.text != blank -%}
-              <p class="pdp__material-text">{{ block.settings.text }}</p>
-            {%- endif -%}
-            {%- if block.settings.tags != blank -%}
-              <div class="pdp__material-tags">
-                {%- assign tags_arr = block.settings.tags | split: ',' -%}
-                {%- for tag in tags_arr -%}
-                  <span class="pdp__material-tag">{{ tag | strip }}</span>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
   </div>
 </div>
 
@@ -387,98 +366,7 @@
     color: #313D65;
   }
 
-  .pdp__accordion {
-    border: 1px solid #CBCBCB;
-    background: #F2F4F6;
-  }
-
-  .pdp__accordion + .pdp__accordion {
-    border-top: none;
-  }
-
-  .pdp__accordion-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 16px 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
-    font-size: 24px;
-    font-weight: normal;
-    color: #353535;
-    text-transform: capitalize;
-  }
-
-  .pdp__accordion-trigger[aria-expanded="true"] {
-    color: #313D65;
-  }
-
-  .pdp__accordion-trigger .icon {
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-  }
-
-  .pdp__accordion-trigger[aria-expanded="true"] .icon {
-    transform: rotate(45deg);
-  }
-
-  .pdp__accordion-content {
-    padding: 0 24px 24px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    line-height: 1.8;
-    color: #353535;
-    text-transform: capitalize;
-  }
-
   /* ── Material card ── */
-  .pdp__material-card {
-    border: 1px solid #ADADAD;
-    background: #F2F4F6;
-    padding: 24px;
-  }
-
-  .pdp__material-heading {
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
-    font-size: 24px;
-    font-weight: normal;
-    color: #353535;
-    border-bottom: 1px solid #ADADAD;
-    padding-bottom: 8px;
-    margin: 0 0 24px;
-  }
-
-  .pdp__material-text {
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    line-height: 1.8;
-    color: #353535;
-    text-transform: capitalize;
-    margin: 0 0 24px;
-  }
-
-  .pdp__material-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .pdp__material-tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    padding: 0 16px;
-    background: #fff;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    color: #353535;
-    text-transform: capitalize;
-  }
-
   /* ── Tablet ── */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .pdp__main {
@@ -537,27 +425,6 @@
       font-size: 14px;
     }
 
-    .pdp__accordion-trigger {
-      font-size: 18px;
-      padding: 12px 16px;
-    }
-
-    .pdp__accordion-content {
-      font-size: 14px;
-      padding: 0 16px 16px;
-    }
-
-    .pdp__material-card {
-      padding: 16px;
-    }
-
-    .pdp__material-heading {
-      font-size: 18px;
-    }
-
-    .pdp__material-text {
-      font-size: 14px;
-    }
   }
 {% endstylesheet %}
 
