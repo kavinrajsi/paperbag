@@ -53,11 +53,83 @@
   </div>
 </footer>
 
+<div class="popular-searches">
+  <div class="container">
+    <h4 class="popular-searches__heading">Popular Searches</h4>
+    <p class="popular-searches__links">
+      <a href="/search?q=tops">Tops</a>
+      <a href="/search?q=wrap+top">Wrap Top</a>
+      <a href="/search?q=shirts">Shirts</a>
+      <a href="/search?q=dresses">Dresses</a>
+      <a href="/search?q=skirts">Skirts</a>
+      <a href="/search?q=bottoms">Bottoms</a>
+      <a href="/search?q=trousers">Trousers</a>
+      <a href="/search?q=palazzo">Palazzo</a>
+      <a href="/search?q=casual+wear">Casual Wear</a>
+      <a href="/search?q=office+wear">Office Wear</a>
+      <a href="/search?q=summer+collection">Summer Collection</a>
+      <a href="/search?q=fall+collection">Fall Collection</a>
+      <a href="/search?q=cotton">Cotton</a>
+      <a href="/search?q=linen">Linen</a>
+      <a href="/search?q=handmade">Handmade</a>
+      <a href="/search?q=sustainable+clothing">Sustainable Clothing</a>
+      <a href="/search?q=women+clothing">Women Clothing</a>
+      <a href="/search?q=new+arrivals">New Arrivals</a>
+      <a href="/search?q=best+sellers">Best Sellers</a>
+      <a href="/search?q=ivory">Ivory</a>
+      <a href="/search?q=dusty+pink">Dusty Pink</a>
+      <a href="/search?q=formal+wear">Formal Wear</a>
+    </p>
+  </div>
+</div>
+
 <div class="site-copyright">
   <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All Rights Reserved.</p>
 </div>
 
 {% stylesheet %}
+  /* ── Popular Searches ── */
+  .popular-searches {
+    padding: 32px 0;
+    background: #fff;
+  }
+
+  .popular-searches__heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #313D65;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #8FA1B7;
+    display: inline-block;
+  }
+
+  .popular-searches__links {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #606060;
+    line-height: 2;
+    margin: 0;
+  }
+
+  .popular-searches__links a {
+    color: #606060;
+    text-decoration: none;
+  }
+
+  .popular-searches__links a:hover {
+    color: #313D65;
+  }
+
+  .popular-searches__links a + a::before {
+    content: '  |  ';
+    color: #ADADAD;
+  }
+
   .site-copyright {
     background-color: #8FA1B7;
     text-align: center;
