@@ -39,15 +39,15 @@
       "settings": {
         "heading": "At Paperbag, less is always more.",
         "text": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
-        "image": "shopify://shop_images/about-banner.jpg"
+        "image": "shopify://shop_images/IMG_9942.png"
       }
     },
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
         "heading": "Best Sellers",
-        "collection": "",
-        "products_to_show": 3,
+        "collection": "bottoms",
+        "products_to_show": 5,
         "show_view_all": true
       }
     },
@@ -58,6 +58,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/IMG_10515.png",
             "button_label": "Summer Collection"
           }
         },
@@ -65,6 +66,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/IMG_9831.png",
             "button_label": "Office Collection"
           }
         },
@@ -72,6 +74,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/IMG_10430.png",
             "button_label": "Fall Collection"
           }
         }
@@ -85,62 +88,14 @@
         "heading": "Shop Our Collections",
         "branded_text": "Wardrobe essentials, redefined.",
         "branded_button_label": "Shop Collection",
-        "branded_button_link": ""
-      }
-    },
-    "plan_your_week": {
-      "type": "plan-your-week",
-      "blocks": {
-        "day_sun": {
-          "type": "day",
-          "settings": {
-            "day": "Sunday",
-            "link": ""
-          }
-        },
-        "day_mon": {
-          "type": "day",
-          "settings": {
-            "day": "Monday",
-            "link": ""
-          }
-        },
-        "day_tue": {
-          "type": "day",
-          "settings": {
-            "day": "Tuesday",
-            "link": ""
-          }
-        },
-        "day_wed": {
-          "type": "day",
-          "settings": {
-            "day": "Wednesday",
-            "link": ""
-          }
-        },
-        "day_thu": {
-          "type": "day",
-          "settings": {
-            "day": "Thursday",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "day_sun",
-        "day_mon",
-        "day_tue",
-        "day_wed",
-        "day_thu"
-      ],
-      "settings": {
-        "heading": "Plan Your Week with Paperbag"
+        "branded_button_link": "",
+        "branded_image": "shopify://shop_images/IMG_10024.png"
       }
     },
     "sustainability": {
       "type": "sustainability",
       "settings": {
+        "image": "shopify://shop_images/IMG_10024.png",
         "text": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
         "button_label": "About Us",
         "button_link": ""
@@ -149,7 +104,7 @@
     "welcome_modal": {
       "type": "welcome-modal",
       "settings": {
-        "enable_modal": false,
+        "enable_modal": true,
         "heading": "Welcome to Paperbag",
         "subheading": "Elegance in simplicity, Earth's harmony",
         "question": "Is it your first experience on Paperbag?",
@@ -164,7 +119,6 @@
     "at_bag",
     "best_sellers",
     "our_collections",
-    "plan_your_week",
     "sustainability",
     "welcome_modal"
   ]
