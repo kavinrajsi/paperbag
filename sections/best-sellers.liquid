@@ -21,16 +21,8 @@
 
     {%- if collection != blank -%}
       <div class="best-sellers__grid">
-        {%- for product in collection.products limit: products_to_show -%}
-          <div class="best-sellers__item">
-            {%- render 'best-sellers-card', product: product -%}
-          </div>
-        {%- endfor -%}
-      </div>
-
-      <div class="best-sellers__dots">
-        {%- for product in collection.products limit: products_to_show -%}
-          <span class="best-sellers__dot{% if forloop.first %} best-sellers__dot--active{% endif %}"></span>
+        {%- for product in collection.products limit: 4 -%}
+          {%- render 'product-card', product: product -%}
         {%- endfor -%}
       </div>
     {%- else -%}
@@ -91,15 +83,11 @@
     text-decoration: underline;
   }
 
-  /* ── Grid (desktop: 3 cols) ── */
+  /* ── Grid (4 cols like collection page) ── */
   .best-sellers__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-  }
-
-  .best-sellers__dots {
-    display: none;
   }
 
   /* ── Card ── */

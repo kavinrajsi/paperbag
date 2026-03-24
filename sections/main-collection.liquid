@@ -1,6 +1,5 @@
 {%- paginate collection.products by section.settings.products_per_page -%}
 <div class="collection-page" data-section-id="{{ section.id }}">
-  {%- render 'breadcrumb' -%}
 
   {%- if collection.image != blank -%}
     <div class="collection-page__banner">
@@ -137,12 +136,6 @@
     padding-bottom: 64px;
   }
 
-  .collection-page .breadcrumb {
-    margin: 0 auto;
-    max-width: 1200px;
-    padding-left: 32px;
-    padding-right: 32px;
-  }
 
   /* ── Banner ── */
   .collection-page__banner {

@@ -9,7 +9,7 @@
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" class="cart-pg__form">
         <div class="cart-pg__layout">
-          {%- comment -%} Left: Order Summary items {%- endcomment -%}
+          {%- comment -%} Items list {%- endcomment -%}
           <div class="cart-pg__items-section">
             <h2 class="cart-pg__section-heading">{{ 'cart.order_summary' | t | default: 'Order Summary' }}</h2>
             <div class="cart-pg__items">
@@ -18,9 +18,6 @@
                   <a href="{{ item.url }}" class="cart-pg__item-image">
                     {%- if item.image -%}
                       <img src="{{ item.image | image_url: width: 284 }}" alt="{{ item.title | escape }}" loading="lazy">
-                    {%- endif -%}
-                    {%- if item.quantity > 1 -%}
-                      <span class="cart-pg__item-badge">{{ item.quantity }}</span>
                     {%- endif -%}
                   </a>
 
@@ -31,46 +28,26 @@
                         <p>{{ option.name }}: {{ option.value }}</p>
                       {%- endfor -%}
                     </div>
+                    <p class="cart-pg__item-price">{{ item.original_price | money }}</p>
+                    <div class="cart-pg__item-qty">
+                      <div class="cart-pg__qty-control">
+                        <button type="button" class="cart-pg__qty-btn" aria-label="Decrease quantity" data-quantity-minus>&minus;</button>
+                        <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
+                        <button type="button" class="cart-pg__qty-btn" aria-label="Increase quantity" data-quantity-plus>&plus;</button>
+                      </div>
+                    </div>
                   </div>
 
                   <button type="button" class="cart-pg__item-remove" data-cart-remove aria-label="{{ 'cart.remove' | t | default: 'Remove' }}">
-                    {%- render 'icon', icon: 'close', size: 24 -%}
+                    {%- render 'icon', icon: 'close', size: 20 -%}
                   </button>
                 </div>
               {%- endfor -%}
             </div>
           </div>
 
-          {%- comment -%} Right: Price / Quantity / Total table {%- endcomment -%}
+          {%- comment -%} Summary {%- endcomment -%}
           <div class="cart-pg__totals-section">
-            <div class="cart-pg__table-header">
-              <span>{{ 'cart.price' | t | default: 'Price' }}</span>
-              <span>{{ 'cart.quantity' | t | default: 'Quantity' }}</span>
-              <span>{{ 'cart.total' | t | default: 'Total' }}</span>
-            </div>
-
-            <div class="cart-pg__table-body">
-              {%- for item in cart.items -%}
-                <div class="cart-pg__table-row">
-                  <span class="cart-pg__cell-price">{{ item.original_price | money }}</span>
-                  <div class="cart-pg__cell-qty">
-                    <div class="cart-pg__qty-control">
-                      <button type="button" class="cart-pg__qty-btn" aria-label="Decrease quantity" data-quantity-minus>
-                        {%- render 'icon', icon: 'minus', size: 16 -%}
-                      </button>
-                      <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
-                      <button type="button" class="cart-pg__qty-btn" aria-label="Increase quantity" data-quantity-plus>
-                        {%- render 'icon', icon: 'plus', size: 16 -%}
-                      </button>
-                    </div>
-                  </div>
-                  <span class="cart-pg__cell-total">{{ item.final_line_price | money }}</span>
-                </div>
-              {%- endfor -%}
-            </div>
-
-            <div class="cart-pg__summary-divider"></div>
-
             <div class="cart-pg__summary-row">
               <span>{{ 'cart.subtotal' | t | default: 'Subtotal' }} ({{ cart.item_count }})</span>
               <span>{{ cart.items_subtotal_price | money }}</span>
@@ -141,12 +118,11 @@
   }
 
   .cart-pg__title {
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 24px;
     line-height: 1.2;
-    color: #353535;
-    font-weight: normal;
-    font-style: normal;
+    color: #0C0C0C;
+    font-weight: 700;
     margin: 0;
   }
 
@@ -164,24 +140,23 @@
     text-decoration: underline;
   }
 
-  /* ── Layout: items left + totals right ── */
+  /* ── Layout: items left + summary right ── */
   .cart-pg__layout {
     display: grid;
-    grid-template-columns: 600px 1fr;
+    grid-template-columns: 1fr 380px;
     gap: 48px;
     align-items: start;
     border-top: 1px solid #DFDFDF;
     padding-top: 32px;
   }
 
-  /* ── Items section (left) ── */
+  /* ── Items section ── */
   .cart-pg__section-heading {
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 20px;
     line-height: 1.2;
-    color: #353535;
-    font-weight: normal;
-    font-style: normal;
+    color: #0C0C0C;
+    font-weight: 600;
     margin: 0 0 24px;
   }
 
@@ -193,17 +168,23 @@
 
   .cart-pg__item {
     display: flex;
-    gap: 8px;
+    gap: 16px;
     position: relative;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .cart-pg__item:last-child {
+    border-bottom: none;
   }
 
   .cart-pg__item-image {
-    position: relative;
-    width: 142px;
-    height: 163px;
+    width: 120px;
+    height: 150px;
     flex-shrink: 0;
     overflow: hidden;
     display: block;
+    border-radius: 4px;
   }
 
   .cart-pg__item-image img {
@@ -213,144 +194,102 @@
     display: block;
   }
 
-  .cart-pg__item-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 40px;
-    height: 32px;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: #353535;
-  }
-
   .cart-pg__item-info {
     flex: 1;
-    padding: 0 8px;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .cart-pg__item-title {
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 16px;
-    font-weight: 700;
-    color: #353535;
-    margin: 8px 0 8px;
-    line-height: 1.2;
+    font-weight: 600;
+    color: #0C0C0C;
+    margin: 0;
+    line-height: 1.3;
   }
 
   .cart-pg__item-options {
     font-family: 'Outfit', sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
-    line-height: 1.8;
-    color: #404040;
-    text-transform: capitalize;
+    line-height: 1.6;
+    color: #606060;
   }
 
   .cart-pg__item-options p {
     margin: 0;
   }
 
+  .cart-pg__item-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0C0C0C;
+    margin: 4px 0 0;
+  }
+
+  .cart-pg__item-qty {
+    margin-top: 8px;
+  }
+
   .cart-pg__item-remove {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 0;
+    right: 0;
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    color: #353535;
-    transition: opacity 0.2s ease;
+    color: #ADADAD;
+    transition: color 0.2s ease;
   }
 
   .cart-pg__item-remove:hover {
-    opacity: 0.6;
-  }
-
-  /* ── Totals section (right) ── */
-  .cart-pg__table-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif;
-    font-size: 20px;
-    font-weight: normal;
     color: #353535;
-    margin-bottom: 24px;
-  }
-
-  .cart-pg__table-header span:last-child {
-    text-align: right;
-  }
-
-  .cart-pg__table-body {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 24px;
-  }
-
-  .cart-pg__table-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    align-items: center;
-  }
-
-  .cart-pg__cell-price,
-  .cart-pg__cell-total {
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: #0C0C0C;
-    text-transform: capitalize;
-    line-height: 1.8;
-  }
-
-  .cart-pg__cell-total {
-    text-align: right;
-  }
-
-  .cart-pg__cell-qty {
-    display: flex;
-    justify-content: center;
   }
 
   .cart-pg__qty-control {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: #E3E7EB;
-    width: 80px;
+    border: 1px solid #DFDFDF;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 36px;
   }
 
   .cart-pg__qty-btn {
+    width: 36px;
+    height: 100%;
     background: none;
     border: none;
-    padding: 4px;
     cursor: pointer;
+    font-size: 16px;
     color: #353535;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.15s ease;
+  }
+
+  .cart-pg__qty-btn:hover {
+    background: #f5f5f5;
   }
 
   .cart-pg__qty-input {
-    width: 24px;
+    width: 36px;
+    height: 100%;
     text-align: center;
     border: none;
+    border-left: 1px solid #DFDFDF;
+    border-right: 1px solid #DFDFDF;
     background: none;
     font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: #353535;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0C0C0C;
     outline: none;
     -moz-appearance: textfield;
   }
@@ -451,15 +390,10 @@
   }
 
   /* ── Tablet ── */
-  @media screen and (min-width: 750px) and (max-width: 989px) {
+  @media screen and (max-width: 989px) {
     .cart-pg__layout {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 32px;
-    }
-
-    .cart-pg__item-image {
-      width: 110px;
-      height: 130px;
     }
   }
 
@@ -478,39 +412,9 @@
       font-size: 20px;
     }
 
-    .cart-pg__layout {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-
     .cart-pg__item-image {
-      width: 100px;
-      height: 120px;
-    }
-
-    .cart-pg__item-title {
-      font-size: 14px;
-    }
-
-    .cart-pg__item-options {
-      font-size: 14px;
-    }
-
-    .cart-pg__table-header {
-      font-size: 16px;
-    }
-
-    .cart-pg__cell-price,
-    .cart-pg__cell-total {
-      font-size: 14px;
-    }
-
-    .cart-pg__qty-input {
-      font-size: 14px;
-    }
-
-    .cart-pg__summary-row {
-      font-size: 14px;
+      width: 90px;
+      height: 110px;
     }
 
     .cart-pg__checkout-btn {

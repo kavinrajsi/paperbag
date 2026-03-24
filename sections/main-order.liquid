@@ -1,6 +1,5 @@
 <div class="account-page">
   <div class="container">
-    {%- render 'breadcrumb' -%}
     <h1 class="account-page__title">{{ 'customer.order.title' | t: name: order.name }}</h1>
     <p class="order-page__date">{{ 'customer.order.date' | t }}: {{ order.created_at | date: '%B %d, %Y' }}</p>
 

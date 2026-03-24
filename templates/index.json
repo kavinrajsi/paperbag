@@ -92,15 +92,6 @@
         "branded_image": "shopify://shop_images/IMG_10024.png"
       }
     },
-    "sustainability": {
-      "type": "sustainability",
-      "settings": {
-        "image": "shopify://shop_images/IMG_10024.png",
-        "text": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
-        "button_label": "About Us",
-        "button_link": ""
-      }
-    },
     "welcome_modal": {
       "type": "welcome-modal",
       "settings": {
@@ -119,7 +110,6 @@
     "at_bag",
     "best_sellers",
     "our_collections",
-    "sustainability",
     "welcome_modal"
   ]
 }
