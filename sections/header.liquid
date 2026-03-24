@@ -254,7 +254,7 @@
 
       if (products.length > 0) {
         html += '<div class="search-results__group">';
-        html += '<p class="search-results__title">Products</p>';
+        html += '<div class="search-results__header"><p class="search-results__title">Products</p></div>';
         html += '<ul class="search-results__list">';
         for (var i = 0; i < products.length; i++) {
           var p = products[i];
@@ -277,7 +277,7 @@
 
       if (collections.length > 0) {
         html += '<div class="search-results__group">';
-        html += '<p class="search-results__title">Collections</p>';
+        html += '<div class="search-results__header"><p class="search-results__title">Collections</p></div>';
         html += '<ul class="search-results__list">';
         for (var j = 0; j < collections.length; j++) {
           var c = collections[j];
@@ -291,7 +291,7 @@
 
       if (pages.length > 0) {
         html += '<div class="search-results__group">';
-        html += '<p class="search-results__title">Pages</p>';
+        html += '<div class="search-results__header"><p class="search-results__title">Pages</p></div>';
         html += '<ul class="search-results__list">';
         for (var k = 0; k < pages.length; k++) {
           var pg = pages[k];
