@@ -5,6 +5,7 @@
   @param {string} [widths] - Comma-separated widths for srcset (default: '165,360,535,750,1000')
   @param {string} [sizes] - Sizes attribute (default: '100vw')
   @param {string} [alt] - Alt text override
+  @param {number} [height] - Fixed height for the image URL (optional)
   @param {boolean} [lazy] - Enable lazy loading (default: true)
   @param {string} [class] - Additional CSS classes
 
@@ -31,8 +32,8 @@
 
 {%- if image != blank -%}
   <img
-    srcset="{%- for width in widths_array -%}{{ image | image_url: width: width }} {{ width }}w{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}"
-    src="{{ image | image_url: width: 535 }}"
+    srcset="{%- for width in widths_array -%}{%- if height -%}{{ image | image_url: width: width, height: height, crop: 'center' }} {{ width }}w{%- else -%}{{ image | image_url: width: width }} {{ width }}w{%- endif -%}{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}"
+    src="{%- if height -%}{{ image | image_url: width: 535, height: height, crop: 'center' }}{%- else -%}{{ image | image_url: width: 535 }}{%- endif -%}"
     sizes="{{ sizes }}"
     alt="{{ alt_text }}"
     width="{{ image.width }}"

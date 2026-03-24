@@ -34,23 +34,24 @@
 
     {%- comment -%} Right: Link columns {%- endcomment -%}
     <div class="site-footer__nav">
-      {%- for block in section.blocks -%}
-        <div class="site-footer__column" {{ block.shopify_attributes }}>
-          {%- if block.type == 'menu' and block.settings.menu != blank -%}
-            {%- assign menu = linklists[block.settings.menu] -%}
-            {%- if block.settings.heading != blank -%}
-              <h4 class="site-footer__heading">{{ block.settings.heading }}</h4>
-            {%- else -%}
-              <h4 class="site-footer__heading">{{ menu.title }}</h4>
-            {%- endif -%}
-            <ul class="site-footer__links">
-              {%- for link in menu.links -%}
-                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
+      <div class="site-footer__column">
+        <h4 class="site-footer__heading">Paperbag</h4>
+        <ul class="site-footer__links">
+          <li><a href="/collections/all">Shop</a></li>
+          <li><a href="/collections">Collections</a></li>
+          <li><a href="/pages/about">About</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__column">
+        <h4 class="site-footer__heading">Help & Support</h4>
+        <ul class="site-footer__links">
+          <li><a href="/policies/shipping-policy">Orders & Shipping</a></li>
+          <li><a href="/policies/refund-policy">Returns & Refunds</a></li>
+          <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/policies/terms-of-service">Terms & Conditions</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </footer>

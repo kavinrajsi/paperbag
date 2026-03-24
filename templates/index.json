@@ -109,7 +109,7 @@
         "subheading": "Elegance in simplicity, Earth's harmony",
         "question": "Is it your first experience on Paperbag?",
         "button_label": "Create Your Own Style",
-        "button_link": "shopify://collections/all",
+        "button_link": "/collections/all",
         "delay": 1000
       }
     }
