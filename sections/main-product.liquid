@@ -89,6 +89,7 @@
           {%- for option in product.options_with_values -%}
             {%- assign opt_lower = option.name | downcase -%}
             {%- unless opt_lower == 'color' or opt_lower == 'colour' -%}
+              {%- assign opt_idx = forloop.index0 -%}
               <div class="pdp__option-group">
                 <p class="pdp__label">{{ option.name }}: <span class="pdp__label-value">{{ option.selected_value }}</span></p>
                 <div class="pdp__option-buttons">
@@ -96,7 +97,7 @@
                     <button
                       type="button"
                       class="pdp__option-btn{% if option.selected_value == value %} pdp__option-btn--selected{% endif %}"
-                      data-option-index="{{ forloop.index0 }}"
+                      data-option-index="{{ opt_idx }}"
                       data-option-value="{{ value | escape }}"
                     >
                       {{ value }}
@@ -154,22 +155,19 @@
 
 {%- comment -%} Related Products (same collection) {%- endcomment -%}
 {%- assign related_collection = product.collections | first -%}
-{%- if related_collection != blank -%}
-  {%- assign related_products = related_collection.products | where_not: 'id', product.id -%}
-  {%- if related_products.size > 0 -%}
-    <div class="pdp-related">
-      <div class="container">
-        <h2 class="pdp-related__heading">You May Also Like</h2>
-        <div class="pdp-related__grid">
-          {%- for item in related_collection.products limit: 4 -%}
-            {%- unless item.id == product.id -%}
-              {%- render 'product-card', product: item -%}
-            {%- endunless -%}
-          {%- endfor -%}
-        </div>
+{%- if related_collection != blank and related_collection.products_count > 1 -%}
+  <div class="pdp-related">
+    <div class="container">
+      <h2 class="pdp-related__heading">You May Also Like</h2>
+      <div class="pdp-related__grid">
+        {%- for item in related_collection.products limit: 5 -%}
+          {%- unless item.id == product.id -%}
+            {%- render 'product-card', product: item -%}
+          {%- endunless -%}
+        {%- endfor -%}
       </div>
     </div>
-  {%- endif -%}
+  </div>
 {%- endif -%}
 
 {% stylesheet %}

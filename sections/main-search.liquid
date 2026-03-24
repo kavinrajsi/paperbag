@@ -1,3 +1,4 @@
+{%- paginate search.results by 24 -%}
 <div class="search-page" data-section-id="{{ section.id }}">
   <div class="container">
     <form action="{{ routes.search_url }}" method="get" class="search-page__form">
@@ -192,6 +193,8 @@
     }
   }
 {% endstylesheet %}
+
+{%- endpaginate -%}
 
 {% schema %}
 {
