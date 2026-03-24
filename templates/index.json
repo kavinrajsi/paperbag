@@ -149,7 +149,7 @@
     "welcome_modal": {
       "type": "welcome-modal",
       "settings": {
-        "enable_modal": true,
+        "enable_modal": false,
         "heading": "Welcome to Paperbag",
         "subheading": "Elegance in simplicity, Earth's harmony",
         "question": "Is it your first experience on Paperbag?",
