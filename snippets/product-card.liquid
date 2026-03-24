@@ -27,8 +27,7 @@
         image: product.featured_image,
         widths: '165,360,535',
         sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
-        alt: product.title,
-        height: 426
+        alt: product.title
       -%}
 
       {%- if product.images.size > 1 -%}
@@ -37,8 +36,7 @@
             image: product.images[1],
             widths: '165,360,535',
             sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
-            alt: product.title,
-            height: 426
+            alt: product.title
           -%}
         </div>
       {%- endif -%}

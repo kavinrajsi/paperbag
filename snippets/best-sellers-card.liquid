@@ -26,8 +26,7 @@
         image: product.featured_image,
         widths: '168,336,392,535,784',
         sizes: '(min-width: 990px) 392px, 168px',
-        alt: product.title,
-        height: 426
+        alt: product.title
       -%}
     {%- else -%}
       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
