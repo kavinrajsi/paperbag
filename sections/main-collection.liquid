@@ -1,4 +1,4 @@
-{%- paginate collection.products by 50 -%}
+{%- paginate collection.products by section.settings.products_per_page -%}
 <div class="collection-page" data-section-id="{{ section.id }}">
 
   {%- if collection.image != blank -%}
@@ -483,9 +483,9 @@
       "id": "products_per_page",
       "label": "Products per page",
       "min": 4,
-      "max": 24,
+      "max": 50,
       "step": 2,
-      "default": 8
+      "default": 50
     },
     {
       "type": "checkbox",

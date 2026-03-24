@@ -1,42 +1,230 @@
-<div class="coll-list-page">
-  <div class="container">
-    <h1 class="coll-list-page__title">{{ 'collections.title' | t }}</h1>
-    <div class="coll-list-page__grid">
+{%- liquid
+  assign collection_count = 0
+  for collection in collections
+    unless collection.handle == 'all'
+      assign collection_count = collection_count | plus: 1
+    endunless
+  endfor
+-%}
+
+<div class="coll-list-pg">
+  <div class="coll-list-pg__layout">
+
+    <aside class="coll-list-pg__sidebar">
+      <h2 class="coll-list-pg__sidebar-heading">
+        <span aria-hidden="true">—</span> Categories
+      </h2>
+      <ul class="coll-list-pg__cats">
+        {%- for collection in collections -%}
+          {%- unless collection.handle == 'all' -%}
+            <li>
+              <a href="{{ collection.url }}" class="coll-list-pg__cat-link">
+                {{ collection.title }} ({{ collection.products_count }})
+              </a>
+            </li>
+          {%- endunless -%}
+        {%- endfor -%}
+      </ul>
+      <div class="coll-list-pg__total">
+        <div class="coll-list-pg__total-ring">{{ collection_count }}</div>
+        <p class="coll-list-pg__total-label">TOTAL<br>ITEMS</p>
+      </div>
+    </aside>
+
+    <div class="coll-list-pg__grid">
       {%- for collection in collections -%}
-        {%- if collection.handle != 'all' -%}
-          <a href="{{ collection.url }}" class="coll-list-page__card">
-            <div class="coll-list-page__card-image">
+        {%- unless collection.handle == 'all' -%}
+          <a href="{{ collection.url }}" class="coll-list-pg__card">
+            <div class="coll-list-pg__card-img">
               {%- if collection.image != blank -%}
-                {%- render 'image', image: collection.image, widths: '360,535,750', sizes: '(min-width: 990px) 33vw, 50vw' -%}
+                {%- render 'image',
+                  image: collection.image,
+                  widths: '360,535,750',
+                  sizes: '(min-width: 990px) 25vw, 50vw'
+                -%}
               {%- else -%}
                 {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
               {%- endif -%}
             </div>
-            <div class="coll-list-page__card-info">
-              <h2 class="coll-list-page__card-title">{{ collection.title }}</h2>
-              <p class="coll-list-page__card-count">{{ collection.products_count }} {{ 'search.items' | t | default: 'items' }}</p>
-            </div>
+            <h2 class="coll-list-pg__card-title">{{ collection.title }}</h2>
           </a>
-        {%- endif -%}
+        {%- endunless -%}
       {%- endfor -%}
     </div>
+
   </div>
 </div>
 
 {% stylesheet %}
-  .coll-list-page { padding: 32px 0 64px; }
-  .coll-list-page__title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 32px; color: #313D65; font-weight: normal; text-align: center; margin: 0 0 40px; }
-  .coll-list-page__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .coll-list-page__card { text-decoration: none; color: inherit; }
-  .coll-list-page__card-image { aspect-ratio: 1/1; overflow: hidden; background: #f5f5f5; }
-  .coll-list-page__card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-  .coll-list-page__card:hover .coll-list-page__card-image img { transform: scale(1.03); }
-  .coll-list-page__card-image svg { width: 100%; height: 100%; }
-  .coll-list-page__card-info { padding: 12px 0; text-align: center; }
-  .coll-list-page__card-title { font-family: 'ITC Avant Garde Gothic Pro Demi', sans-serif; font-size: 20px; color: #313D65; font-weight: normal; margin: 0 0 4px; }
-  .coll-list-page__card-count { font-family: 'Outfit', sans-serif; font-size: 14px; color: #ADADAD; margin: 0; }
-  @media (min-width: 750px) and (max-width: 989px) { .coll-list-page__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 749px) { .coll-list-page__title { font-size: 22px; margin-bottom: 24px; } .coll-list-page__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } .coll-list-page__card-title { font-size: 16px; } }
+  .coll-list-pg {
+    padding: 40px 0 80px;
+  }
+
+  .coll-list-pg__layout {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ── Sidebar ── */
+  .coll-list-pg__sidebar {
+    position: sticky;
+    top: 96px;
+  }
+
+  .coll-list-pg__sidebar-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0C0C0C;
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .coll-list-pg__cats {
+    list-style: none;
+    padding: 0 0 32px;
+    margin: 0;
+    border-bottom: 1px solid #DFDFDF;
+  }
+
+  .coll-list-pg__cat-link {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #353535;
+    text-decoration: none;
+    line-height: 2.6;
+    transition: color 0.2s ease;
+  }
+
+  .coll-list-pg__cat-link:hover {
+    color: #0C0C0C;
+  }
+
+  .coll-list-pg__total {
+    padding-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .coll-list-pg__total-ring {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 1px solid #ADADAD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #353535;
+  }
+
+  .coll-list-pg__total-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ADADAD;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Grid ── */
+  .coll-list-pg__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .coll-list-pg__card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .coll-list-pg__card-img {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+
+  .coll-list-pg__card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .coll-list-pg__card:hover .coll-list-pg__card-img img {
+    transform: scale(1.03);
+  }
+
+  .coll-list-pg__card-img svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .coll-list-pg__card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #0C0C0C;
+    margin: 12px 0 0;
+    line-height: 1.4;
+  }
+
+  /* ── Tablet ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .coll-list-pg__layout {
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 0 24px;
+    }
+
+    .coll-list-pg__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .coll-list-pg {
+      padding: 24px 0 48px;
+    }
+
+    .coll-list-pg__layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 0 20px;
+    }
+
+    .coll-list-pg__sidebar {
+      position: static;
+    }
+
+    .coll-list-pg__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .coll-list-pg__card-title {
+      font-size: 13px;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
