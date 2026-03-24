@@ -20,8 +20,8 @@
   endunless
 -%}
 
-<div class="card product-card">
-  <a href="{{ product.url }}" class="card__image product-card__image" aria-label="{{ product.title | escape }}">
+<div class="product-card">
+  <a href="{{ product.url }}" class="product-card__image" aria-label="{{ product.title | escape }}">
     {%- if product.featured_image != blank -%}
       {%- render 'image',
         image: product.featured_image,
@@ -31,7 +31,7 @@
       -%}
 
       {%- if product.images.size > 1 -%}
-        <div class="card__image-secondary">
+        <div class="product-card__image-secondary">
           {%- render 'image',
             image: product.images[1],
             widths: '165,360,535',
@@ -44,7 +44,7 @@
       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {%- endif -%}
 
-    <div class="card__badges">
+    <div class="product-card__badges">
       {%- if sold_out -%}
         <span class="badge badge--sold-out">{{ 'products.product.sold_out' | t }}</span>
       {%- elsif on_sale -%}
@@ -53,13 +53,13 @@
     </div>
   </a>
 
-  <div class="card__content">
+  <div class="product-card__content">
 
-    <h3 class="card__title">
+    <h3 class="product-card__title">
       <a href="{{ product.url }}">{{ product.title }}</a>
     </h3>
 
-    <div class="card__price">
+    <div class="product-card__price">
       {%- render 'price', product: product -%}
     </div>
   </div>

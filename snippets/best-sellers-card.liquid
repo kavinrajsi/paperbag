@@ -19,8 +19,8 @@
   endfor
 -%}
 
-<div class="bs-card">
-  <a href="{{ product.url }}" class="bs-card__image-wrap" aria-label="{{ product.title | escape }}">
+<div class="best-seller-card">
+  <a href="{{ product.url }}" class="best-seller-card__image-wrap" aria-label="{{ product.title | escape }}">
     {%- if product.featured_image != blank -%}
       {%- render 'image',
         image: product.featured_image,
@@ -32,23 +32,23 @@
       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {%- endif -%}
 
-    <button type="button" class="bs-card__wishlist" data-wishlist-toggle="{{ product.handle }}" aria-label="{{ 'accessibility.wishlist' | t | default: 'Add to wishlist' }}">
+    <button type="button" class="best-seller-card__wishlist" data-wishlist-toggle="{{ product.handle }}" aria-label="{{ 'accessibility.wishlist' | t | default: 'Add to wishlist' }}">
       {%- render 'icon', icon: 'heart', size: 24 -%}
     </button>
   </a>
 
-  <div class="bs-card__info">
-    <div class="bs-card__details">
+  <div class="best-seller-card__info">
+    <div class="best-seller-card__details">
 
-      <h3 class="bs-card__title">
+      <h3 class="best-seller-card__title">
         <a href="{{ product.url }}">{{ product.title }}</a>
       </h3>
 
       {%- if color_option_index != nil and color_values.size > 0 -%}
-        <div class="bs-card__swatches">
+        <div class="best-seller-card__swatches">
           {%- for color in color_values -%}
             <span
-              class="bs-card__swatch"
+              class="best-seller-card__swatch"
               style="background-color: {{ color | downcase | replace: ' ', '' | escape }};"
               title="{{ color | escape }}"
             ></span>
@@ -57,7 +57,7 @@
       {%- endif -%}
     </div>
 
-    <div class="bs-card__price">
+    <div class="best-seller-card__price">
       {%- render 'price', product: product -%}
     </div>
   </div>

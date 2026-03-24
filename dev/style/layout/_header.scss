@@ -4,16 +4,16 @@
   background: #fff;
   z-index: 100;
   position: relative;
-}
 
-.header--sticky {
-  position: sticky;
-  top: 0;
-}
+  &--sticky {
+    position: sticky;
+    top: 0;
+  }
 
-.header--dark {
-  background: var(--color-primary);
-  color: #fff;
+  &--dark {
+    background: var(--color-primary);
+    color: #fff;
+  }
 }
 
 // Desktop: logo left | nav center | icons right
@@ -22,9 +22,10 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 16px 40px;
+  padding: 20px 40px;
   max-width: $container-max-width;
   margin: 0 auto;
+  min-height: 80px;
 }
 
 .header__left {
@@ -38,14 +39,14 @@
   display: flex;
   flex-shrink: 0;
   text-decoration: none;
-  color: #313d65;
+  color: #313D65;
 }
 
 // Mobile centered logo
 .header__logo--mobile {
   display: none;
   text-decoration: none;
-  color: #313d65;
+  color: #313D65;
   justify-self: center;
 }
 
@@ -55,10 +56,11 @@
 }
 
 .header__logo-text {
+  font-family: $font-outfit;
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: #313d65;
+  color: #313D65;
 }
 
 // Nav - centered column
@@ -74,27 +76,30 @@
 }
 
 .header__nav-link {
-  text-decoration: none;
-  color: #313d65;
+  font-family: $font-outfit;
   font-size: 18px;
   font-weight: 400;
+  color: #313D65;
+  text-decoration: none;
   text-transform: capitalize;
   line-height: 1.8;
+  white-space: nowrap;
   transition: opacity $transition-base;
-}
 
-.header__nav-link:hover {
-  opacity: 0.7;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .header__dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: $spacing-3 0;
-  min-width: 200px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 16px 0;
+  min-width: 220px;
   display: none;
   z-index: 10;
 }
@@ -105,16 +110,18 @@
 
 .header__dropdown-link {
   display: block;
-  padding: $spacing-2 $spacing-4;
+  padding: 8px 24px;
+  font-family: $font-outfit;
+  font-size: 16px;
+  font-weight: 400;
+  color: #313D65;
   text-decoration: none;
-  color: #313d65;
-  font-size: 0.875rem;
-  text-transform: none;
-  transition: background $transition-base;
-}
+  text-transform: capitalize;
+  transition: background 0.2s ease;
 
-.header__dropdown-link:hover {
-  background: var(--color-border);
+  &:hover {
+    background: #F2F4F6;
+  }
 }
 
 // Icons - right aligned
@@ -134,18 +141,18 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: #313d65;
+  color: #313D65;
   text-decoration: none;
   transition: opacity $transition-base;
-}
 
-.header__icon-btn:hover {
-  opacity: 0.7;
-}
+  &:hover {
+    opacity: 0.7;
+  }
 
-.header__icon-btn .icon {
-  width: 24px;
-  height: 24px;
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 // Mobile toggle (hamburger)
@@ -155,7 +162,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: #313d65;
+  color: #313D65;
 }
 
 // Visibility helpers
@@ -167,12 +174,11 @@
   display: inline-flex;
 }
 
-// =============================
-// Mobile layout
-// =============================
+// ── Mobile layout ──
 @media screen and (max-width: $breakpoint-md) {
   .header__container {
     padding: 12px 20px;
+    min-height: 56px;
   }
 
   .header__mobile-toggle {
@@ -181,36 +187,18 @@
     justify-content: center;
   }
 
-  // Hide desktop-only elements
-  .header__logo--desktop {
-    display: none;
-  }
-
-  .header__nav {
-    display: none;
-  }
-
-  .header__icon-btn--desktop-only {
-    display: none;
-  }
-
-  // Show mobile-only elements
-  .header__logo--mobile {
-    display: flex;
-  }
-
-  .header__icon-btn--mobile-only {
-    display: inline-flex;
-  }
+  .header__logo--desktop { display: none; }
+  .header__nav { display: none; }
+  .header__icon-btn--desktop-only { display: none; }
+  .header__logo--mobile { display: flex; }
+  .header__icon-btn--mobile-only { display: inline-flex; }
 
   .header__icons {
-    gap: 8px;
+    gap: 12px;
   }
 }
 
-// =============================
-// Mobile nav overlay
-// =============================
+// ── Mobile nav drawer ──
 .mobile-nav {
   position: fixed;
   top: 0;
@@ -223,10 +211,10 @@
   transition: transform $transition-base;
   padding: $spacing-6;
   overflow-y: auto;
-}
 
-.mobile-nav--open {
-  transform: translateX(0);
+  &--open {
+    transform: translateX(0);
+  }
 }
 
 .mobile-nav__close {
@@ -236,7 +224,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #313d65;
+  color: #313D65;
   padding: $spacing-1;
 }
 
@@ -247,30 +235,32 @@
 }
 
 .mobile-nav__item {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid #DFDFDF;
 }
 
 .mobile-nav__link {
   display: block;
   padding: $spacing-3 0;
   text-decoration: none;
-  color: #313d65;
+  font-family: $font-outfit;
+  color: #313D65;
   font-size: 18px;
   font-weight: 400;
   text-transform: capitalize;
-}
+  line-height: 1.8;
 
-.mobile-nav__link:hover {
-  opacity: 0.7;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .mobile-nav__sub-links {
   list-style: none;
   padding: 0 0 $spacing-2 $spacing-4;
   margin: 0;
-}
 
-.mobile-nav__sub-links .mobile-nav__link {
-  font-size: 0.875rem;
-  padding: $spacing-2 0;
+  .mobile-nav__link {
+    font-size: 0.875rem;
+    padding: $spacing-2 0;
+  }
 }

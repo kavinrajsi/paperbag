@@ -1,41 +1,41 @@
 @use '../base/variables' as *;
 
-.blog__title {
+.blog-page__title {
   margin-bottom: $spacing-6;
 }
 
-.article-card__date {
+.blog-card__date {
   font-size: 0.75rem;
   color: var(--color-border);
   display: block;
   margin-bottom: $spacing-2;
 }
 
-.article-card__excerpt {
+.blog-card__excerpt {
   font-size: 0.875rem;
   color: var(--color-text);
   margin-bottom: $spacing-3;
   line-height: 1.6;
 }
 
-.article__header {
+.article-page__header {
   margin-bottom: $spacing-6;
 }
 
-.article__title {
+.article-page__title {
   margin-bottom: $spacing-3;
 }
 
-.article__meta {
+.article-page__meta {
   font-size: 0.875rem;
   color: var(--color-border);
 }
 
-.article__meta span {
+.article-page__meta span {
   margin-right: $spacing-4;
 }
 
-.article__image {
+.article-page__image {
   margin-bottom: $spacing-6;
   border-radius: 8px;
   overflow: hidden;
@@ -44,41 +44,41 @@
   margin-right: auto;
 }
 
-.article__content {
+.article-page__body {
   max-width: 800px;
   margin: 0 auto $spacing-6;
 }
 
-.article__tags {
+.article-page__tags {
   max-width: 800px;
   margin: 0 auto $spacing-6;
   font-size: 0.875rem;
 }
 
-.article__tags a {
+.article-page__tags a {
   color: var(--color-primary);
   text-decoration: underline;
 }
 
-.article__comments {
+.article-page__comments {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.article__comment {
+.article-page__comment {
   padding: $spacing-4 0;
   border-bottom: 1px solid var(--color-border);
 }
 
-.article__comment-author {
+.article-page__comment-author {
   font-weight: 600;
 }
 
-.article__comment-date {
+.article-page__comment-date {
   font-size: 0.75rem;
   color: var(--color-border);
 }
 
-.article__comment-body {
+.article-page__comment-body {
   margin-top: $spacing-2;
 }

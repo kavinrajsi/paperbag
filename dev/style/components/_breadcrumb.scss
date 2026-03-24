@@ -1,0 +1,65 @@
+@use '../base/variables' as *;
+
+.breadcrumb {
+  padding: 12px 0;
+}
+
+.breadcrumb__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.breadcrumb__item {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+
+  a,
+  span {
+    font-family: $font-outfit;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #313D65;
+    text-transform: capitalize;
+    text-decoration: none;
+    padding: 0 16px;
+    white-space: nowrap;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  &--active span {
+    color: #353535;
+  }
+
+  & + .breadcrumb__item::before {
+    content: '/';
+    font-family: $font-outfit;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #606060;
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .breadcrumb__item {
+    a,
+    span {
+      font-size: 14px;
+      padding: 0 10px;
+    }
+
+    & + .breadcrumb__item::before {
+      font-size: 14px;
+    }
+  }
+}

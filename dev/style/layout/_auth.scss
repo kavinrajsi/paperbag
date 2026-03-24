@@ -1,0 +1,150 @@
+@use '../base/variables' as *;
+
+// ── Auth pages (login, register, reset, contact, addresses) ──
+
+.auth-page {
+  padding: 48px 0 64px;
+}
+
+.auth-page__card {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.auth-page__title {
+  font-family: $font-outfit;
+  font-size: 32px;
+  color: #313D65;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+.auth-page__subtitle {
+  font-family: $font-outfit;
+  font-size: 24px;
+  color: #313D65;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+.auth-page__field {
+  margin-bottom: 20px;
+}
+
+.auth-page__label {
+  display: block;
+  font-family: $font-outfit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #353535;
+  margin-bottom: 6px;
+  text-transform: capitalize;
+}
+
+.auth-page__input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid #DFDFDF;
+  background: #fff;
+  font-family: $font-outfit;
+  font-size: 16px;
+  color: #0C0C0C;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #313D65;
+  }
+}
+
+.auth-page__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 44px;
+  background: #8FA1B7;
+  border: none;
+  color: #fff;
+  font-family: $font-outfit;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.auth-page__link {
+  font-family: $font-outfit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #313D65;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.auth-page__link-row {
+  text-align: center;
+  font-family: $font-outfit;
+  font-size: 14px;
+  color: #353535;
+  margin-top: 16px;
+}
+
+.auth-page__error {
+  background: #FFF0F0;
+  border: 1px solid #E5A0A0;
+  padding: 12px 16px;
+  font-family: $font-outfit;
+  font-size: 14px;
+  color: #C00;
+  margin-bottom: 20px;
+}
+
+.auth-page__success {
+  background: #F0FFF4;
+  border: 1px solid #A0E5A0;
+  padding: 12px 16px;
+  font-family: $font-outfit;
+  font-size: 14px;
+  color: #060;
+  margin-bottom: 20px;
+}
+
+.auth-page__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.auth-page__recover {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #DFDFDF;
+}
+
+@media (max-width: 749px) {
+  .auth-page {
+    padding: 32px 0 48px;
+  }
+
+  .auth-page__title {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+
+  .auth-page__row {
+    grid-template-columns: 1fr;
+  }
+}

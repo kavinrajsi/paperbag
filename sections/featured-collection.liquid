@@ -25,12 +25,12 @@
     {%- else -%}
       <div class="grid grid--{{ section.settings.columns }}">
         {%- for i in (1..section.settings.products_to_show) -%}
-          <div class="card">
-            <div class="card__image">
+          <div class="product-card">
+            <div class="product-card__image">
               {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
-            <div class="card__content">
-              <h3 class="card__title">{{ 'products.product.title' | t }}</h3>
+            <div class="product-card__content">
+              <h3 class="product-card__title">{{ 'products.product.title' | t }}</h3>
             </div>
           </div>
         {%- endfor -%}

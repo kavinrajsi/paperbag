@@ -1,33 +1,33 @@
 @use '../base/variables' as *;
 
 /* Product Grid */
-.product__grid {
+.pdp__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: $spacing-7;
 }
 
 /* Gallery */
-.product__gallery {
+.pdp__gallery {
   position: sticky;
   top: 100px;
   align-self: start;
 }
 
-.product__gallery-main img,
-.product__gallery-main .placeholder-svg {
+.pdp__gallery-main img,
+.pdp__gallery-main .placeholder-svg {
   width: 100%;
   border-radius: 8px;
 }
 
-.product__gallery-thumbs {
+.pdp__gallery-thumbs {
   display: flex;
   gap: $spacing-2;
   margin-top: $spacing-3;
   overflow-x: auto;
 }
 
-.product__gallery-thumb {
+.pdp__gallery-thumb {
   width: 80px;
   height: 100px;
   border: 2px solid transparent;
@@ -41,59 +41,59 @@
   background: none;
 }
 
-.product__gallery-thumb--active {
+.pdp__gallery-thumb--active {
   border-color: var(--color-primary);
   opacity: 1;
 }
 
-.product__gallery-thumb:hover {
+.pdp__gallery-thumb:hover {
   opacity: 1;
 }
 
-.product__gallery-thumb img {
+.pdp__gallery-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 /* Product Info */
-.product__info {
+.pdp__info {
   display: flex;
   flex-direction: column;
 }
 
-.product__title {
+.pdp__title {
   margin-bottom: $spacing-2;
 }
 
-.product__price {
+.pdp__price {
   font-size: 1.25rem;
   margin-bottom: $spacing-5;
 }
 
-.product__block {
+.pdp__block {
   margin-bottom: $spacing-5;
 }
 
 /* Variant Options */
-.product__option {
+.pdp__option {
   margin-bottom: $spacing-4;
 }
 
-.product__option-label {
+.pdp__option-label {
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: $spacing-2;
   display: block;
 }
 
-.product__option-values {
+.pdp__option-values {
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-2;
 }
 
-.product__option-btn {
+.pdp__option-btn {
   padding: $spacing-2 $spacing-4;
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -103,27 +103,27 @@
   background: none;
 }
 
-.product__option-btn--selected {
+.pdp__option-btn--selected {
   border-color: var(--color-primary);
   background-color: var(--color-primary);
   color: #fff;
 }
 
-.product__option-btn:disabled {
+.pdp__option-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   text-decoration: line-through;
 }
 
 /* Quantity Selector */
-.product__quantity-controls {
+.pdp__quantity-controls {
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
 
-.product__quantity-btn {
+.pdp__quantity-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -135,7 +135,7 @@
   padding: 0;
 }
 
-.product__quantity-input {
+.pdp__quantity-input {
   width: 50px;
   height: 40px;
   text-align: center;
@@ -146,18 +146,18 @@
   -moz-appearance: textfield;
 }
 
-.product__quantity-input::-webkit-outer-spin-button,
-.product__quantity-input::-webkit-inner-spin-button {
+.pdp__quantity-input::-webkit-outer-spin-button,
+.pdp__quantity-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Tabs (Description, Size Guide, Shipping) */
-.product__tab {
+.pdp__tab {
   border-top: 1px solid var(--color-border);
 }
 
-.product__tab-trigger {
+.pdp__tab-trigger {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -171,28 +171,28 @@
   text-align: left;
 }
 
-.product__tab-trigger .icon {
+.pdp__tab-trigger .icon {
   transition: transform $transition-base;
 }
 
-.product__tab-trigger[aria-expanded="true"] .icon {
+.pdp__tab-trigger[aria-expanded="true"] .icon {
   transform: rotate(180deg);
 }
 
-.product__tab-content {
+.pdp__tab-content {
   padding-bottom: $spacing-4;
 }
 
 /* Buy Buttons */
-.product__buy-buttons {
+.pdp__buy-buttons {
   margin-top: $spacing-2;
 }
 
-.product__add-to-cart {
+.pdp__add-to-cart {
   margin-bottom: $spacing-2;
 }
 
-.product__add-to-cart:disabled {
+.pdp__add-to-cart:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -207,7 +207,7 @@
 }
 
 /* Share */
-.product__share-btn {
+.pdp__share-btn {
   display: inline-flex;
   align-items: center;
   gap: $spacing-2;
@@ -219,7 +219,7 @@
   color: inherit;
 }
 
-.product__share-btn:hover {
+.pdp__share-btn:hover {
   opacity: 0.7;
 }
 
@@ -254,11 +254,11 @@
 
 /* Responsive */
 @media (max-width: $breakpoint-md) {
-  .product__grid {
+  .pdp__grid {
     grid-template-columns: 1fr;
   }
 
-  .product__gallery {
+  .pdp__gallery {
     position: static;
   }
 }

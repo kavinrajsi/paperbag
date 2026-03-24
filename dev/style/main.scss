@@ -9,9 +9,12 @@
 @use 'components/forms';
 @use 'components/cards';
 @use 'components/badges';
+@use 'components/breadcrumb';
 
 // Layout
 @use 'layout/header';
+@use 'layout/search';
+@use 'layout/auth';
 @use 'layout/footer';
 
 // Sections

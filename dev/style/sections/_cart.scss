@@ -1,10 +1,10 @@
 @use '../base/variables' as *;
 
-.cart-page__title {
+.cart-pg__title {
   margin-bottom: $spacing-6;
 }
 
-.cart-page__grid {
+.cart-pg__grid {
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: $spacing-7;
@@ -14,7 +14,7 @@
   }
 }
 
-.cart-page__item {
+.cart-pg__item {
   display: grid;
   grid-template-columns: 100px 1fr auto auto;
   gap: $spacing-4;
@@ -28,39 +28,39 @@
   }
 }
 
-.cart-page__item-image img {
+.cart-pg__item-image img {
   width: 100%;
   border-radius: 4px;
 }
 
-.cart-page__item-title {
+.cart-pg__item-title {
   font-weight: 500;
   text-decoration: none;
   display: block;
   margin-bottom: $spacing-1;
 }
 
-.cart-page__item-variant {
+.cart-pg__item-variant {
   font-size: 0.8125rem;
   color: var(--color-border);
 }
 
-.cart-page__item-price {
+.cart-pg__item-price {
   font-size: 0.875rem;
   margin-top: $spacing-2;
 }
 
-.cart-page__item-discounted {
+.cart-pg__item-discounted {
   font-size: 0.875rem;
   color: var(--color-accent);
 }
 
-.cart-page__item-total {
+.cart-pg__item-total {
   font-weight: 600;
   text-align: right;
 }
 
-.cart-page__summary {
+.cart-pg__summary {
   background: var(--color-secondary);
   padding: $spacing-5;
   border-radius: 8px;
@@ -69,11 +69,11 @@
   top: 100px;
 }
 
-.cart-page__notes {
+.cart-pg__notes {
   margin-bottom: $spacing-5;
 }
 
-.cart-page__subtotal {
+.cart-pg__subtotal {
   display: flex;
   justify-content: space-between;
   font-size: 1.125rem;
@@ -81,16 +81,16 @@
   margin-bottom: $spacing-2;
 }
 
-.cart-page__taxes {
+.cart-pg__taxes {
   font-size: 0.75rem;
   color: var(--color-border);
   margin-bottom: $spacing-5;
 }
 
-.cart-page__empty {
+.cart-pg__empty {
   padding: $spacing-8 0;
 }
 
-.cart-page__empty p {
+.cart-pg__empty p {
   margin-bottom: $spacing-4;
 }
