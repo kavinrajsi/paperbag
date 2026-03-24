@@ -38,7 +38,8 @@
       "type": "at-bag",
       "settings": {
         "heading": "At Paperbag, less is always more.",
-        "text": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>"
+        "text": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "image": "shopify://shop_images/about-banner.jpg"
       }
     },
     "best_sellers": {
