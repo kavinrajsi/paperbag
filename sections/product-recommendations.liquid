@@ -8,7 +8,7 @@
       <div class="pdp-recs__grid">
         {%- for product in recommendations.products limit: section.settings.products_to_show -%}
           <div class="pdp-recs__item">
-            {%- render 'best-sellers-card', product: product -%}
+            {%- render 'product-card', product: product -%}
           </div>
         {%- endfor -%}
       </div>
