@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,6 +15,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/about-banner.jpg",
             "heading": "<p>New Season Arrivals</p>",
             "subheading": "Discover our latest collection of thoughtfully designed essentials.",
             "button_label": "Shop Now",
@@ -15,10 +25,13 @@
           }
         }
       },
-      "block_order": ["slide_1"],
+      "block_order": [
+        "slide_1"
+      ],
       "settings": {
         "height": "large",
-        "autoplay_speed": 5
+        "autoplay_speed": 5,
+        "padding": 0
       }
     },
     "at_bag": {
@@ -32,6 +45,7 @@
       "type": "best-sellers",
       "settings": {
         "heading": "Best Sellers",
+        "collection": "",
         "products_to_show": 3,
         "show_view_all": true
       }
@@ -42,27 +56,35 @@
         "col_summer": {
           "type": "collection",
           "settings": {
+            "collection": "",
             "button_label": "Summer Collection"
           }
         },
         "col_office": {
           "type": "collection",
           "settings": {
+            "collection": "",
             "button_label": "Office Collection"
           }
         },
         "col_fall": {
           "type": "collection",
           "settings": {
+            "collection": "",
             "button_label": "Fall Collection"
           }
         }
       },
-      "block_order": ["col_summer", "col_office", "col_fall"],
+      "block_order": [
+        "col_summer",
+        "col_office",
+        "col_fall"
+      ],
       "settings": {
         "heading": "Shop Our Collections",
         "branded_text": "Wardrobe essentials, redefined.",
-        "branded_button_label": "Shop Collection"
+        "branded_button_label": "Shop Collection",
+        "branded_button_link": ""
       }
     },
     "plan_your_week": {
@@ -70,26 +92,47 @@
       "blocks": {
         "day_sun": {
           "type": "day",
-          "settings": { "day": "Sunday" }
+          "settings": {
+            "day": "Sunday",
+            "link": ""
+          }
         },
         "day_mon": {
           "type": "day",
-          "settings": { "day": "Monday" }
+          "settings": {
+            "day": "Monday",
+            "link": ""
+          }
         },
         "day_tue": {
           "type": "day",
-          "settings": { "day": "Tuesday" }
+          "settings": {
+            "day": "Tuesday",
+            "link": ""
+          }
         },
         "day_wed": {
           "type": "day",
-          "settings": { "day": "Wednesday" }
+          "settings": {
+            "day": "Wednesday",
+            "link": ""
+          }
         },
         "day_thu": {
           "type": "day",
-          "settings": { "day": "Thursday" }
+          "settings": {
+            "day": "Thursday",
+            "link": ""
+          }
         }
       },
-      "block_order": ["day_sun", "day_mon", "day_tue", "day_wed", "day_thu"],
+      "block_order": [
+        "day_sun",
+        "day_mon",
+        "day_tue",
+        "day_wed",
+        "day_thu"
+      ],
       "settings": {
         "heading": "Plan Your Week with Paperbag"
       }
@@ -98,7 +141,8 @@
       "type": "sustainability",
       "settings": {
         "text": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
-        "button_label": "About Us"
+        "button_label": "About Us",
+        "button_link": ""
       }
     },
     "welcome_modal": {
@@ -109,6 +153,7 @@
         "subheading": "Elegance in simplicity, Earth's harmony",
         "question": "Is it your first experience on Paperbag?",
         "button_label": "Create Your Own Style",
+        "button_link": "",
         "delay": 1000
       }
     }
