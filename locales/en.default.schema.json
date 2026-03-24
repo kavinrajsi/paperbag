@@ -1,4 +1,22 @@
 {
+  "sections": {
+    "header": {
+      "name": "Header",
+      "settings": {
+        "menu": { "label": "Menu" },
+        "logo": { "label": "Logo" },
+        "logo_width": { "label": "Logo width" },
+        "enable_sticky": { "label": "Enable sticky header" },
+        "color_scheme": {
+          "label": "Color scheme",
+          "options": {
+            "light": "Light",
+            "dark": "Dark"
+          }
+        }
+      }
+    }
+  },
   "settings_schema": {
     "colors": {
       "name": "Colors",
