@@ -121,25 +121,81 @@
           </button>
         {%- endform -%}
 
-        <div class="pdp__actions">
-          <span class="pdp__easy-return">
-            {%- render 'icon', icon: 'cart', size: 20 -%}
-            {{ 'products.product.easy_return' | t | default: 'Easy Return' }}
-          </span>
-          <button type="button" class="pdp__wishlist-btn" data-wishlist-toggle="{{ product.handle }}">
-            {%- render 'icon', icon: 'heart', size: 18 -%}
-            {{ 'products.product.add_to_wishlist' | t | default: 'Add to Wish List' }}
-          </button>
+        <div class="pdp__care-instructions">
+          <h4 class="pdp__care-heading">Care Instructions</h4>
+          <ul class="pdp__care-list">
+            <li>Wash separately in cold water to preserve fabric quality and colour.</li>
+            <li>Do not tumble dry; air dry in shade for best results. Always turn the garment inside-out to prevent fading.</li>
+            <li>Colour and print may gradually fade over time with repeated washes.</li>
+            <li>Each piece is handmade in small batches; slight variations and irregularities are a natural part of the garment's uniqueness.</li>
+          </ul>
         </div>
+
       </div>
     </div>
 
   </div>
 </div>
 
+{%- comment -%} Related Products (same collection) {%- endcomment -%}
+{%- assign related_collection = product.collections | first -%}
+{%- if related_collection != blank -%}
+  {%- assign related_products = related_collection.products | where_not: 'id', product.id -%}
+  {%- if related_products.size > 0 -%}
+    <div class="pdp-related">
+      <div class="container">
+        <h2 class="pdp-related__heading">You May Also Like</h2>
+        <div class="pdp-related__grid">
+          {%- for item in related_collection.products limit: 4 -%}
+            {%- unless item.id == product.id -%}
+              {%- render 'product-card', product: item -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
 {% stylesheet %}
   .pdp {
     padding: 0 0 64px;
+  }
+
+  /* ── Related Products ── */
+  .pdp-related {
+    padding: 48px 0 64px;
+  }
+
+  .pdp-related__heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #313D65;
+    margin: 0 0 24px;
+  }
+
+  .pdp-related__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .pdp-related__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .pdp-related__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .pdp-related__heading {
+      font-size: 22px;
+    }
   }
 
   .pdp .breadcrumb {
@@ -331,42 +387,33 @@
     cursor: not-allowed;
   }
 
-  /* ── Actions row ── */
-  .pdp__actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  /* ── Care instructions ── */
+  .pdp__care-instructions {
+    margin-top: 24px;
   }
 
-  .pdp__easy-return {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    color: #353535;
-    text-transform: capitalize;
-  }
-
-  .pdp__wishlist-btn {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    padding: 16px;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    color: #868686;
-    text-transform: capitalize;
-  }
-
-  .pdp__wishlist-btn:hover {
+  .pdp__care-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
     color: #313D65;
+    margin: 0 0 12px;
   }
 
-  /* ── Material card ── */
+  .pdp__care-list {
+    list-style: disc;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pdp__care-list li {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #353535;
+  }
   /* ── Tablet ── */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .pdp__main {
