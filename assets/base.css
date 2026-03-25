@@ -143,6 +143,13 @@ body {
   font-family: var(--font-body, sans-serif);
   color: var(--color-text);
   background-color: var(--color-background);
+  padding-top: 80px;
+}
+
+@media screen and (max-width: 990px) {
+  body {
+    padding-top: 56px;
+  }
 }
 
 img,
@@ -705,11 +712,10 @@ small {
 .header {
   background: #fff;
   z-index: 100;
-  position: relative;
-}
-.header--sticky {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
 }
 .header--dark {
   background: var(--color-primary);
@@ -1486,7 +1492,6 @@ small {
 
 .hero__slides {
   position: relative;
-  height: 500px;
 }
 
 @media screen and (min-width: 751px) {
