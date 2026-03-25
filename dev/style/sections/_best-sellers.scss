@@ -1,0 +1,80 @@
+@use '../base/variables' as *;
+
+// ── Best Sellers ──
+// Grid section displaying best-selling products
+// Reuses scroll-collection__card styles for product cards
+
+.best-sellers {
+  background-color: var(--bs-bg-color, #fff);
+  color: var(--bs-text-color, #1a1816);
+  padding-bottom: 40px;
+  padding-top: 40px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    padding-bottom: var(--bs-padding-bottom, 56px);
+    padding-top: var(--bs-padding-top, 56px);
+  }
+}
+
+// ── Header ──
+.best-sellers__header {
+  margin-bottom: $spacing-6;
+
+  @media screen and (min-width: $breakpoint-md) {
+    margin-bottom: $spacing-7;
+  }
+}
+
+.best-sellers__title {
+  color: var(--bs-text-color, #1a1816);
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+  margin: 0;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 28px;
+    line-height: 32px;
+  }
+}
+
+// ── Product grid ──
+.best-sellers__grid {
+  display: grid;
+  gap: $spacing-5;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media screen and (min-width: $breakpoint-sm) {
+    gap: var(--grid-gap);
+  }
+}
+
+.best-sellers__grid--3 {
+  @media screen and (min-width: $breakpoint-sm) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.best-sellers__grid--4 {
+  @media screen and (min-width: $breakpoint-sm) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.best-sellers__grid--2 {
+  @media screen and (min-width: $breakpoint-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// ── View all ──
+.best-sellers__view-all {
+  margin-top: $spacing-7;
+  text-align: center;
+}

@@ -107,6 +107,10 @@ button {
   max-width: 768px !important;
 }
 
+.shopify-policy__title {
+  padding-bottom: 16px;
+}
+
 // ── Main content offset for non-home pages ──
 body:not(.template-index) #MainContent {
   padding-top: 32px;

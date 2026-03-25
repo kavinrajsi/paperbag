@@ -71,6 +71,9 @@
   {% sections 'header-group' %}
 
   <main id="MainContent" role="main">
+    <div class="container">
+      {% render 'breadcrumb' %}
+    </div>
     {{ content_for_layout }}
   </main>
 
