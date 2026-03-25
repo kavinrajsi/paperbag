@@ -1,10 +1,5 @@
 <div class="cart-pg">
   <div class="container">
-    <div class="cart-pg__top">
-      <a href="javascript:history.back()" class="cart-pg__back">{{ 'cart.back' | t | default: 'Back' }}</a>
-      <h1 class="cart-pg__title">{{ 'cart.title' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="cart-pg__continue">{{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}</a>
-    </div>
 
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" class="cart-pg__form">
