@@ -128,12 +128,23 @@
         "bg_color": "#1a1816",
         "text_color": "#ffffff"
       }
+    },
+    "sustainability_TAPVLd": {
+      "type": "sustainability",
+      "name": "Sustainability",
+      "settings": {
+        "image": "shopify://shop_images/sustainability-mobile.png",
+        "text": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
+        "button_label": "About Us",
+        "button_link": ""
+      }
     }
   },
   "order": [
     "hero-banner",
     "scroll-collection",
     "home-about",
-    "masonry-grid"
+    "masonry-grid",
+    "sustainability_TAPVLd"
   ]
 }
