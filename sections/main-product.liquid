@@ -744,6 +744,8 @@
   }
 {% endstylesheet %}
 
+<script>window.__moneyFormat = {{ shop.money_format | json }};</script>
+
 {% javascript %}
 (function() {
   'use strict';
@@ -862,8 +864,8 @@
   function formatMoney(cents) {
     if (Shopify.formatMoney) return Shopify.formatMoney(cents);
     var amount = (cents / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-    var format = window.theme && window.theme.moneyFormat ? window.theme.moneyFormat : '{{ shop.money_format }}';
-    return format.replace(/\{\{\s*amount\s*\}\}/, amount).replace(/\{\{\s*amount_with_comma_separator\s*\}\}/, amount);
+    var format = window.__moneyFormat || '{{amount}}';
+    return format.replace(/\{\{\s*amount\s*\}\}/g, amount).replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, amount);
   }
 })();
 {% endjavascript %}
