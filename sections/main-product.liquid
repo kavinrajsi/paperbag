@@ -160,9 +160,11 @@
     <div class="container">
       <h2 class="pdp-related__heading">You May Also Like</h2>
       <div class="pdp-related__grid">
-        {%- for item in related_collection.products limit: 5 -%}
+        {%- for item in related_collection.products limit: 4 -%}
           {%- unless item.id == product.id -%}
-            {%- render 'best-sellers-card', product: item -%}
+            <div class="pdp-related__item">
+              {%- render 'best-sellers-card', product: item -%}
+            </div>
           {%- endunless -%}
         {%- endfor -%}
       </div>
@@ -190,20 +192,28 @@
 
   .pdp-related__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
 
   @media screen and (max-width: 989px) {
     .pdp-related__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .pdp-related__grid {
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
       gap: 16px;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+
+    .pdp-related__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pdp-related__item {
+      flex: 0 0 calc(50% - 8px);
+      scroll-snap-align: start;
     }
 
     .pdp-related__heading {
