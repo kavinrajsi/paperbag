@@ -130,6 +130,29 @@
         "text_color": "#ffffff"
       }
     },
+    "scroll_collection_xXwp8V": {
+      "type": "scroll-collection",
+      "name": "Scroll collection",
+      "settings": {
+        "collection": "bottoms",
+        "products_count": 8,
+        "show_title": true,
+        "title": "Scroll Collection",
+        "container_type": "container",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "bg_color": "#1a1816",
+        "text_color": "#ffffff",
+        "show_product_name": true,
+        "show_price": true,
+        "show_size": true,
+        "show_color": true,
+        "show_add_to_cart": true,
+        "show_product_tag": false,
+        "show_vendor": false,
+        "button_label": "Add to cart"
+      }
+    },
     "sustainability_TAPVLd": {
       "type": "sustainability",
       "name": "Sustainability",
@@ -146,6 +169,7 @@
     "home-about",
     "scroll_collection_yq6g4i",
     "masonry-grid",
+    "scroll_collection_xXwp8V",
     "sustainability_TAPVLd"
   ]
 }
