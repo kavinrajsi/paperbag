@@ -746,8 +746,10 @@ small {
   justify-self: center;
 }
 
-.header__logo img {
-  height: auto;
+.header__logo img,
+.header__logo svg {
+  width: auto;
+  height: 40px;
   display: block;
 }
 
