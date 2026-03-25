@@ -1567,9 +1567,9 @@ small {
   font-size: 3rem;
   font-style: italic;
   font-weight: 400;
+  color: #fff;
   line-height: 1.2;
   margin-bottom: 20px;
-  color: #313d65;
 }
 
 .hero__heading strong {
@@ -1671,7 +1671,7 @@ small {
   }
   .hero__heading {
     font-size: 1.5rem;
-    color: #0c0c0c;
+    color: #fff;
   }
   .hero__button {
     background: #fff;
