@@ -15,7 +15,7 @@
         "image_mobile": "shopify://shop_images/mobile-banner.png",
         "image_desktop": "shopify://shop_images/about-banner.jpg",
         "overlay_opacity": 20,
-        "heading": "New Collection",
+        "heading": "New Arrivals",
         "heading_size": "lg",
         "content": "Discover our finest selection of premium sweets and gifting combos.",
         "button_label": "Shop Now",
@@ -124,6 +124,7 @@
         "item_epKaYt",
         "item_pDjJbp"
       ],
+      "name": "Shop Products",
       "settings": {
         "show_title": true,
         "title": "Shop Products",
