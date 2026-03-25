@@ -77,36 +77,52 @@
   </div>
 </footer>
 
-<div class="popular-searches">
-  <div class="container">
-    <h4 class="popular-searches__heading">Popular Searches</h4>
-    <p class="popular-searches__links">
-      <a href="/collections/tops">Tops</a>
-      <a href="/collections/bottoms">Bottoms</a>
-      <a href="/collections/co-ords">Co-ords</a>
-      <a href="/collections/dress">Dress</a>
-      <a href="/search?q=wrap+top">Wrap Top</a>
-      <a href="/search?q=shirts">Shirts</a>
-      <a href="/search?q=skirts">Skirts</a>
-      <a href="/search?q=trousers">Trousers</a>
-      <a href="/search?q=palazzo">Palazzo</a>
-      <a href="/search?q=casual+wear">Casual Wear</a>
-      <a href="/search?q=office+wear">Office Wear</a>
-      <a href="/search?q=cotton">Cotton</a>
-      <a href="/search?q=linen">Linen</a>
-      <a href="/search?q=handmade">Handmade</a>
-      <a href="/search?q=summer+collection">Summer Collection</a>
-      <a href="/search?q=new+arrivals">New Arrivals</a>
-      <a href="/search?q=best+sellers">Best Sellers</a>
-    </p>
+{%- assign ps_menu = linklists[section.settings.popular_searches_menu] -%}
+{%- if ps_menu.links.size > 0 -%}
+  <div class="popular-searches">
+    <div class="container">
+      <h4 class="popular-searches__heading">{{ section.settings.popular_searches_heading | default: 'Popular Searches' }}</h4>
+      <p class="popular-searches__links">
+        {%- for link in ps_menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </p>
+    </div>
   </div>
-</div>
+{%- endif -%}
 
 <div class="site-copyright">
   <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All Rights Reserved.</p>
 </div>
 
 {% stylesheet %}
+  /* ── Container (Bootstrap) ── */
+  .container {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  @media (min-width: 576px) {
+    .container { max-width: 540px; }
+  }
+  @media (min-width: 768px) {
+    .container { max-width: 720px; }
+  }
+  @media (min-width: 992px) {
+    .container { max-width: 960px; }
+  }
+  @media (min-width: 1200px) {
+    .container { max-width: 1140px; }
+  }
+  @media (min-width: 1400px) {
+    .container { max-width: 1320px; }
+  }
+
   /* ── Popular Searches ── */
   .popular-searches {
     padding: 32px 0;
@@ -386,6 +402,22 @@
       "id": "tagline",
       "default": "Effortless. Elevated.",
       "label": "Tagline"
+    },
+    {
+      "type": "header",
+      "content": "Popular Searches"
+    },
+    {
+      "type": "text",
+      "id": "popular_searches_heading",
+      "label": "Heading",
+      "default": "Popular Searches"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu",
+      "label": "Popular searches menu",
+      "info": "Create a menu in Navigation and select it here."
     }
   ],
   "blocks": [
