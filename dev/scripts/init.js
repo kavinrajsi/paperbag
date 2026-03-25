@@ -257,11 +257,29 @@
   };
 
   // ==========================================
+  // Header Offset (body padding for fixed header)
+  // ==========================================
+  var HeaderOffset = {
+    init: function() {
+      var header = document.querySelector('[data-header]');
+      if (!header) return;
+
+      var update = function() {
+        document.body.style.paddingTop = header.offsetHeight + 'px';
+      };
+
+      update();
+      window.addEventListener('resize', update);
+    }
+  };
+
+  // ==========================================
   // Initialize
   // ==========================================
   document.addEventListener('DOMContentLoaded', function() {
     MobileMenu.init();
     StickyHeader.init();
+    HeaderOffset.init();
     Cart.init();
     AnnouncementBar.init();
   });
