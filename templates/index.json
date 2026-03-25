@@ -95,17 +95,6 @@
             "item_bg_color": "#8fa1b7"
           }
         },
-        "item_pDjJbp": {
-          "type": "item",
-          "name": "Coords",
-          "settings": {
-            "image": "shopify://shop_images/collection-coord.png",
-            "label": "Co-ords",
-            "link": "shopify://collections/co-ords",
-            "content": "",
-            "item_bg_color": "#8fa1b7"
-          }
-        },
         "item_epKaYt": {
           "type": "item",
           "name": "Tops",
@@ -116,13 +105,24 @@
             "content": "",
             "item_bg_color": "#8fa1b7"
           }
+        },
+        "item_pDjJbp": {
+          "type": "item",
+          "name": "Coords",
+          "settings": {
+            "image": "shopify://shop_images/collection-coord.png",
+            "label": "Co-ords",
+            "link": "shopify://collections/co-ords",
+            "content": "",
+            "item_bg_color": "#8fa1b7"
+          }
         }
       },
       "block_order": [
         "item_BgybU3",
         "item_wqPiaF",
-        "item_pDjJbp",
-        "item_epKaYt"
+        "item_epKaYt",
+        "item_pDjJbp"
       ],
       "settings": {
         "show_title": true,
