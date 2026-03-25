@@ -14,24 +14,32 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu_1": {
+        "menu_shop": {
           "type": "menu",
           "settings": {
-            "heading": "Paperbag",
-            "menu": "footer"
+            "heading": "Shop",
+            "menu": "shop"
           }
         },
-        "menu_2": {
+        "menu_support": {
           "type": "menu",
           "settings": {
-            "heading": "Help & Support",
-            "menu": "footer"
+            "heading": "Support",
+            "menu": "support"
+          }
+        },
+        "menu_policies": {
+          "type": "menu",
+          "settings": {
+            "heading": "Policies",
+            "menu": "policies"
           }
         }
       },
       "block_order": [
-        "menu_1",
-        "menu_2"
+        "menu_shop",
+        "menu_support",
+        "menu_policies"
       ],
       "settings": {
         "logo": "shopify://shop_images/footer-logo.svg",

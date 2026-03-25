@@ -134,9 +134,5 @@
 .home-about__placeholder {
   height: auto;
   max-width: 100%;
-  width: 65%;
-
-  @media screen and (min-width: $breakpoint-md) {
-    width: 100%;
-  }
+  width: 100%;
 }

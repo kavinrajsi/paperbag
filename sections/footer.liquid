@@ -3,7 +3,11 @@
     {%- comment -%} Left: Logo + social + copyright {%- endcomment -%}
     <div class="site-footer__brand">
       <div class="site-footer__logo">
-        {%- if section.settings.logo != blank -%}
+        {%- if section.settings.logo_svg != blank -%}
+          {{ section.settings.logo_svg }}
+        {%- elsif section.settings.logo != blank -%}
+          <img class="site-footer__logo-img" src="{{ section.settings.logo | image_url }}" alt="{{ shop.name }}" loading="lazy">
+        {%- else -%}
          <svg width="1218" height="244" viewBox="0 0 1218 244" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_2396_1421)">
 <path d="M87.7404 226.34L83.9405 220.85C68.0505 197.94 46.2805 166.54 37.8905 134.61C37.3905 134.16 36.8905 133.7 36.4305 133.25C21.7622 119.228 9.67766 102.733 0.730469 84.5196L16.8705 76.5996C21.7538 86.5359 27.6841 95.9225 34.5605 104.6C35.5605 88.7696 41.4305 73.4296 54.7005 59.5996C70.8805 42.7396 94.8005 35.2696 117.13 40.0996C125.142 41.7827 132.716 45.1146 139.37 49.8835C146.024 54.6523 151.612 60.7537 155.78 67.7996C170.12 92.4896 167.4 125.58 149.32 146.49C144.505 152.158 138.566 156.765 131.879 160.02C125.192 163.275 117.902 165.107 110.47 165.4C94.3505 166.2 77.8304 160.68 63.5504 152.88C73.1004 173.68 87.1504 193.94 98.7104 210.6L102.54 216.14L87.7404 226.34ZM54.0605 124.86C69.2205 137.38 90.8104 148.37 109.58 147.45C114.593 147.31 119.518 146.104 124.027 143.91C128.537 141.717 132.526 138.587 135.73 134.73C148.95 119.44 150.85 95.0896 140.24 76.8196C137.328 71.9361 133.432 67.7118 128.799 64.4151C124.166 61.1183 118.899 58.8212 113.33 57.6696C97.0504 54.1496 79.5505 59.6696 67.6705 72.0396C53.0005 87.3596 50.2605 105.76 54.0605 124.86Z" fill="white"/>
@@ -57,24 +61,18 @@
 
     {%- comment -%} Right: Link columns {%- endcomment -%}
     <div class="site-footer__nav">
-      <div class="site-footer__column">
-        <h4 class="site-footer__heading">Paperbag</h4>
-        <ul class="site-footer__links">
-          <li><a href="/collections/all">Shop</a></li>
-          <li><a href="/collections">Collections</a></li>
-          <li><a href="/pages/about">About</a></li>
-        </ul>
-      </div>
-      <div class="site-footer__column">
-        <h4 class="site-footer__heading">Help & Support</h4>
-        <ul class="site-footer__links">
-          <li><a href="/policies/shipping-policy">Orders & Shipping</a></li>
-          <li><a href="/policies/refund-policy">Returns & Refunds</a></li>
-          <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
-          <li><a href="/policies/terms-of-service">Terms & Conditions</a></li>
-          <li><a href="/pages/contact">Contact</a></li>
-        </ul>
-      </div>
+      {%- for block in section.blocks -%}
+        <div class="site-footer__column" {{ block.shopify_attributes }}>
+          {%- assign menu = linklists[block.settings.menu] -%}
+          {%- assign heading = block.settings.heading | default: menu.title -%}
+          <h4 class="site-footer__heading">{{ heading }}</h4>
+          <ul class="site-footer__links">
+            {%- for link in menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endfor -%}
     </div>
   </div>
 </footer>
@@ -375,7 +373,13 @@
     {
       "type": "image_picker",
       "id": "logo",
-      "label": "Footer logo"
+      "label": "Footer logo (image)"
+    },
+    {
+      "type": "html",
+      "id": "logo_svg",
+      "label": "Footer logo (SVG code)",
+      "info": "Paste SVG code here. This takes priority over the image logo."
     },
     {
       "type": "text",
@@ -411,15 +415,22 @@
         {
           "type": "menu",
           "settings": {
-            "heading": "Paperbag",
-            "menu": "footer"
+            "heading": "Shop",
+            "menu": "shop"
           }
         },
         {
           "type": "menu",
           "settings": {
-            "heading": "Help & Support",
-            "menu": "footer"
+            "heading": "Support",
+            "menu": "support"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Policies",
+            "menu": "policies"
           }
         }
       ]

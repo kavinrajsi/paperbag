@@ -406,7 +406,7 @@ small {
   font-size: 16px;
   line-height: 20px;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: opacity 0.2s ease;
   cursor: pointer;
   border: none;
@@ -2795,12 +2795,7 @@ small {
 .home-about__placeholder {
   height: auto;
   max-width: 100%;
-  width: 65%;
-}
-@media screen and (min-width: 990px) {
-  .home-about__placeholder {
-    width: 100%;
-  }
+  width: 100%;
 }
 
 .masonry-grid {
@@ -2967,16 +2962,19 @@ small {
   left: 0;
   right: 0;
   line-height: 1.8;
+  border-radius: 8px;
+  margin: 20px;
   padding: 6px 14px;
   position: absolute;
   text-transform: capitalize;
   white-space: nowrap;
-  justify-content: flex-start;
-  text-align: left;
-  width: 100%;
+  justify-content: center;
+  text-align: center;
+  width: calc(100% - 40px);
 }
 @media screen and (min-width: 750px) {
   .masonry-grid__label {
+    margin: 0;
     bottom: 12px;
     justify-content: flex-start;
     left: auto;
