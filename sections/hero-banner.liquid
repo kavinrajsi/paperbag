@@ -8,8 +8,15 @@
     {%- for block in section.blocks -%}
       <div class="hero__slide{% if forloop.first %} hero__slide--active{% endif %}" data-hero-slide {{ block.shopify_attributes }}>
         {%- if block.settings.image != blank -%}
-          <div class="hero__image">
-            {%- render 'image', image: block.settings.image, widths: '750,1000,1500,2000', sizes: '100vw', lazy: false -%}
+          <div class="hero__image hero__image--desktop">
+            {%- render 'image', image: block.settings.image, widths: '1000,1500,2000', sizes: '100vw', lazy: false -%}
+          </div>
+          <div class="hero__image hero__image--mobile">
+            {%- if block.settings.mobile_image != blank -%}
+              {%- render 'image', image: block.settings.mobile_image, widths: '375,535,750', sizes: '100vw', lazy: false -%}
+            {%- else -%}
+              {%- render 'image', image: block.settings.image, widths: '375,535,750', sizes: '100vw', lazy: false -%}
+            {%- endif -%}
           </div>
         {%- else -%}
           <div class="hero__image hero__image--placeholder">
@@ -204,6 +211,11 @@
           "type": "image_picker",
           "id": "image",
           "label": "t:sections.hero_banner.blocks.slide.settings.image.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
         },
         {
           "type": "richtext",

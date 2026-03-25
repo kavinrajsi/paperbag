@@ -1502,6 +1502,19 @@ small {
   width: 100%;
 }
 
+.hero__image--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .hero__image--desktop {
+    display: none;
+  }
+  .hero__image--mobile {
+    display: block;
+  }
+}
+
 .hero__image img {
   width: 100%;
   -o-object-fit: cover;
