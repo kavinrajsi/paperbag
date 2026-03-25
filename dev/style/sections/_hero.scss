@@ -139,7 +139,9 @@
 }
 
 .hero-banner__inner--mobile-center {
-  align-items: center;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 60px;
 }
 
 .hero-banner__inner--mobile-bottom {
