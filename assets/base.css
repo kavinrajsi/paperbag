@@ -1794,6 +1794,12 @@ small {
 
 .hero-banner__btn {
   margin-top: 8px;
+  align-self: center;
+}
+@media screen and (min-width: 990px) {
+  .hero-banner__btn {
+    align-self: auto;
+  }
 }
 
 .featured-collection__heading {

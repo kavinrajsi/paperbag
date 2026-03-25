@@ -222,4 +222,9 @@
 // ── Button ──
 .hero-banner__btn {
   margin-top: $spacing-2;
+  align-self: center;
+
+  @media screen and (min-width: $breakpoint-md) {
+    align-self: auto;
+  }
 }
