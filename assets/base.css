@@ -888,8 +888,8 @@ small {
   }
   .header__logo--mobile img,
   .header__logo--mobile svg {
-    height: 28px;
-    width: auto;
+    width: 140px;
+    height: 40px;
   }
   .header__icon-btn--mobile-only {
     display: inline-flex;
