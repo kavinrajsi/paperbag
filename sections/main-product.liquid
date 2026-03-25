@@ -162,7 +162,7 @@
       <div class="pdp-related__grid">
         {%- for item in related_collection.products limit: 5 -%}
           {%- unless item.id == product.id -%}
-            {%- render 'product-card', product: item -%}
+            {%- render 'best-sellers-card', product: item -%}
           {%- endunless -%}
         {%- endfor -%}
       </div>
