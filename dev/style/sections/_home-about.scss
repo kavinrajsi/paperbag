@@ -6,8 +6,8 @@
 
 .home-about {
   background-color: var(--ha-bg-color, #1a1816);
-  padding-bottom: 40px;
-  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 
   @media screen and (min-width: $breakpoint-sm) {
     padding-bottom: var(--ha-padding-bottom, 80px);

@@ -8,8 +8,8 @@
 .scroll-collection {
   background-color: var(--sc-bg-color, #fff);
   color: var(--sc-text-color, #1a1816);
-  padding-bottom: 40px;
-  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 
   @media screen and (min-width: $breakpoint-sm) {
     padding-bottom: var(--sc-padding-bottom, 80px);
@@ -384,10 +384,14 @@
 }
 
 .scroll-collection__arrows {
-  display: flex;
+  display: none;
   gap: $spacing-3;
   position: absolute;
   right: 0;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    display: flex;
+  }
 }
 
 .scroll-collection__arrow {

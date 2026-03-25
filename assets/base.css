@@ -418,17 +418,20 @@ small {
   line-height: 20px;
   text-decoration: none;
   border-radius: 8px;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
-  border: none;
+  border: 2px solid transparent;
 }
 
 .btn--primary {
   background-color: var(--color-brand);
+  border-color: var(--color-brand);
   color: #faf8f3;
 }
 .btn--primary:hover {
-  opacity: 0.85;
+  background-color: transparent;
+  color: var(--color-brand);
+  border-color: var(--color-brand);
 }
 .btn--primary:disabled {
   opacity: 0.5;
@@ -2648,10 +2651,15 @@ small {
 }
 
 .scroll-collection__arrows {
-  display: flex;
+  display: none;
   gap: 12px;
   position: absolute;
   right: 0;
+}
+@media screen and (min-width: 750px) {
+  .scroll-collection__arrows {
+    display: flex;
+  }
 }
 
 .scroll-collection__arrow {
