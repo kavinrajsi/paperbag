@@ -11,17 +11,20 @@
   line-height: 20px;
   text-decoration: none;
   border-radius: 8px;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
-  border: none;
+  border: 2px solid transparent;
 }
 
 .btn--primary {
   background-color: var(--color-brand);
+  border-color: var(--color-brand);
   color: #faf8f3;
 
   &:hover {
-    opacity: 0.85;
+    background-color: transparent;
+    color: var(--color-brand);
+    border-color: var(--color-brand);
   }
 
   &:disabled {
