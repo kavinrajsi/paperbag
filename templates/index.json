@@ -31,45 +31,6 @@
         "min_height_desktop": 600
       }
     },
-    "home-about": {
-      "type": "home-about",
-      "settings": {
-        "heading": "At Paperbag, less is always more.",
-        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
-        "image": "shopify://shop_images/home-about.png",
-        "button_label": "",
-        "button_link": "",
-        "container_type": "container",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "bg_color": "#ffffff",
-        "heading_color": "#313d65",
-        "text_color": "#8fa1b7"
-      }
-    },
-    "scroll_collection_yq6g4i": {
-      "type": "scroll-collection",
-      "name": "Featured",
-      "settings": {
-        "collection": "frontpage",
-        "products_count": 8,
-        "show_title": true,
-        "title": "Featured",
-        "container_type": "container",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "bg_color": "#ffffff",
-        "text_color": "#1a1816",
-        "show_product_name": true,
-        "show_price": true,
-        "show_size": false,
-        "show_color": true,
-        "show_add_to_cart": false,
-        "show_product_tag": false,
-        "show_vendor": false,
-        "button_label": "Add to cart"
-      }
-    },
     "masonry-grid": {
       "type": "masonry-grid",
       "blocks": {
@@ -135,6 +96,45 @@
         "text_color": "#1a1816"
       }
     },
+    "home-about": {
+      "type": "home-about",
+      "settings": {
+        "heading": "At Paperbag, less is always more.",
+        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "image": "shopify://shop_images/home-about.png",
+        "button_label": "",
+        "button_link": "",
+        "container_type": "container",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "bg_color": "#ffffff",
+        "heading_color": "#313d65",
+        "text_color": "#8fa1b7"
+      }
+    },
+    "scroll_collection_yq6g4i": {
+      "type": "scroll-collection",
+      "name": "Featured",
+      "settings": {
+        "collection": "frontpage",
+        "products_count": 8,
+        "show_title": true,
+        "title": "Featured",
+        "container_type": "container",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "bg_color": "#ffffff",
+        "text_color": "#1a1816",
+        "show_product_name": true,
+        "show_price": true,
+        "show_size": false,
+        "show_color": true,
+        "show_add_to_cart": false,
+        "show_product_tag": false,
+        "show_vendor": false,
+        "button_label": "Add to cart"
+      }
+    },
     "scroll_collection_xXwp8V": {
       "type": "scroll-collection",
       "name": "Scroll collection",
@@ -170,9 +170,9 @@
   },
   "order": [
     "hero-banner",
+    "masonry-grid",
     "home-about",
     "scroll_collection_yq6g4i",
-    "masonry-grid",
     "scroll_collection_xXwp8V",
     "sustainability_TAPVLd"
   ]
