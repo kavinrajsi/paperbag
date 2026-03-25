@@ -27,6 +27,9 @@
   --color-text-secondary: #6b6660;
   --color-black: #1a1816;
   --color-warning: #d4a96a;
+  --color-heading: #313D65;
+  --color-text: #353535;
+  --color-separator:#606060;
   --color-bg: #fff;
   --color-bg-alt: #f8f7f5;
   --color-bg-section: #f0eeeb;
@@ -682,7 +685,7 @@ small {
   font-size: 18px;
   font-weight: 400;
   line-height: 1.8;
-  color: #313D65;
+  color: var(--color-heading);
   text-transform: capitalize;
   text-decoration: none;
   padding: 0;
@@ -692,7 +695,7 @@ small {
   text-decoration: underline;
 }
 .breadcrumb__item--active span {
-  color: #353535;
+  color: var(--color-text);
   font-weight: 700;
 }
 .breadcrumb__item + .breadcrumb__item::before {
@@ -701,7 +704,7 @@ small {
   font-size: 18px;
   font-weight: 400;
   line-height: 1.8;
-  color: #606060;
+  color: var(--color-separator);
   margin: 0 6px;
 }
 
@@ -3061,11 +3064,6 @@ small {
 }
 
 @media screen and (min-width: 750px) {
-  .best-sellers__grid--4 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media screen and (min-width: 990px) {
   .best-sellers__grid--4 {
     grid-template-columns: repeat(4, 1fr);
   }

@@ -59,10 +59,6 @@
 
 .best-sellers__grid--4 {
   @media screen and (min-width: $breakpoint-sm) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media screen and (min-width: $breakpoint-md) {
     grid-template-columns: repeat(4, 1fr);
   }
 }
