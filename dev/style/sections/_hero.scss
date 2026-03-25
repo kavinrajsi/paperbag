@@ -1,220 +1,215 @@
 @use '../base/variables' as *;
 
-.hero {
-  position: relative;
+// ── Hero Banner ──
+// Mobile: full-width image, centered text overlay
+// Tablet+: left-aligned text, vertically centered, Bootstrap container
+
+.hero-banner {
   overflow: hidden;
-}
-
-.hero__slides {
   position: relative;
+  width: 100%;
 }
 
-.hero__slide {
-  position: relative;
-  display: none;
+// ── Background image ──
+.hero-banner__media {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
-.hero__slide--active {
+.hero-banner__image {
   display: block;
-}
-
-// Image
-.hero__image {
-  width: 100%;
-}
-
-.hero__image img {
-  width: 100%;
+  height: 100%;
   object-fit: cover;
-}
-
-.hero--small .hero__image img {
-  height: 400px;
-}
-
-.hero--medium .hero__image img {
-  height: 560px;
-}
-
-.hero--large .hero__image img {
-  height: 720px;
-}
-
-.hero--full .hero__image img {
-  height: 100vh;
-}
-
-.hero__image--placeholder svg {
   width: 100%;
-  height: 560px;
 }
 
-// Overlay
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  pointer-events: none;
+.hero-banner__image--mobile {
+  display: block;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    display: none;
+  }
 }
 
-// Content - positioned at bottom
-.hero__content {
+.hero-banner__image--desktop {
+  display: none;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    display: block;
+  }
+}
+
+// ── Overlay (optional tint) ──
+.hero-banner__overlay {
+  height: 100%;
+  left: 0;
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
+  top: 0;
+  width: 100%;
+}
+
+// ── Container (Bootstrap widths) ──
+.hero-banner__container {
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+  position: relative;
+  width: 100%;
   z-index: 2;
-  color: #fff;
-  padding: 60px 110px;
+
+  @media screen and (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media screen and (min-width: $breakpoint-sm) {
+    max-width: 720px;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: $breakpoint-lg) {
+    max-width: 1140px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    max-width: 1320px;
+  }
 }
 
-.hero__content--left {
-  justify-content: flex-start;
-  text-align: left;
+// ── Content wrapper ──
+.hero-banner__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hero-content-gap, $spacing-4);
 }
 
-.hero__content--center {
-  justify-content: center;
+// ── Mobile: center ──
+.hero-banner__content--mobile-center {
+  align-items: center;
   text-align: center;
 }
 
-.hero__content--right {
-  justify-content: flex-end;
+.hero-banner__content--mobile-left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero-banner__content--mobile-right {
+  align-items: flex-end;
   text-align: right;
 }
 
-.hero__content-inner {
-  max-width: 500px;
+// ── Desktop overrides ──
+@media screen and (min-width: $breakpoint-md) {
+  .hero-banner__content--desktop-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-banner__content--desktop-center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-banner__content--desktop-right {
+    align-items: flex-end;
+    text-align: right;
+  }
 }
 
-.hero__content--center .hero__content-inner {
-  max-width: 600px;
+// ── Vertical position ──
+.hero-banner__inner {
+  align-items: center;
+  display: flex;
+  min-height: 500px;
+  width: 100%;
+
+  @media screen and (min-width: $breakpoint-md) {
+    min-height: 600px;
+  }
 }
 
-// Heading - italic with bold support via richtext
-.hero__heading {
-  font-size: 3rem;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.2;
-  margin-bottom: 20px;
-  color: #313d65;
+.hero-banner__inner--mobile-top {
+  align-items: flex-start;
+  padding-top: $spacing-8;
 }
 
-.hero__heading strong {
+.hero-banner__inner--mobile-center {
+  align-items: center;
+}
+
+.hero-banner__inner--mobile-bottom {
+  align-items: flex-end;
+  padding-bottom: $spacing-8;
+}
+
+@media screen and (min-width: $breakpoint-md) {
+  .hero-banner__inner--desktop-top {
+    align-items: flex-start;
+    padding-top: $spacing-9;
+  }
+
+  .hero-banner__inner--desktop-center {
+    align-items: center;
+  }
+
+  .hero-banner__inner--desktop-bottom {
+    align-items: flex-end;
+    padding-bottom: $spacing-9;
+  }
+}
+
+// ── Typography ──
+.hero-banner__heading {
+  font-family: var(--font-family);
   font-weight: 700;
-  font-style: italic;
-}
-
-.hero__heading p {
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
   margin: 0;
 }
 
-.hero__subheading {
-  font-size: 1.125rem;
-  margin-bottom: 24px;
-  max-width: 500px;
-  line-height: 1.6;
-}
+.hero-banner__heading--sm {
+  font-size: var(--font-size-xl);
 
-.hero__content--center .hero__subheading {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-// Button - Figma: 40px height, Outfit SemiBold 14px, capitalize
-.hero__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  padding: 0 16px;
-  background: #8fa1b7;
-  color: #faf8f3;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: capitalize;
-  text-decoration: none;
-  line-height: 1;
-  transition: opacity $transition-base;
-}
-
-.hero__button:hover {
-  opacity: 0.85;
-}
-
-// Slideshow controls
-.hero__controls {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 3;
-}
-
-.hero__control {
-  color: #fff;
-  opacity: 0.8;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.hero__control:hover {
-  opacity: 1;
-}
-
-.hero__dots {
-  display: flex;
-  gap: 8px;
-}
-
-.hero__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.hero__dot--active {
-  background: #fff;
-}
-
-// Responsive - Mobile
-@media (max-width: $breakpoint-sm) {
-  .hero--small .hero__image img {
-    height: 450px;
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: var(--font-size-2xl);
   }
+}
 
-  .hero--medium .hero__image img {
-    height: 551px;
-  }
+.hero-banner__heading--md {
+  font-size: var(--font-size-2xl);
 
-  .hero--large .hero__image img {
-    height: 650px;
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: var(--font-size-3xl);
   }
+}
 
-  .hero__content {
-    padding: 24px 16px;
-  }
+.hero-banner__heading--lg {
+  font-size: var(--font-size-3xl);
 
-  .hero__heading {
-    font-size: 1.5rem;
-    color: #0c0c0c;
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: var(--font-size-4xl);
   }
+}
 
-  .hero__button {
-    background: #fff;
-    color: #0c0c0c;
-    font-weight: 400;
-    height: 40px;
-    padding: 0 16px;
+.hero-banner__text {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base, 15px);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+  margin: 0;
+  max-width: 540px;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: var(--font-size-md);
   }
+}
+
+// ── Button ──
+.hero-banner__btn {
+  margin-top: $spacing-2;
 }

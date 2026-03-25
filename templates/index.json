@@ -9,95 +9,32 @@
  */
 {
   "sections": {
-    "hero": {
+    "hero-banner": {
       "type": "hero-banner",
-      "blocks": {
-        "slide_1": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/about-banner.jpg",
-            "mobile_image": "shopify://shop_images/mobile-banner.png",
-            "heading": "<p>New Arrivals</p>",
-            "subheading": "Discover our latest collection of thoughtfully designed essentials.",
-            "button_label": "Shop Now",
-            "button_link": "",
-            "text_alignment": "center",
-            "overlay_opacity": 40
-          }
-        }
-      },
-      "block_order": [
-        "slide_1"
-      ],
       "settings": {
-        "height": "large",
-        "autoplay_speed": 5,
-        "padding": 0
+        "heading": "New Collection",
+        "content": "Discover our finest selection of premium sweets and gifting combos.",
+        "button_label": "Shop Now",
+        "button_style": "outline",
+        "font_color": "#FFFFFF",
+        "mobile_alignment": "center",
+        "desktop_alignment": "left",
+        "mobile_position": "center",
+        "desktop_position": "center"
       }
     },
-    "at_bag": {
-      "type": "at-bag",
-      "settings": {
-        "heading": "At Paperbag, less is always more.",
-        "text": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
-        "image": "shopify://shop_images/IMG_9942.png"
-      }
+    "scroll-collection": {
+      "type": "scroll-collection",
+      "settings": {}
     },
-    "best_sellers": {
-      "type": "best-sellers",
-      "settings": {
-        "heading": "Featured",
-        "collection": "bottoms",
-        "products_to_show": 5,
-        "show_view_all": true
-      }
+    "home-about": {
+      "type": "home-about",
+      "settings": {}
     },
-    "our_collections": {
-      "type": "our-collections",
-      "blocks": {
-        "col_summer": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/IMG_10515.png",
-            "button_label": "Bottoms"
-          }
-        },
-        "col_office": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/IMG_9831.png",
-            "button_label": "Dresses"
-          }
-        },
-        "col_fall": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/IMG_10430.png",
-            "button_label": "Tops"
-          }
-        }
-      },
-      "block_order": [
-        "col_summer",
-        "col_office",
-        "col_fall"
-      ],
-      "settings": {
-        "heading": "Shop Products",
-        "branded_text": "Wardrobe essentials, redefined.",
-        "branded_button_label": "Shop Collection",
-        "branded_button_link": "",
-        "branded_image": "shopify://shop_images/IMG_10024.png"
-      }
+    "masonry-grid": {
+      "type": "masonry-grid",
+      "settings": {}
     }
   },
-  "order": [
-    "hero",
-    "at_bag",
-    "best_sellers",
-    "our_collections"
-  ]
+  "order": ["hero-banner", "scroll-collection", "home-about", "masonry-grid"]
 }

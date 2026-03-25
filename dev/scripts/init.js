@@ -48,11 +48,13 @@
         if (!ticking) {
           window.requestAnimationFrame(function() {
             var currentScroll = window.pageYOffset;
+
             if (currentScroll > 100) {
-              header.classList.add('header--sticky');
+              header.classList.add('header--scrolled');
             } else {
-              header.classList.remove('header--sticky');
+              header.classList.remove('header--scrolled');
             }
+
             ticking = false;
           });
           ticking = true;

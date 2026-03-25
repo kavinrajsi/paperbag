@@ -1,0 +1,141 @@
+@use '../base/variables' as *;
+
+// ── Home About ──
+// Mobile: stacked (full width text + centered image)
+// Desktop: 12-col grid → 10-col content → 4 col text + 1 col gap + 5 col image
+
+.home-about {
+  background-color: var(--ha-bg-color, #1a1816);
+  padding-bottom: var(--ha-padding-bottom, 64px);
+  padding-top: var(--ha-padding-top, 64px);
+}
+
+// ── Container (Bootstrap values) ──
+.home-about__wrapper--container {
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+  width: 100%;
+
+  @media screen and (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media screen and (min-width: $breakpoint-sm) {
+    max-width: 720px;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: $breakpoint-lg) {
+    max-width: 1140px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    max-width: 1320px;
+  }
+}
+
+.home-about__wrapper--container-fluid {
+  padding: 0 $spacing-4;
+  width: 100%;
+}
+
+// ── Grid ──
+.home-about__grid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-7;
+
+  @media screen and (min-width: $breakpoint-md) {
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+// ── Content (text side) ──
+// Mobile: full width, stacked
+// Desktop: cols 2–5 (4 cols within the 12-col grid = 10-col offset content)
+.home-about__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+  justify-content: center;
+
+  @media screen and (min-width: $breakpoint-md) {
+    grid-column: 2 / 6;
+  }
+}
+
+.home-about__heading {
+  color: var(--ha-heading-color, #fff);
+  font-family: var(--font-family);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: 36px;
+  margin: 0;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 40px;
+    line-height: 60px;
+  }
+}
+
+.home-about__text {
+  color: var(--ha-text-color, #fff);
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 22px;
+  opacity: 0.8;
+
+  p {
+    margin: 0;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+.home-about__btn {
+  margin-top: $spacing-2;
+}
+
+// ── Media (image side) ──
+// Mobile: full width, centered
+// Desktop: cols 7–11 (5 cols, with col 6 as the 1-col gap)
+.home-about__media {
+  display: flex;
+  justify-content: center;
+
+  @media screen and (min-width: $breakpoint-md) {
+    grid-column: 7 / 12;
+    justify-content: flex-end;
+  }
+}
+
+.home-about__image {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  width: 65%;
+
+  @media screen and (min-width: $breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.home-about__placeholder {
+  height: auto;
+  max-width: 100%;
+  width: 65%;
+
+  @media screen and (min-width: $breakpoint-md) {
+    width: 100%;
+  }
+}

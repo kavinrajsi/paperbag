@@ -2,14 +2,10 @@
   "type": "header",
   "name": "Header group",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {}
-    },
     "header": {
       "type": "header",
       "settings": {}
     }
   },
-  "order": ["announcement-bar", "header"]
+  "order": ["header"]
 }

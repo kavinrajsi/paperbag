@@ -2,15 +2,31 @@
   assign menu = section.settings.menu
   assign logo = section.settings.logo
   assign logo_width = section.settings.logo_width
-  assign enable_sticky = section.settings.enable_sticky
   assign color_scheme = section.settings.color_scheme
+
+  assign bar_text = section.settings.bar_text
+  assign bar_link = section.settings.bar_link
+  assign bar_bg = section.settings.bar_color_background
+  assign bar_color = section.settings.bar_color_text
 -%}
 
 <header
-  class="header{% if enable_sticky %} header--sticky{% endif %} header--{{ color_scheme }}"
+  class="header header--{{ color_scheme }}"
   data-header
   data-section-id="{{ section.id }}"
 >
+  {%- if bar_text != blank -%}
+    <div class="announcement-bar" data-announcement-bar style="background-color: {{ bar_bg }}; color: {{ bar_color }}">
+      {%- if bar_link != blank -%}
+        <a href="{{ bar_link }}" class="announcement-bar__link">
+          <span class="announcement-bar__text">{{ bar_text }}</span>
+        </a>
+      {%- else -%}
+        <span class="announcement-bar__text">{{ bar_text }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
   <div class="header__container">
     <div class="header__left">
       <button
@@ -20,15 +36,6 @@
         type="button"
       >
         {%- render 'icon', icon: 'menu' -%}
-      </button>
-
-      <button
-        class="header__icon-btn header__icon-btn--mobile-only"
-        aria-label="{{ 'general.search' | t }}"
-        type="button"
-        data-search-toggle
-      >
-        {%- render 'icon', icon: 'search' -%}
       </button>
 
       <a class="header__logo header__logo--desktop" href="{{ routes.root_url }}">
@@ -248,7 +255,7 @@
 
     <div class="header__icons">
       <button
-        class="header__icon-btn header__icon-btn--desktop-only"
+        class="header__icon-btn"
         aria-label="{{ 'general.search' | t }}"
         type="button"
         data-search-toggle
@@ -509,6 +516,37 @@
   "class": "section-header",
   "settings": [
     {
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "text",
+      "id": "bar_text",
+      "label": "Announcement text",
+      "default": "Enjoy Free Shipping On All Orders"
+    },
+    {
+      "type": "url",
+      "id": "bar_link",
+      "label": "Announcement link"
+    },
+    {
+      "type": "color",
+      "id": "bar_color_background",
+      "label": "Announcement background",
+      "default": "#8FA1B7"
+    },
+    {
+      "type": "color",
+      "id": "bar_color_text",
+      "label": "Announcement text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
       "type": "link_list",
       "id": "menu",
       "default": "main-menu",
@@ -528,12 +566,6 @@
       "default": 120,
       "unit": "px",
       "label": "t:sections.header.settings.logo_width.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sticky",
-      "default": true,
-      "label": "t:sections.header.settings.enable_sticky.label"
     },
     {
       "type": "select",

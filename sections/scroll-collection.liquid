@@ -1,0 +1,477 @@
+{%- liquid
+  assign collection = section.settings.collection
+  assign products_count = section.settings.products_count
+  assign title = section.settings.title
+  assign show_title = section.settings.show_title
+  assign container_type = section.settings.container_type
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign bg_color = section.settings.bg_color
+  assign text_color = section.settings.text_color
+  assign show_product_name = section.settings.show_product_name
+  assign show_price = section.settings.show_price
+  assign show_size = section.settings.show_size
+  assign show_color = section.settings.show_color
+  assign show_add_to_cart = section.settings.show_add_to_cart
+  assign show_product_tag = section.settings.show_product_tag
+  assign show_vendor = section.settings.show_vendor
+  assign button_label = section.settings.button_label
+-%}
+
+{%- if collection != blank and collection.products.size > 0 -%}
+  <section
+    class="scroll-collection"
+    style="
+      --sc-padding-top: {{ padding_top }}px;
+      --sc-padding-bottom: {{ padding_bottom }}px;
+      --sc-bg-color: {{ bg_color }};
+      --sc-text-color: {{ text_color }};
+    "
+    data-section-id="{{ section.id }}"
+  >
+    <div class="scroll-collection__wrapper scroll-collection__wrapper--{{ container_type }}">
+
+      {%- if show_title and title != blank -%}
+        <div class="scroll-collection__header">
+          <h2 class="scroll-collection__title">{{ title }}</h2>
+        </div>
+      {%- endif -%}
+
+      <div class="scroll-collection__slider" data-scroll-slider>
+        <div class="scroll-collection__track" data-scroll-track>
+          {%- for product in collection.products limit: products_count -%}
+            {%- assign current_variant = product.selected_or_first_available_variant -%}
+            <div
+              class="scroll-collection__card"
+              data-product-card
+              data-variants="{{ product.variants | json | escape }}"
+            >
+              <a href="{{ product.url }}" class="scroll-collection__media">
+                {%- if product.featured_image -%}
+                  <img
+                    class="scroll-collection__image"
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    srcset="
+                      {{ product.featured_image | image_url: width: 300 }} 300w,
+                      {{ product.featured_image | image_url: width: 450 }} 450w,
+                      {{ product.featured_image | image_url: width: 600 }} 600w
+                    "
+                    sizes="(min-width: 990px) 265px, 258px"
+                    alt="{{ product.title | escape }}"
+                    loading="lazy"
+                    width="{{ product.featured_image.width }}"
+                    height="{{ product.featured_image.height }}"
+                  >
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'scroll-collection__placeholder' }}
+                {%- endif -%}
+              </a>
+
+              <div class="scroll-collection__body">
+                {%- if show_product_name or show_price -%}
+                  <div class="scroll-collection__info">
+                    {%- if show_product_name -%}
+                      <p class="scroll-collection__name">
+                        <a href="{{ product.url }}">{{ product.title }}</a>
+                      </p>
+                    {%- endif -%}
+                    {%- if show_price -%}
+                      <p class="scroll-collection__price" data-product-price>
+                        {{ current_variant.price | money }}
+                      </p>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if show_vendor and product.vendor != blank -%}
+                  <p class="scroll-collection__vendor">{{ product.vendor }}</p>
+                {%- endif -%}
+
+                {%- if show_product_tag and product.tags.size > 0 -%}
+                  <span class="scroll-collection__tag">{{ product.tags | first }}</span>
+                {%- endif -%}
+
+                <form action="/cart/add" method="post">
+                  <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+                  {%- unless product.has_only_default_variant -%}
+                    {%- if show_color -%}
+                      {%- for option in product.options_with_values -%}
+                        {%- assign option_name_down = option.name | downcase -%}
+                        {%- if option_name_down == 'color' or option_name_down == 'colour' -%}
+                          <div class="scroll-collection__option-group" data-option-index="{{ forloop.index0 }}">
+                            <div class="scroll-collection__colors">
+                              {%- for value in option.values -%}
+                                <button
+                                  type="button"
+                                  class="scroll-collection__color-swatch{% if forloop.first %} scroll-collection__color-swatch--active{% endif %}"
+                                  data-value="{{ value | escape }}"
+                                  style="background-color: {{ value | downcase }};"
+                                  title="{{ value }}"
+                                >
+                                  <span class="visually-hidden">{{ value }}</span>
+                                </button>
+                              {%- endfor -%}
+                            </div>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+
+                    {%- if show_size -%}
+                      {%- for option in product.options_with_values -%}
+                        {%- assign option_name_down = option.name | downcase -%}
+                        {%- if option_name_down == 'size' or option_name_down == 'weight' -%}
+                          <div class="scroll-collection__variants-row">
+                            <div class="scroll-collection__option-group" data-option-index="{{ forloop.index0 }}">
+                              <div class="scroll-collection__sizes">
+                                {%- for value in option.values -%}
+                                  <button
+                                    type="button"
+                                    class="scroll-collection__size-pill{% if forloop.first %} scroll-collection__size-pill--active{% endif %}"
+                                    data-value="{{ value | escape }}"
+                                  >
+                                    {{ value }}
+                                  </button>
+                                {%- endfor -%}
+                              </div>
+                            </div>
+
+                            {%- if show_add_to_cart -%}
+                              <div class="scroll-collection__qty">
+                                <button type="button" class="scroll-collection__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
+                                <input
+                                  type="number"
+                                  name="quantity"
+                                  value="1"
+                                  min="1"
+                                  class="scroll-collection__qty-input"
+                                  data-qty-input
+                                  aria-label="Quantity"
+                                >
+                                <button type="button" class="scroll-collection__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                              </div>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                  {%- endunless -%}
+
+                  {%- if show_add_to_cart -%}
+                    {%- comment -%} Show qty if no size option rendered it {%- endcomment -%}
+                    {%- if product.has_only_default_variant or show_size == false -%}
+                      <div class="scroll-collection__variants-row scroll-collection__variants-row--qty-only">
+                        <div class="scroll-collection__qty">
+                          <button type="button" class="scroll-collection__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
+                          <input
+                            type="number"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            class="scroll-collection__qty-input"
+                            data-qty-input
+                            aria-label="Quantity"
+                          >
+                          <button type="button" class="scroll-collection__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                        </div>
+                      </div>
+                    {%- endif -%}
+
+                    <button type="submit" class="scroll-collection__atc btn btn--primary">
+                      {{ button_label }}
+                    </button>
+                  {%- endif -%}
+                </form>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="scroll-collection__nav">
+          <div class="scroll-collection__dots" data-scroll-dots>
+            <button class="scroll-collection__dot scroll-collection__dot--active" data-dot-index="0" aria-label="Go to slide 1"></button>
+            <button class="scroll-collection__dot" data-dot-index="1" aria-label="Go to slide 2"></button>
+            <button class="scroll-collection__dot" data-dot-index="2" aria-label="Go to slide 3"></button>
+          </div>
+          <div class="scroll-collection__arrows">
+            <button class="scroll-collection__arrow" data-scroll-prev aria-label="Previous">
+              <svg width="21" height="14" viewBox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 7H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="scroll-collection__arrow" data-scroll-next aria-label="Next">
+              <svg width="21" height="14" viewBox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 1L20 7L14 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 7H1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var section = document.querySelector('[data-section-id="{{ section.id }}"]');
+      if (!section) return;
+
+      var track = section.querySelector('[data-scroll-track]');
+      var prevBtn = section.querySelector('[data-scroll-prev]');
+      var nextBtn = section.querySelector('[data-scroll-next]');
+      var dots = section.querySelectorAll('.scroll-collection__dot');
+
+      function getScrollAmount() {
+        var card = track.querySelector('.scroll-collection__card');
+        if (!card) return 0;
+        var gap = parseInt(getComputedStyle(track).gap) || 20;
+        return card.offsetWidth + gap;
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function () {
+          track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+          track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        });
+      }
+
+      function updateDots() {
+        var scrollLeft = track.scrollLeft;
+        var maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll <= 0) return;
+        var activeIndex = Math.round((scrollLeft / maxScroll) * (dots.length - 1));
+        dots.forEach(function (dot, i) {
+          dot.classList.toggle('scroll-collection__dot--active', i === activeIndex);
+        });
+      }
+
+      track.addEventListener('scroll', updateDots);
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () {
+          var maxScroll = track.scrollWidth - track.clientWidth;
+          var target = (i / (dots.length - 1)) * maxScroll;
+          track.scrollTo({ left: target, behavior: 'smooth' });
+        });
+      });
+
+      /* ── Product card interactions ── */
+      section.querySelectorAll('[data-product-card]').forEach(function (card) {
+        var variants = JSON.parse(card.dataset.variants);
+        var variantInput = card.querySelector('[data-variant-id]');
+        var priceEl = card.querySelector('[data-product-price]');
+
+        /* Option selection */
+        card.querySelectorAll('.scroll-collection__option-group').forEach(function (group) {
+          var buttons = group.querySelectorAll('button');
+          buttons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              buttons.forEach(function (b) {
+                b.className = b.className.replace(/\s*\S+--active/g, '');
+              });
+              btn.className += ' ' + btn.className.split(' ')[0] + '--active';
+              findAndSetVariant();
+            });
+          });
+        });
+
+        function findAndSetVariant() {
+          var selected = [];
+          card.querySelectorAll('.scroll-collection__option-group').forEach(function (group) {
+            var active = group.querySelector('[class*="--active"]');
+            if (active) selected[parseInt(group.dataset.optionIndex)] = active.dataset.value;
+          });
+
+          var match = variants.find(function (v) {
+            return selected.every(function (opt, i) {
+              return v['option' + (i + 1)] === opt;
+            });
+          });
+
+          if (match && variantInput) {
+            variantInput.value = match.id;
+            if (priceEl) {
+              var formatted = Shopify.formatMoney ? Shopify.formatMoney(match.price) : ('$' + (match.price / 100).toFixed(2));
+              priceEl.innerHTML = formatted;
+            }
+          }
+        }
+
+        /* Quantity stepper */
+        var qtyInput = card.querySelector('[data-qty-input]');
+        var minusBtn = card.querySelector('[data-qty-minus]');
+        var plusBtn = card.querySelector('[data-qty-plus]');
+
+        if (minusBtn && qtyInput) {
+          minusBtn.addEventListener('click', function () {
+            var val = parseInt(qtyInput.value, 10);
+            if (val > 1) qtyInput.value = val - 1;
+          });
+        }
+        if (plusBtn && qtyInput) {
+          plusBtn.addEventListener('click', function () {
+            qtyInput.value = parseInt(qtyInput.value, 10) + 1;
+          });
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Scroll collection",
+  "class": "section-scroll-collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "header",
+      "content": "Section title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Scroll Collection"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_type",
+      "label": "Container type",
+      "default": "container",
+      "options": [
+        { "value": "container", "label": "Container" },
+        { "value": "container-fluid", "label": "Container fluid" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 56,
+      "unit": "px",
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 56,
+      "unit": "px",
+      "label": "Padding bottom"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#1a1816"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Product card toggles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_name",
+      "label": "Show product name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_size",
+      "label": "Show size options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color",
+      "label": "Show color swatches",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart",
+      "label": "Show add to cart",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_tag",
+      "label": "Show product tag",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor name",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add to cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll collection"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,166 @@
+@use '../base/variables' as *;
+
+// ── Masonry Grid ──
+// 2-column masonry using CSS columns
+// Mobile: 2 cols, 16px gap
+// Desktop: 2 cols, 24px gap, within Bootstrap container
+
+.masonry-grid {
+  background-color: var(--mg-bg-color, #1a1816);
+  color: var(--mg-text-color, #fff);
+  padding-bottom: var(--mg-padding-bottom, 64px);
+  padding-top: var(--mg-padding-top, 64px);
+}
+
+// ── Container (Bootstrap values) ──
+.masonry-grid__wrapper--container {
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+  width: 100%;
+
+  @media screen and (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media screen and (min-width: $breakpoint-sm) {
+    max-width: 720px;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: $breakpoint-lg) {
+    max-width: 1140px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    max-width: 1320px;
+  }
+}
+
+.masonry-grid__wrapper--container-fluid {
+  padding: 0 $spacing-4;
+  width: 100%;
+}
+
+// ── Title ──
+.masonry-grid__title {
+  color: var(--mg-text-color, #fff);
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.4;
+  margin: 0 0 $spacing-5;
+  text-transform: capitalize;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: $spacing-7;
+  }
+}
+
+// ── Masonry columns ──
+.masonry-grid__items {
+  column-count: 2;
+  column-gap: $spacing-4;
+
+  @media screen and (min-width: $breakpoint-md) {
+    column-gap: $spacing-5;
+  }
+}
+
+// ── Item ──
+.masonry-grid__item {
+  break-inside: avoid;
+  margin-bottom: $spacing-4;
+
+  @media screen and (min-width: $breakpoint-md) {
+    margin-bottom: $spacing-5;
+  }
+}
+
+.masonry-grid__link {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+
+// ── Card ──
+.masonry-grid__card {
+  overflow: hidden;
+  position: relative;
+}
+
+.masonry-grid__card--color {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 180px;
+  padding: $spacing-5;
+
+  @media screen and (min-width: $breakpoint-md) {
+    min-height: 400px;
+    padding: $spacing-7;
+  }
+}
+
+// ── Image ──
+.masonry-grid__image {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+// ── Content text (brand block) ──
+.masonry-grid__content {
+  color: var(--color-off-white, #faf8f3);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: var(--leading-normal);
+  margin: 0 0 $spacing-4;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 16px;
+    margin-bottom: $spacing-5;
+  }
+}
+
+// ── Label pill ──
+.masonry-grid__label {
+  background: #fff;
+  bottom: $spacing-3;
+  color: #313d65;
+  display: inline-flex;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 600;
+  height: 32px;
+  left: $spacing-3;
+  line-height: 1.8;
+  padding: 0 $spacing-4;
+  position: absolute;
+  text-transform: capitalize;
+  white-space: nowrap;
+
+  // Inside color block, position is static
+  .masonry-grid__card--color & {
+    align-items: center;
+    bottom: auto;
+    display: inline-flex;
+    left: auto;
+    position: static;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    height: 40px;
+
+    .masonry-grid__card--color & {
+      height: 40px;
+    }
+  }
+}

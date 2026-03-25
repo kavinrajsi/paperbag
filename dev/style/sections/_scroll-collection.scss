@@ -1,0 +1,360 @@
+@use '../base/variables' as *;
+
+// ── Scroll Collection ──
+// Horizontal scroll product carousel
+// Mobile: ~1.5 cards visible, horizontal scroll
+// Desktop: 4 cards visible within Bootstrap container
+
+.scroll-collection {
+  background-color: var(--sc-bg-color, #fff);
+  color: var(--sc-text-color, #fff);
+  padding-bottom: var(--sc-padding-bottom, 56px);
+  padding-top: var(--sc-padding-top, 56px);
+}
+
+// ── Container (Bootstrap values) ──
+.scroll-collection__wrapper--container {
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+  width: 100%;
+
+  @media screen and (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media screen and (min-width: $breakpoint-sm) {
+    max-width: 720px;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: $breakpoint-lg) {
+    max-width: 1140px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    max-width: 1320px;
+  }
+}
+
+.scroll-collection__wrapper--container-fluid {
+  padding: 0 $spacing-4;
+  width: 100%;
+}
+
+// ── Header ──
+.scroll-collection__header {
+  margin-bottom: $spacing-6;
+
+  @media screen and (min-width: $breakpoint-md) {
+    margin-bottom: $spacing-7;
+  }
+}
+
+.scroll-collection__title {
+  color: var(--sc-text-color, #fff);
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+  margin: 0;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 28px;
+    line-height: 32px;
+  }
+}
+
+// ── Scroll track ──
+.scroll-collection__track {
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// ── Product card ──
+.scroll-collection__card {
+  display: flex;
+  flex: 0 0 258px;
+  flex-direction: column;
+  gap: $spacing-4;
+  scroll-snap-align: start;
+
+  @media screen and (min-width: $breakpoint-md) {
+    flex: 0 0 265px;
+  }
+}
+
+// ── Card image ──
+.scroll-collection__media {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+
+.scroll-collection__image {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+  width: 100%;
+
+  .scroll-collection__media:hover & {
+    transform: scale(1.03);
+  }
+}
+
+.scroll-collection__placeholder {
+  height: 100%;
+  width: 100%;
+}
+
+// ── Card body ──
+.scroll-collection__body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  padding: 0 $spacing-2;
+}
+
+// ── Name + Price row ──
+.scroll-collection__info {
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: $spacing-4;
+}
+
+.scroll-collection__name {
+  flex: 1;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.scroll-collection__price {
+  flex-shrink: 0;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  margin: 0;
+  margin-left: $spacing-3;
+}
+
+// ── Vendor ──
+.scroll-collection__vendor {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  letter-spacing: var(--tracking-wide);
+  margin: 0;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+// ── Product tag ──
+.scroll-collection__tag {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  display: inline-block;
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-wide);
+  padding: $spacing-1 $spacing-3;
+  width: fit-content;
+}
+
+// ── Color swatches ──
+.scroll-collection__colors {
+  display: flex;
+  gap: $spacing-2;
+}
+
+.scroll-collection__color-swatch {
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  height: 28px;
+  transition: border-color var(--duration-fast) var(--ease-out);
+  width: 28px;
+}
+
+.scroll-collection__color-swatch--active {
+  border-color: var(--sc-text-color, #fff);
+}
+
+// ── Variants row (sizes + qty) ──
+.scroll-collection__variants-row {
+  align-items: center;
+  display: flex;
+  gap: $spacing-2;
+}
+
+// ── Size pills ──
+.scroll-collection__sizes {
+  display: flex;
+  gap: $spacing-2;
+}
+
+.scroll-collection__size-pill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  color: var(--sc-text-color, #fff);
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  padding: $spacing-2 $spacing-3;
+  transition: all var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.scroll-collection__size-pill--active {
+  background: var(--sc-text-color, #fff);
+  border-color: var(--sc-text-color, #fff);
+  color: var(--sc-bg-color, #1a1816);
+}
+
+// ── Quantity stepper ──
+.scroll-collection__qty {
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  min-width: 0;
+  padding: $spacing-2 $spacing-4;
+}
+
+.scroll-collection__qty-btn {
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--sc-text-color, #fff);
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  justify-content: center;
+  line-height: 1;
+  opacity: 0.7;
+  padding: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.scroll-collection__qty-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  background: none;
+  border: none;
+  color: var(--sc-text-color, #fff);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  outline: none;
+  text-align: center;
+  width: 32px;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+// ── Add to cart button ──
+.scroll-collection__atc {
+  justify-content: center;
+  width: 100%;
+}
+
+// ── Navigation (dots + arrows) ──
+.scroll-collection__nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: $spacing-6;
+}
+
+.scroll-collection__dots {
+  align-items: center;
+  display: flex;
+  gap: $spacing-2;
+}
+
+.scroll-collection__dot {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  height: 8px;
+  padding: 0;
+  transition: all var(--duration-base) var(--ease-out);
+  width: 8px;
+}
+
+.scroll-collection__dot--active {
+  background: var(--sc-text-color, #fff);
+  border-radius: var(--radius-full);
+  width: 24px;
+}
+
+.scroll-collection__arrows {
+  display: flex;
+  gap: $spacing-4;
+}
+
+.scroll-collection__arrow {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--sc-text-color, #fff);
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  transition: background var(--duration-fast) var(--ease-out);
+  width: 40px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  svg {
+    height: 14px;
+    width: 21px;
+  }
+}
