@@ -1546,8 +1546,8 @@ small {
 }
 
 .hero__content--center {
-  justify-content: center;
-  text-align: center;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .hero__content--right {
@@ -1560,7 +1560,7 @@ small {
 }
 
 .hero__content--center .hero__content-inner {
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .hero__heading {
@@ -1589,8 +1589,8 @@ small {
 }
 
 .hero__content--center .hero__subheading {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .hero__button {
