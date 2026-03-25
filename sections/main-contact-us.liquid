@@ -5,22 +5,6 @@
     <div class="contact-us__layout">
       {%- comment -%} Left: Contact info with icons {%- endcomment -%}
       <div class="contact-us__info">
-        {%- if section.settings.company_name != blank or section.settings.address != blank -%}
-          <div class="contact-us__detail">
-            <div class="contact-us__icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <div class="contact-us__detail-content">
-              {%- if section.settings.company_name != blank -%}
-                <h3 class="contact-us__detail-heading">{{ section.settings.company_name }}</h3>
-              {%- endif -%}
-              {%- if section.settings.address != blank -%}
-                <p class="contact-us__detail-text">{{ section.settings.address }}</p>
-              {%- endif -%}
-            </div>
-          </div>
-        {%- endif -%}
-
         {%- if section.settings.phone != blank -%}
           <div class="contact-us__detail">
             <div class="contact-us__icon">
@@ -32,22 +16,6 @@
               </h3>
               {%- if section.settings.phone_hours != blank -%}
                 <p class="contact-us__detail-text">{{ section.settings.phone_hours }}</p>
-              {%- endif -%}
-            </div>
-          </div>
-        {%- endif -%}
-
-        {%- if section.settings.whatsapp != blank -%}
-          <div class="contact-us__detail">
-            <div class="contact-us__icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-            </div>
-            <div class="contact-us__detail-content">
-              <h3 class="contact-us__detail-heading">
-                <a href="https://wa.me/{{ section.settings.whatsapp | remove: ' ' | remove: '+' }}" target="_blank" rel="noopener">{{ section.settings.whatsapp }}</a>
-              </h3>
-              {%- if section.settings.whatsapp_hours != blank -%}
-                <p class="contact-us__detail-text">{{ section.settings.whatsapp_hours }}</p>
               {%- endif -%}
             </div>
           </div>
@@ -280,12 +248,8 @@
   "name": "Contact Us",
   "settings": [
     { "type": "text", "id": "heading", "default": "Contact Us", "label": "Heading" },
-    { "type": "text", "id": "company_name", "default": "Paperbag", "label": "Company name" },
-    { "type": "textarea", "id": "address", "default": "123 Fashion Street, New York, NY 10001", "label": "Address" },
     { "type": "text", "id": "phone", "default": "+1 (800) 123-4567", "label": "Phone" },
     { "type": "text", "id": "phone_hours", "default": "Mon - Fri, 10:00 - 6:30 IST", "label": "Phone hours" },
-    { "type": "text", "id": "whatsapp", "default": "+1 800 123 4567", "label": "WhatsApp number" },
-    { "type": "text", "id": "whatsapp_hours", "default": "Mon - Fri, 10:00 - 6:30 IST", "label": "WhatsApp hours" },
     { "type": "text", "id": "email", "default": "hello@paperbag.com", "label": "Email" },
     { "type": "text", "id": "email_note", "default": "Typical response time: 24 hours", "label": "Email note" },
     { "type": "text", "id": "form_heading", "default": "Drop us a message", "label": "Form heading" }
