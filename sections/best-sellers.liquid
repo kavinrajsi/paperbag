@@ -95,9 +95,21 @@
   }
 
   .best-sellers__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
     gap: 16px;
+    scrollbar-width: none;
+  }
+
+  .best-sellers__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .best-sellers__item {
+    flex: 0 0 calc(66.666% - 8px);
+    scroll-snap-align: start;
   }
 
   /* ── Card ── */
@@ -235,6 +247,13 @@
     background-color: #313D65;
   }
 
+  /* ── Tablet (750px–989px): 3 visible with scroll ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .best-sellers__item {
+      flex: 0 0 calc(33.333% - 11px);
+    }
+  }
+
   /* ── Desktop (min-width: 990px) ── */
   @media screen and (min-width: 990px) {
     .best-sellers {
@@ -247,8 +266,14 @@
     }
 
     .best-sellers__grid {
+      display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 24px;
+      overflow: visible;
+    }
+
+    .best-sellers__item {
+      flex: none;
     }
 
     .best-seller-card__image-wrap {
