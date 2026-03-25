@@ -61,7 +61,7 @@
         <h1 class="pdp__title">{{ product.title }}</h1>
 
         {%- if product.description != blank -%}
-          <p class="pdp__description">{{ product.description | strip_html | truncatewords: 30 }}</p>
+          <div class="pdp__description">{{ product.description }}</div>
         {%- endif -%}
 
         <p class="pdp__price" data-pdp-price>{{ current_variant.price | money }}</p>
