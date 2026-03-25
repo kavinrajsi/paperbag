@@ -91,25 +91,12 @@
         "branded_button_link": "",
         "branded_image": "shopify://shop_images/IMG_10024.png"
       }
-    },
-    "welcome_modal": {
-      "type": "welcome-modal",
-      "settings": {
-        "enable_modal": true,
-        "heading": "Welcome to Paperbag",
-        "subheading": "Elegance in simplicity, Earth's harmony",
-        "question": "Is it your first experience on Paperbag?",
-        "button_label": "Create Your Own Style",
-        "button_link": "shopify://collections/all",
-        "delay": 1000
-      }
     }
   },
   "order": [
     "hero",
     "at_bag",
     "best_sellers",
-    "our_collections",
-    "welcome_modal"
+    "our_collections"
   ]
 }
