@@ -45,7 +45,7 @@
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
-        "heading": "Best Sellers",
+        "heading": "Featured",
         "collection": "bottoms",
         "products_to_show": 5,
         "show_view_all": true
@@ -85,7 +85,7 @@
         "col_fall"
       ],
       "settings": {
-        "heading": "Shop Our Collections",
+        "heading": "Shop Products",
         "branded_text": "Wardrobe essentials, redefined.",
         "branded_button_label": "Shop Collection",
         "branded_button_link": "",
