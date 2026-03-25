@@ -59,7 +59,7 @@
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/IMG_10515.png",
-            "button_label": "Summer Collection"
+            "button_label": "Bottoms"
           }
         },
         "col_office": {
@@ -67,7 +67,7 @@
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/IMG_9831.png",
-            "button_label": "Office Collection"
+            "button_label": "Dresses"
           }
         },
         "col_fall": {
@@ -75,7 +75,7 @@
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/IMG_10430.png",
-            "button_label": "Fall Collection"
+            "button_label": "Tops"
           }
         }
       },
