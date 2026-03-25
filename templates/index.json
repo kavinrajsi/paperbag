@@ -31,10 +31,27 @@
         "min_height_desktop": 600
       }
     },
-    "scroll-collection": {
-      "type": "scroll-collection",
+    "home-about": {
+      "type": "home-about",
       "settings": {
-        "collection": "",
+        "heading": "At Paperbag, less is always more.",
+        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "image": "shopify://shop_images/home-about.png",
+        "button_label": "",
+        "button_link": "",
+        "container_type": "container",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "bg_color": "#ffffff",
+        "heading_color": "#313d65",
+        "text_color": "#8fa1b7"
+      }
+    },
+    "scroll_collection_yq6g4i": {
+      "type": "scroll-collection",
+      "name": "Scroll collection",
+      "settings": {
+        "collection": "dresses",
         "products_count": 8,
         "show_title": true,
         "title": "Scroll Collection",
@@ -51,22 +68,6 @@
         "show_product_tag": false,
         "show_vendor": false,
         "button_label": "Add to cart"
-      }
-    },
-    "home-about": {
-      "type": "home-about",
-      "settings": {
-        "heading": "At Paperbag, less is always more.",
-        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
-        "image": "shopify://shop_images/home-about.png",
-        "button_label": "",
-        "button_link": "",
-        "container_type": "container",
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "bg_color": "#ffffff",
-        "heading_color": "#313d65",
-        "text_color": "#8fa1b7"
       }
     },
     "masonry-grid": {
@@ -138,37 +139,13 @@
         "button_label": "About Us",
         "button_link": ""
       }
-    },
-    "scroll_collection_yq6g4i": {
-      "type": "scroll-collection",
-      "name": "Scroll collection",
-      "settings": {
-        "collection": "dresses",
-        "products_count": 8,
-        "show_title": true,
-        "title": "Scroll Collection",
-        "container_type": "container",
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "bg_color": "#1a1816",
-        "text_color": "#ffffff",
-        "show_product_name": true,
-        "show_price": true,
-        "show_size": true,
-        "show_color": true,
-        "show_add_to_cart": true,
-        "show_product_tag": false,
-        "show_vendor": false,
-        "button_label": "Add to cart"
-      }
     }
   },
   "order": [
     "hero-banner",
-    "scroll-collection",
     "home-about",
+    "scroll_collection_yq6g4i",
     "masonry-grid",
-    "sustainability_TAPVLd",
-    "scroll_collection_yq6g4i"
+    "sustainability_TAPVLd"
   ]
 }
