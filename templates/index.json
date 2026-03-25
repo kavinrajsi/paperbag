@@ -72,11 +72,12 @@
     "masonry-grid": {
       "type": "masonry-grid",
       "blocks": {
-        "item_9P9t3N": {
+        "item_pDjJbp": {
           "type": "item",
           "settings": {
-            "label": "Collection",
-            "link": "",
+            "image": "shopify://shop_images/collection-coord.png",
+            "label": "Co-ords",
+            "link": "shopify://collections/co-ords",
             "content": "",
             "item_bg_color": "#8fa1b7"
           }
@@ -113,7 +114,7 @@
         }
       },
       "block_order": [
-        "item_9P9t3N",
+        "item_pDjJbp",
         "item_BgybU3",
         "item_wqPiaF",
         "item_epKaYt"
