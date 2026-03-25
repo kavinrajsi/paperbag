@@ -52,7 +52,7 @@
       "name": "Featured",
       "settings": {
         "collection": "frontpage",
-        "products_count": 8,
+        "products_count": 4,
         "show_title": true,
         "title": "Featured",
         "container_type": "container",
@@ -140,7 +140,7 @@
       "name": "Scroll collection",
       "settings": {
         "collection": "bottoms",
-        "products_count": 8,
+        "products_count": 4,
         "show_title": true,
         "title": "Scroll Collection",
         "container_type": "container",

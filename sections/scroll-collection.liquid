@@ -180,27 +180,6 @@
           {%- endfor -%}
         </div>
 
-        <div class="scroll-collection__nav">
-          <div class="scroll-collection__dots" data-scroll-dots>
-            <button class="scroll-collection__dot scroll-collection__dot--active" data-dot-index="0" aria-label="Go to slide 1"></button>
-            <button class="scroll-collection__dot" data-dot-index="1" aria-label="Go to slide 2"></button>
-            <button class="scroll-collection__dot" data-dot-index="2" aria-label="Go to slide 3"></button>
-          </div>
-          <div class="scroll-collection__arrows">
-            <button class="scroll-collection__arrow" data-scroll-prev aria-label="Previous">
-              <svg width="21" height="14" viewBox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M1 7H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button class="scroll-collection__arrow" data-scroll-next aria-label="Next">
-              <svg width="21" height="14" viewBox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 1L20 7L14 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M20 7H1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -210,50 +189,6 @@
     (function () {
       var section = document.querySelector('[data-section-id="{{ section.id }}"]');
       if (!section) return;
-
-      var track = section.querySelector('[data-scroll-track]');
-      var prevBtn = section.querySelector('[data-scroll-prev]');
-      var nextBtn = section.querySelector('[data-scroll-next]');
-      var dots = section.querySelectorAll('.scroll-collection__dot');
-
-      function getScrollAmount() {
-        var card = track.querySelector('.scroll-collection__card');
-        if (!card) return 0;
-        var gap = parseInt(getComputedStyle(track).gap) || 20;
-        return card.offsetWidth + gap;
-      }
-
-      if (prevBtn) {
-        prevBtn.addEventListener('click', function () {
-          track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-        });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener('click', function () {
-          track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-        });
-      }
-
-      function updateDots() {
-        var scrollLeft = track.scrollLeft;
-        var maxScroll = track.scrollWidth - track.clientWidth;
-        if (maxScroll <= 0) return;
-        var activeIndex = Math.round((scrollLeft / maxScroll) * (dots.length - 1));
-        dots.forEach(function (dot, i) {
-          dot.classList.toggle('scroll-collection__dot--active', i === activeIndex);
-        });
-      }
-
-      track.addEventListener('scroll', updateDots);
-
-      dots.forEach(function (dot, i) {
-        dot.addEventListener('click', function () {
-          var maxScroll = track.scrollWidth - track.clientWidth;
-          var target = (i / (dots.length - 1)) * maxScroll;
-          track.scrollTo({ left: target, behavior: 'smooth' });
-        });
-      });
 
       /* ── Product card interactions ── */
       section.querySelectorAll('[data-product-card]').forEach(function (card) {
@@ -338,7 +273,7 @@
       "min": 4,
       "max": 24,
       "step": 1,
-      "default": 8,
+      "default": 4,
       "label": "Products to show"
     },
     {
