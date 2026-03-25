@@ -1,60 +1,407 @@
-<div class="auth-page">
-  <div class="container">
-    <div class="auth-page__card">
-      <h1 class="auth-page__title">{{ 'customer.login.title' | t }}</h1>
+{%- liquid
+  assign image_mobile = section.settings.image_mobile
+  assign image_desktop = section.settings.image_desktop
+-%}
 
-      {% form 'customer_login' %}
-        {%- if form.errors -%}
-          <div class="auth-page__error">{{ form.errors | default_errors }}</div>
+<div class="login-page">
+  <div class="login-page__container">
+    <div class="login-page__layout">
+
+      {%- comment -%} Image column {%- endcomment -%}
+      <div class="login-page__image-col">
+        {%- if image_mobile != blank -%}
+          <img
+            class="login-page__image login-page__image--mobile"
+            src="{{ image_mobile | image_url: width: 800 }}"
+            srcset="
+              {{ image_mobile | image_url: width: 400 }} 400w,
+              {{ image_mobile | image_url: width: 600 }} 600w,
+              {{ image_mobile | image_url: width: 800 }} 800w
+            "
+            sizes="100vw"
+            alt="{{ image_mobile.alt | escape }}"
+            loading="lazy"
+            width="{{ image_mobile.width }}"
+            height="{{ image_mobile.height }}"
+          >
         {%- endif -%}
-        <div class="auth-page__field">
-          <label for="CustomerEmail" class="auth-page__label">{{ 'customer.login.email' | t }}</label>
-          <input type="email" id="CustomerEmail" name="customer[email]" required class="auth-page__input" autocomplete="email">
-        </div>
-        <div class="auth-page__field">
-          <label for="CustomerPassword" class="auth-page__label">{{ 'customer.login.password' | t }}</label>
-          <input type="password" id="CustomerPassword" name="customer[password]" required class="auth-page__input">
-        </div>
-        <button type="submit" class="auth-page__btn">{{ 'customer.login.sign_in' | t }}</button>
-        <p class="auth-page__link-row">
-          <a href="#recover" class="auth-page__link" data-recover-link>{{ 'customer.login.forgot_password' | t }}</a>
-        </p>
-      {% endform %}
 
-      <div id="recover" class="auth-page__recover" style="display: none;">
-        <h2 class="auth-page__subtitle">{{ 'customer.reset_password.title' | t }}</h2>
-        {% form 'recover_customer_password' %}
-          {%- if form.posted_successfully? -%}
-            <p class="auth-page__success">{{ 'customer.reset_password.success' | t }}</p>
-          {%- endif -%}
-          <div class="auth-page__field">
-            <label for="RecoverEmail" class="auth-page__label">{{ 'customer.reset_password.email' | t }}</label>
-            <input type="email" id="RecoverEmail" name="email" required class="auth-page__input">
-          </div>
-          <button type="submit" class="auth-page__btn">{{ 'customer.reset_password.submit' | t }}</button>
-        {% endform %}
+        {%- if image_desktop != blank -%}
+          <img
+            class="login-page__image login-page__image--desktop"
+            src="{{ image_desktop | image_url: width: 1200 }}"
+            srcset="
+              {{ image_desktop | image_url: width: 800 }} 800w,
+              {{ image_desktop | image_url: width: 1000 }} 1000w,
+              {{ image_desktop | image_url: width: 1200 }} 1200w
+            "
+            sizes="50vw"
+            alt="{{ image_desktop.alt | escape }}"
+            loading="lazy"
+            width="{{ image_desktop.width }}"
+            height="{{ image_desktop.height }}"
+          >
+        {%- endif -%}
       </div>
 
-      <p class="auth-page__link-row" style="margin-top: 32px;">
-        {{ 'customer.register.already_have_account' | t }}
-        <a href="{{ routes.account_register_url }}" class="auth-page__link">{{ 'customer.register.title' | t }}</a>
-      </p>
+      {%- comment -%} Form column {%- endcomment -%}
+      <div class="login-page__form-col">
+        <h1 class="login-page__title">Log in</h1>
+
+        {% form 'customer_login' %}
+          {%- if form.errors -%}
+            <div class="login-page__error">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+
+          <div class="login-page__fields">
+            <div class="login-page__field">
+              <input type="email" id="CustomerEmail" name="customer[email]" placeholder="Email" required class="login-page__input" autocomplete="email">
+            </div>
+            <div class="login-page__field login-page__field--password">
+              <input type="password" id="CustomerPassword" name="customer[password]" placeholder="Password" required class="login-page__input">
+              <button type="button" class="login-page__toggle-pw" data-toggle-password aria-label="Toggle password visibility">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <a href="#recover" class="login-page__forgot" data-recover-link>Forgot Your Password?</a>
+
+          <button type="submit" class="login-page__submit">Log In</button>
+        {% endform %}
+
+        {%- comment -%} Password recovery {%- endcomment -%}
+        <div id="recover" class="login-page__recover" style="display: none;">
+          <h2 class="login-page__recover-title">Reset Your Password</h2>
+          {% form 'recover_customer_password' %}
+            {%- if form.posted_successfully? -%}
+              <p class="login-page__success">We've sent you an email with a link to update your password.</p>
+            {%- endif -%}
+            <div class="login-page__field">
+              <input type="email" id="RecoverEmail" name="email" placeholder="Email" required class="login-page__input">
+            </div>
+            <button type="submit" class="login-page__submit">Submit</button>
+          {% endform %}
+        </div>
+
+        <div class="login-page__register-row">
+          <span>New To Paperbag?</span>
+          <a href="{{ routes.account_register_url }}" class="login-page__register-link">Create An Account</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-{% javascript %}
-(function() {
-  if (window.location.hash === '#recover') document.getElementById('recover').style.display = 'block';
-  var link = document.querySelector('[data-recover-link]');
-  if (link) link.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('recover').style.display = 'block';
-    window.location.hash = '#recover';
-  });
-})();
-{% endjavascript %}
+<script>
+  (function() {
+    if (window.location.hash === '#recover') document.getElementById('recover').style.display = 'block';
+    var link = document.querySelector('[data-recover-link]');
+    if (link) link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('recover').style.display = 'block';
+      window.location.hash = '#recover';
+    });
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('[data-toggle-password]');
+      if (!btn) return;
+      var input = btn.parentElement.querySelector('input');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    });
+  })();
+</script>
+
+{% stylesheet %}
+  .login-page {
+    padding: 40px 0;
+  }
+
+  .login-page__container {
+    --bs-gutter-x: 1.5rem;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @media (min-width: 576px) { .login-page__container { max-width: 540px; } }
+  @media (min-width: 768px) { .login-page__container { max-width: 720px; } }
+  @media (min-width: 992px) { .login-page__container { max-width: 960px; } }
+  @media (min-width: 1200px) { .login-page__container { max-width: 1140px; } }
+  @media (min-width: 1400px) { .login-page__container { max-width: 1320px; } }
+
+  /* ── Layout ── */
+  .login-page__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  @media (min-width: 768px) {
+    .login-page__layout {
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+  }
+
+  /* ── Image column ── */
+  .login-page__image-col {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .login-page__image-col {
+      width: 50%;
+      flex-shrink: 0;
+    }
+  }
+
+  .login-page__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .login-page__image--mobile {
+    display: block;
+  }
+
+  .login-page__image--desktop {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .login-page__image--mobile {
+      display: none;
+    }
+
+    .login-page__image--desktop {
+      display: block;
+    }
+  }
+
+  /* ── Form column ── */
+  .login-page__form-col {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .login-page__form-col {
+      flex: 1;
+      max-width: none;
+    }
+  }
+
+  /* ── Title ── */
+  .login-page__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #313d65;
+    text-align: center;
+    margin: 0 0 24px;
+  }
+
+  @media (min-width: 768px) {
+    .login-page__title {
+      font-size: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  /* ── Error / Success ── */
+  .login-page__error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .login-page__success {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    color: #166534;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* ── Fields ── */
+  .login-page__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .login-page__input {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--color-text-secondary);
+    background: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-black);
+    outline: none;
+    text-transform: capitalize;
+  }
+
+  .login-page__input::placeholder {
+    color: var(--color-text-secondary);
+    text-transform: capitalize;
+  }
+
+  .login-page__input:focus {
+    border-color: var(--color-brand);
+  }
+
+  /* ── Password field ── */
+  .login-page__field--password {
+    position: relative;
+  }
+
+  .login-page__field--password .login-page__input {
+    padding-right: 44px;
+  }
+
+  .login-page__toggle-pw {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    display: flex;
+  }
+
+  .login-page__toggle-pw:hover {
+    color: var(--color-black);
+  }
+
+  /* ── Forgot password ── */
+  .login-page__forgot {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-brand);
+    text-transform: capitalize;
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+
+  .login-page__forgot:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Submit button ── */
+  .login-page__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    background: var(--color-brand);
+    color: #faf8f3;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .login-page__submit:hover {
+    opacity: 0.85;
+  }
+
+  /* ── Recovery section ── */
+  .login-page__recover {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-muted);
+  }
+
+  .login-page__recover-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #313d65;
+    margin: 0 0 16px;
+  }
+
+  .login-page__recover .login-page__field {
+    margin-bottom: 12px;
+  }
+
+  /* ── Register row ── */
+  .login-page__register-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-black);
+    text-transform: capitalize;
+  }
+
+  .login-page__register-link {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #313d65;
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  .login-page__register-link:hover {
+    text-decoration: underline;
+  }
+{% endstylesheet %}
 
 {% schema %}
-{ "name": "Customer login", "settings": [] }
+{
+  "name": "Customer login",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image"
+    }
+  ]
+}
 {% endschema %}

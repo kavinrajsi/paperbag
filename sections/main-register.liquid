@@ -1,41 +1,374 @@
-<div class="auth-page">
-  <div class="container">
-    <div class="auth-page__card">
-      <h1 class="auth-page__title">{{ 'customer.register.title' | t }}</h1>
+{%- liquid
+  assign image_mobile = section.settings.image_mobile
+  assign image_desktop = section.settings.image_desktop
+-%}
 
-      {% form 'create_customer' %}
-        {%- if form.errors -%}
-          <div class="auth-page__error">{{ form.errors | default_errors }}</div>
+<div class="register-page">
+  <div class="register-page__container">
+    <div class="register-page__layout">
+
+      {%- comment -%} Image column {%- endcomment -%}
+      <div class="register-page__image-col">
+        {%- if image_mobile != blank -%}
+          <img
+            class="register-page__image register-page__image--mobile"
+            src="{{ image_mobile | image_url: width: 800 }}"
+            srcset="
+              {{ image_mobile | image_url: width: 400 }} 400w,
+              {{ image_mobile | image_url: width: 600 }} 600w,
+              {{ image_mobile | image_url: width: 800 }} 800w
+            "
+            sizes="100vw"
+            alt="{{ image_mobile.alt | escape }}"
+            loading="lazy"
+            width="{{ image_mobile.width }}"
+            height="{{ image_mobile.height }}"
+          >
         {%- endif -%}
-        <div class="auth-page__row">
-          <div class="auth-page__field">
-            <label for="FirstName" class="auth-page__label">{{ 'customer.register.first_name' | t }}</label>
-            <input type="text" id="FirstName" name="customer[first_name]" required class="auth-page__input">
-          </div>
-          <div class="auth-page__field">
-            <label for="LastName" class="auth-page__label">{{ 'customer.register.last_name' | t }}</label>
-            <input type="text" id="LastName" name="customer[last_name]" required class="auth-page__input">
-          </div>
-        </div>
-        <div class="auth-page__field">
-          <label for="Email" class="auth-page__label">{{ 'customer.register.email' | t }}</label>
-          <input type="email" id="Email" name="customer[email]" required class="auth-page__input">
-        </div>
-        <div class="auth-page__field">
-          <label for="Password" class="auth-page__label">{{ 'customer.register.password' | t }}</label>
-          <input type="password" id="Password" name="customer[password]" required class="auth-page__input">
-        </div>
-        <button type="submit" class="auth-page__btn">{{ 'customer.register.submit' | t }}</button>
-      {% endform %}
 
-      <p class="auth-page__link-row" style="margin-top: 16px;">
-        {{ 'customer.register.already_have_account' | t }}
-        <a href="{{ routes.account_login_url }}" class="auth-page__link">{{ 'customer.login.sign_in' | t }}</a>
-      </p>
+        {%- if image_desktop != blank -%}
+          <img
+            class="register-page__image register-page__image--desktop"
+            src="{{ image_desktop | image_url: width: 1200 }}"
+            srcset="
+              {{ image_desktop | image_url: width: 800 }} 800w,
+              {{ image_desktop | image_url: width: 1000 }} 1000w,
+              {{ image_desktop | image_url: width: 1200 }} 1200w
+            "
+            sizes="50vw"
+            alt="{{ image_desktop.alt | escape }}"
+            loading="lazy"
+            width="{{ image_desktop.width }}"
+            height="{{ image_desktop.height }}"
+          >
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Form column {%- endcomment -%}
+      <div class="register-page__form-col">
+        <h1 class="register-page__title">Create Account</h1>
+
+        {% form 'create_customer' %}
+          {%- if form.errors -%}
+            <div class="register-page__error">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+
+          <div class="register-page__fields">
+            <div class="register-page__field">
+              <input type="text" id="FirstName" name="customer[first_name]" placeholder="First Name" required class="register-page__input">
+            </div>
+            <div class="register-page__field">
+              <input type="text" id="LastName" name="customer[last_name]" placeholder="Last Name" required class="register-page__input">
+            </div>
+            <div class="register-page__field">
+              <input type="email" id="Email" name="customer[email]" placeholder="Email" required class="register-page__input">
+            </div>
+            <div class="register-page__field register-page__field--password">
+              <input type="password" id="Password" name="customer[password]" placeholder="Password" required class="register-page__input">
+              <button type="button" class="register-page__toggle-pw" data-toggle-password aria-label="Toggle password visibility">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="register-page__submit">Register Now</button>
+        {% endform %}
+
+        <div class="register-page__login-row">
+          <span>Already Have An Account?</span>
+          <a href="{{ routes.account_login_url }}" class="register-page__login-link">Log In</a>
+        </div>
+
+        <p class="register-page__terms">
+          By Clicking Register Now'' you Agree To
+          <a href="/policies/terms-of-service">Terms & Conditions</a> And
+          <a href="/policies/privacy-policy">Privacy Policy</a>.
+        </p>
+      </div>
+
     </div>
   </div>
 </div>
 
+<script>
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-toggle-password]');
+    if (!btn) return;
+    var input = btn.parentElement.querySelector('input');
+    if (input.type === 'password') {
+      input.type = 'text';
+    } else {
+      input.type = 'password';
+    }
+  });
+</script>
+
+{% stylesheet %}
+  .register-page {
+    padding: 40px 0;
+  }
+
+  .register-page__container {
+    --bs-gutter-x: 1.5rem;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @media (min-width: 576px) { .register-page__container { max-width: 540px; } }
+  @media (min-width: 768px) { .register-page__container { max-width: 720px; } }
+  @media (min-width: 992px) { .register-page__container { max-width: 960px; } }
+  @media (min-width: 1200px) { .register-page__container { max-width: 1140px; } }
+  @media (min-width: 1400px) { .register-page__container { max-width: 1320px; } }
+
+  /* ── Layout ── */
+  .register-page__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  @media (min-width: 768px) {
+    .register-page__layout {
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+  }
+
+  /* ── Image column ── */
+  .register-page__image-col {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .register-page__image-col {
+      width: 50%;
+      flex-shrink: 0;
+    }
+  }
+
+  .register-page__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .register-page__image--mobile {
+    display: block;
+  }
+
+  .register-page__image--desktop {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .register-page__image--mobile {
+      display: none;
+    }
+
+    .register-page__image--desktop {
+      display: block;
+    }
+  }
+
+  /* ── Form column ── */
+  .register-page__form-col {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .register-page__form-col {
+      flex: 1;
+      max-width: none;
+    }
+  }
+
+  /* ── Title ── */
+  .register-page__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #313d65;
+    text-align: center;
+    margin: 0 0 24px;
+  }
+
+  @media (min-width: 768px) {
+    .register-page__title {
+      font-size: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  /* ── Error ── */
+  .register-page__error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* ── Fields ── */
+  .register-page__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .register-page__input {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--color-text-secondary);
+    background: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-black);
+    outline: none;
+    text-transform: capitalize;
+  }
+
+  .register-page__input::placeholder {
+    color: var(--color-text-secondary);
+    text-transform: capitalize;
+  }
+
+  .register-page__input:focus {
+    border-color: var(--color-brand);
+  }
+
+  /* ── Password field ── */
+  .register-page__field--password {
+    position: relative;
+  }
+
+  .register-page__field--password .register-page__input {
+    padding-right: 44px;
+  }
+
+  .register-page__toggle-pw {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    display: flex;
+  }
+
+  .register-page__toggle-pw:hover {
+    color: var(--color-black);
+  }
+
+  /* ── Submit button ── */
+  .register-page__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    background: var(--color-brand);
+    color: #faf8f3;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .register-page__submit:hover {
+    opacity: 0.85;
+  }
+
+  /* ── Login row ── */
+  .register-page__login-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-black);
+    text-transform: capitalize;
+  }
+
+  .register-page__login-link {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #313d65;
+    text-decoration: none;
+    padding: 8px 16px;
+    text-transform: capitalize;
+  }
+
+  .register-page__login-link:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Terms ── */
+  .register-page__terms {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    text-align: center;
+    text-transform: capitalize;
+    line-height: 1.8;
+    margin: 12px 0 0;
+  }
+
+  .register-page__terms a {
+    color: #313d65;
+    text-decoration: underline;
+  }
+
+  .register-page__terms a:hover {
+    text-decoration: none;
+  }
+{% endstylesheet %}
+
 {% schema %}
-{ "name": "Customer register", "settings": [] }
+{
+  "name": "Customer register",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image"
+    }
+  ]
+}
 {% endschema %}
