@@ -14,23 +14,27 @@
 
 // ── Container (Bootstrap values) ──
 .masonry-grid__wrapper--container {
-  margin: 0 auto;
-  padding: 0 $spacing-4;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
   width: 100%;
 
   @media screen and (min-width: 576px) {
     max-width: 540px;
   }
 
-  @media screen and (min-width: $breakpoint-sm) {
+  @media screen and (min-width: 768px) {
     max-width: 720px;
   }
 
-  @media screen and (min-width: $breakpoint-md) {
+  @media screen and (min-width: 992px) {
     max-width: 960px;
   }
 
-  @media screen and (min-width: $breakpoint-lg) {
+  @media screen and (min-width: 1200px) {
     max-width: 1140px;
   }
 
@@ -40,7 +44,12 @@
 }
 
 .masonry-grid__wrapper--container-fluid {
-  padding: 0 $spacing-4;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
   width: 100%;
 }
 
