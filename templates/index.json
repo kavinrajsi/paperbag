@@ -16,7 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/about-banner.jpg",
-            "heading": "<p>New Season Arrivals</p>",
+            "heading": "<p>New Arrivals</p>",
             "subheading": "Discover our latest collection of thoughtfully designed essentials.",
             "button_label": "Shop Now",
             "button_link": "",
