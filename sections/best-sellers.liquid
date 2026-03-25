@@ -63,12 +63,16 @@
 
   .best-sellers__heading {
     font-family: 'Outfit', sans-serif;
-    font-size: 32px;
-    line-height: 1.2;
+    font-size: 20px;
+    line-height: 1.4;
     color: #313D65;
     font-weight: normal;
     font-style: normal;
     margin: 0;
+  }
+
+  .best-sellers__view-all--mobile-hidden {
+    display: none;
   }
 
   .best-sellers__view-all {
@@ -85,18 +89,35 @@
     text-decoration: underline;
   }
 
-  /* ── Grid (4 cols like collection page) ── */
+  /* ── Grid (mobile-first: horizontal scroll) ── */
+  .best-sellers {
+    padding: 40px 0;
+  }
+
   .best-sellers__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  .best-sellers__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .best-sellers__item {
+    flex: 0 0 calc(50% - 8px);
+    scroll-snap-align: start;
   }
 
   /* ── Card ── */
   .best-seller-card__image-wrap {
     display: block;
     position: relative;
-    height: 426px;
+    height: 280px;
     overflow: hidden;
     background-color: #f5f5f5;
   }
@@ -115,8 +136,8 @@
 
   .best-seller-card__wishlist {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 8px;
+    right: 14px;
     z-index: 2;
     background: none;
     border: none;
@@ -131,11 +152,16 @@
     opacity: 1;
   }
 
+  .best-seller-card__wishlist .icon {
+    width: 18px;
+    height: 18px;
+  }
+
   .best-seller-card__info {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 8px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0 0;
   }
 
   .best-seller-card__details {
@@ -145,7 +171,7 @@
 
   .best-seller-card__vendor {
     font-family: 'Outfit', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.2;
     color: #313D65;
     font-weight: normal;
@@ -155,7 +181,7 @@
 
   .best-seller-card__title {
     font-family: 'Outfit', sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.8;
     color: #0C0C0C;
@@ -193,109 +219,95 @@
   .best-seller-card__price {
     flex-shrink: 0;
     font-family: 'Outfit', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: #0C0C0C;
-    text-transform: capitalize;
+    margin-top: 2px;
   }
 
-  /* ── Mobile (< 990px) ── */
-  @media screen and (max-width: 989px) {
+  /* Scroll dots */
+  .best-sellers__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin-top: 20px;
+  }
+
+  .best-sellers__dot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #DFDFDF;
+    transition: all 0.2s ease;
+  }
+
+  .best-sellers__dot--active {
+    width: 12px;
+    height: 12px;
+    background-color: #313D65;
+  }
+
+  /* ── Desktop (min-width: 990px) ── */
+  @media screen and (min-width: 990px) {
     .best-sellers {
-      padding: 40px 0;
+      padding: 64px 0;
     }
 
     .best-sellers__heading {
-      font-size: 20px;
-      line-height: 1.4;
-    }
-
-    .best-sellers__view-all {
-      display: none;
+      font-size: 32px;
+      line-height: 1.2;
     }
 
     .best-sellers__grid {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 16px;
-      padding-bottom: 8px;
-      scrollbar-width: none;
-    }
-
-    .best-sellers__grid::-webkit-scrollbar {
-      display: none;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      overflow: visible;
+      padding-bottom: 0;
     }
 
     .best-sellers__item {
-      flex: 0 0 calc(50% - 8px);
-      scroll-snap-align: start;
+      flex: none;
     }
 
     .best-seller-card__image-wrap {
-      height: 280px;
+      height: 426px;
     }
 
     .best-seller-card__wishlist {
-      top: 8px;
-      right: 14px;
+      top: 24px;
+      right: 24px;
     }
 
     .best-seller-card__wishlist .icon {
-      width: 18px;
-      height: 18px;
-    }
-
-    .best-seller-card__info {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 8px 0 0;
-    }
-
-    .best-seller-card__vendor {
-      font-size: 14px;
-    }
-
-    .best-seller-card__title {
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .best-seller-card__price {
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
-    .best-seller-card__swatch {
       width: 24px;
       height: 24px;
     }
 
-    /* Scroll dots */
-    .best-sellers__dots {
-      display: flex;
-      justify-content: center;
+    .best-seller-card__info {
+      flex-direction: row;
       align-items: center;
-      gap: 4px;
-      margin-top: 20px;
+      justify-content: space-between;
+      padding: 12px 8px 0;
     }
 
-    .best-sellers__dot {
-      display: block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #DFDFDF;
-      transition: all 0.2s ease;
+    .best-seller-card__vendor {
+      font-size: 16px;
     }
 
-    .best-sellers__dot--active {
-      width: 12px;
-      height: 12px;
-      background-color: #313D65;
+    .best-seller-card__title {
+      font-size: 18px;
+    }
+
+    .best-seller-card__price {
+      font-size: 16px;
+      margin-top: 0;
+    }
+
+    .best-sellers__dots {
+      display: none;
     }
   }
 {% endstylesheet %}
