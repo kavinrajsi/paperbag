@@ -49,12 +49,12 @@
     },
     "scroll_collection_yq6g4i": {
       "type": "scroll-collection",
-      "name": "Scroll collection",
+      "name": "Featured",
       "settings": {
         "collection": "frontpage",
         "products_count": 8,
         "show_title": true,
-        "title": "Scroll Collection",
+        "title": "Featured",
         "container_type": "container",
         "padding_top": 56,
         "padding_bottom": 56,
