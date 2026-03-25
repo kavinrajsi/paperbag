@@ -13,8 +13,19 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "bar_text": "Enjoy Free Shipping On All Orders",
+        "bar_link": "",
+        "bar_color_background": "#8fa1b7",
+        "bar_color_text": "#ffffff",
+        "menu": "main-menu",
+        "logo": "shopify://shop_images/header-logo.svg",
+        "logo_width": 120,
+        "color_scheme": "light"
+      }
     }
   },
-  "order": ["header"]
+  "order": [
+    "header"
+  ]
 }
