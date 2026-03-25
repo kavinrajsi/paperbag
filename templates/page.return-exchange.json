@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-return-exchange",
+      "settings": {
+        "heading": "Request Return or Exchange",
+        "intro": "Please fill in the form below and our team will review your request and get back to you.",
+        "button_label": "Submit Request",
+        "response_time": "24–48 hours"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
