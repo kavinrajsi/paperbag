@@ -62,9 +62,9 @@
         "text_color": "#1a1816",
         "show_product_name": true,
         "show_price": true,
-        "show_size": true,
+        "show_size": false,
         "show_color": true,
-        "show_add_to_cart": true,
+        "show_add_to_cart": false,
         "show_product_tag": false,
         "show_vendor": false,
         "button_label": "Add to cart"
@@ -149,9 +149,9 @@
         "text_color": "#1a1816",
         "show_product_name": true,
         "show_price": true,
-        "show_size": true,
+        "show_size": false,
         "show_color": true,
-        "show_add_to_cart": true,
+        "show_add_to_cart": false,
         "show_product_tag": false,
         "show_vendor": false,
         "button_label": "Add to cart"
