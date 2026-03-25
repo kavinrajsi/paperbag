@@ -6,8 +6,13 @@
 
 .home-about {
   background-color: var(--ha-bg-color, #1a1816);
-  padding-bottom: var(--ha-padding-bottom, 64px);
-  padding-top: var(--ha-padding-top, 64px);
+  padding-bottom: 40px;
+  padding-top: 40px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    padding-bottom: var(--ha-padding-bottom, 80px);
+    padding-top: var(--ha-padding-top, 80px);
+  }
 }
 
 // ── Container (Bootstrap values) ──
@@ -123,11 +128,7 @@
   height: auto;
   max-width: 100%;
   object-fit: cover;
-  width: 65%;
-
-  @media screen and (min-width: $breakpoint-md) {
-    width: 100%;
-  }
+  width: 100%;
 }
 
 .home-about__placeholder {

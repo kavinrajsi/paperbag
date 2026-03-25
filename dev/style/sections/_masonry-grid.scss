@@ -8,8 +8,13 @@
 .masonry-grid {
   background-color: var(--mg-bg-color, #fff);
   color: var(--mg-text-color, #1a1816);
-  padding-bottom: var(--mg-padding-bottom, 64px);
-  padding-top: var(--mg-padding-top, 64px);
+  padding-bottom: 40px;
+  padding-top: 40px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    padding-bottom: var(--mg-padding-bottom, 80px);
+    padding-top: var(--mg-padding-top, 80px);
+  }
 }
 
 // ── Container (Bootstrap values) ──
@@ -73,8 +78,12 @@
 
 // ── Masonry columns ──
 .masonry-grid__items {
-  column-count: 2;
+  column-count: 1;
   column-gap: $spacing-4;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    column-count: 2;
+  }
 
   @media screen and (min-width: $breakpoint-md) {
     column-gap: $spacing-5;
