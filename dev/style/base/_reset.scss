@@ -107,6 +107,11 @@ button {
   max-width: 768px !important;
 }
 
+// ── Main content offset for non-home pages ──
+body:not(.template-index) #MainContent {
+  padding-top: $spacing-6;
+}
+
 input,
 textarea,
 select {
