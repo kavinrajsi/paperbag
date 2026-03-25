@@ -2221,7 +2221,7 @@ small {
 
 .scroll-collection {
   background-color: var(--sc-bg-color, #fff);
-  color: var(--sc-text-color, #fff);
+  color: var(--sc-text-color, #1a1816);
   padding-bottom: var(--sc-padding-bottom, 56px);
   padding-top: var(--sc-padding-top, 56px);
 }
@@ -2272,7 +2272,7 @@ small {
 }
 
 .scroll-collection__title {
-  color: var(--sc-text-color, #fff);
+  color: var(--sc-text-color, #1a1816);
   font-family: var(--font-family);
   font-size: var(--font-size-lg);
   font-weight: 700;
@@ -2347,7 +2347,7 @@ small {
 
 .scroll-collection__info {
   align-items: flex-start;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(26, 24, 22, 0.15);
   display: flex;
   justify-content: space-between;
   padding-bottom: 16px;
@@ -2390,7 +2390,7 @@ small {
 }
 
 .scroll-collection__tag {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(26, 24, 22, 0.08);
   border-radius: var(--radius-full);
   display: inline-block;
   font-family: var(--font-family);
@@ -2416,7 +2416,7 @@ small {
 }
 
 .scroll-collection__color-swatch--active {
-  border-color: var(--sc-text-color, #fff);
+  border-color: var(--sc-text-color, #1a1816);
 }
 
 .scroll-collection__variants-row {
@@ -2431,10 +2431,10 @@ small {
 }
 
 .scroll-collection__size-pill {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(26, 24, 22, 0.05);
+  border: 1px solid rgba(26, 24, 22, 0.15);
   border-radius: var(--radius-sm);
-  color: var(--sc-text-color, #fff);
+  color: var(--sc-text-color, #1a1816);
   cursor: pointer;
   font-family: var(--font-family);
   font-size: 14px;
@@ -2446,14 +2446,14 @@ small {
 }
 
 .scroll-collection__size-pill--active {
-  background: var(--sc-text-color, #fff);
-  border-color: var(--sc-text-color, #fff);
-  color: var(--sc-bg-color, #1a1816);
+  background: var(--sc-text-color, #1a1816);
+  border-color: var(--sc-text-color, #1a1816);
+  color: var(--sc-bg-color, #fff);
 }
 
 .scroll-collection__qty {
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(26, 24, 22, 0.15);
   border-radius: var(--radius-sm);
   display: flex;
   flex: 1;
@@ -2466,7 +2466,7 @@ small {
   align-items: center;
   background: none;
   border: none;
-  color: var(--sc-text-color, #fff);
+  color: var(--sc-text-color, #1a1816);
   cursor: pointer;
   display: flex;
   font-size: 16px;
@@ -2486,7 +2486,7 @@ small {
           appearance: textfield;
   background: none;
   border: none;
-  color: var(--sc-text-color, #fff);
+  color: var(--sc-text-color, #1a1816);
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
@@ -2519,7 +2519,7 @@ small {
 }
 
 .scroll-collection__dot {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(26, 24, 22, 0.2);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
@@ -2530,7 +2530,7 @@ small {
 }
 
 .scroll-collection__dot--active {
-  background: var(--sc-text-color, #fff);
+  background: var(--sc-text-color, #1a1816);
   border-radius: var(--radius-full);
   width: 24px;
 }
@@ -2542,10 +2542,10 @@ small {
 
 .scroll-collection__arrow {
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(26, 24, 22, 0.06);
   border: none;
   border-radius: var(--radius-full);
-  color: var(--sc-text-color, #fff);
+  color: var(--sc-text-color, #1a1816);
   cursor: pointer;
   display: flex;
   height: 40px;
@@ -2554,7 +2554,7 @@ small {
   width: 40px;
 }
 .scroll-collection__arrow:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(26, 24, 22, 0.1);
 }
 .scroll-collection__arrow svg {
   height: 14px;
@@ -2702,8 +2702,8 @@ small {
 }
 
 .masonry-grid {
-  background-color: var(--mg-bg-color, #1a1816);
-  color: var(--mg-text-color, #fff);
+  background-color: var(--mg-bg-color, #fff);
+  color: var(--mg-text-color, #1a1816);
   padding-bottom: var(--mg-padding-bottom, 64px);
   padding-top: var(--mg-padding-top, 64px);
 }
@@ -2745,7 +2745,7 @@ small {
 }
 
 .masonry-grid__title {
-  color: var(--mg-text-color, #fff);
+  color: var(--mg-text-color, #1a1816);
   font-family: var(--font-family);
   font-size: 20px;
   font-weight: 700;

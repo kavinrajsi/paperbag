@@ -58,8 +58,8 @@
         "container_type": "container",
         "padding_top": 56,
         "padding_bottom": 56,
-        "bg_color": "#1a1816",
-        "text_color": "#ffffff",
+        "bg_color": "#ffffff",
+        "text_color": "#1a1816",
         "show_product_name": true,
         "show_price": true,
         "show_size": true,
@@ -126,8 +126,8 @@
         "container_type": "container",
         "padding_top": 64,
         "padding_bottom": 64,
-        "bg_color": "#1a1816",
-        "text_color": "#ffffff"
+        "bg_color": "#ffffff",
+        "text_color": "#1a1816"
       }
     },
     "scroll_collection_xXwp8V": {
@@ -141,8 +141,8 @@
         "container_type": "container",
         "padding_top": 56,
         "padding_bottom": 56,
-        "bg_color": "#1a1816",
-        "text_color": "#ffffff",
+        "bg_color": "#ffffff",
+        "text_color": "#1a1816",
         "show_product_name": true,
         "show_price": true,
         "show_size": true,

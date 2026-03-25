@@ -1,5 +1,6 @@
 {%- liquid
-  assign image = section.settings.image
+  assign image_mobile = section.settings.image_mobile
+  assign image_desktop = section.settings.image_desktop
   assign text = section.settings.text
   assign button_label = section.settings.button_label
   assign button_link = section.settings.button_link
@@ -7,15 +8,52 @@
 
 <section class="sustainability" data-section-id="{{ section.id }}">
   <div class="sustainability__media">
-    {%- if image != blank -%}
-      {%- render 'image',
-        image: image,
-        widths: '375,750,1000,1440,1920',
-        sizes: '100vw',
-        lazy: true
-      -%}
+    {%- if image_mobile != blank -%}
+      <img
+        class="sustainability__image sustainability__image--mobile"
+        src="{{ image_mobile | image_url: width: 800 }}"
+        srcset="
+          {{ image_mobile | image_url: width: 400 }} 400w,
+          {{ image_mobile | image_url: width: 600 }} 600w,
+          {{ image_mobile | image_url: width: 800 }} 800w
+        "
+        sizes="100vw"
+        alt="{{ image_mobile.alt | escape }}"
+        loading="lazy"
+        width="{{ image_mobile.width }}"
+        height="{{ image_mobile.height }}"
+      >
     {%- else -%}
-      <div class="sustainability__placeholder"></div>
+      <img
+        class="sustainability__image sustainability__image--mobile"
+        src="{{ 'sustainability-mobile.png' | asset_url }}"
+        alt="Sustainability"
+        loading="lazy"
+      >
+    {%- endif -%}
+
+    {%- if image_desktop != blank -%}
+      <img
+        class="sustainability__image sustainability__image--desktop"
+        src="{{ image_desktop | image_url: width: 1920 }}"
+        srcset="
+          {{ image_desktop | image_url: width: 1200 }} 1200w,
+          {{ image_desktop | image_url: width: 1600 }} 1600w,
+          {{ image_desktop | image_url: width: 1920 }} 1920w
+        "
+        sizes="100vw"
+        alt="{{ image_desktop.alt | escape }}"
+        loading="lazy"
+        width="{{ image_desktop.width }}"
+        height="{{ image_desktop.height }}"
+      >
+    {%- else -%}
+      <img
+        class="sustainability__image sustainability__image--desktop"
+        src="{{ 'sustainability-desktop.png' | asset_url }}"
+        alt="Sustainability"
+        loading="lazy"
+      >
     {%- endif -%}
   </div>
 
@@ -43,11 +81,29 @@
     width: 100%;
   }
 
-  .sustainability__media img {
+  .sustainability__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  .sustainability__image--mobile {
+    display: block;
+  }
+
+  .sustainability__image--desktop {
+    display: none;
+  }
+
+  @media screen and (min-width: 990px) {
+    .sustainability__image--mobile {
+      display: none;
+    }
+
+    .sustainability__image--desktop {
+      display: block;
+    }
   }
 
   .sustainability__placeholder {
@@ -105,10 +161,6 @@
 
   /* ── Mobile ── */
   @media screen and (max-width: 989px) {
-    .sustainability__placeholder {
-      aspect-ratio: 390 / 390;
-    }
-
     .sustainability__content {
       width: 100%;
       justify-content: flex-end;
@@ -138,8 +190,13 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "image",
-      "label": "t:sections.sustainability.settings.image.label"
+      "id": "image_mobile",
+      "label": "Mobile image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image"
     },
     {
       "type": "text",

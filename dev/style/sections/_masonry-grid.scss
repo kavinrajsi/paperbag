@@ -6,8 +6,8 @@
 // Desktop: 2 cols, 24px gap, within Bootstrap container
 
 .masonry-grid {
-  background-color: var(--mg-bg-color, #1a1816);
-  color: var(--mg-text-color, #fff);
+  background-color: var(--mg-bg-color, #fff);
+  color: var(--mg-text-color, #1a1816);
   padding-bottom: var(--mg-padding-bottom, 64px);
   padding-top: var(--mg-padding-top, 64px);
 }
@@ -46,7 +46,7 @@
 
 // ── Title ──
 .masonry-grid__title {
-  color: var(--mg-text-color, #fff);
+  color: var(--mg-text-color, #1a1816);
   font-family: var(--font-family);
   font-size: 20px;
   font-weight: 700;
