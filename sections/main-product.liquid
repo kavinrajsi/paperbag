@@ -156,6 +156,32 @@
           </ul>
         </div>
 
+        <div class="pdp__size-guide">
+          <h4 class="pdp__size-guide-heading">Size Guide</h4>
+          <p class="pdp__size-guide-subheading"><strong>Body Measurements (in inches)</strong></p>
+          <p class="pdp__size-guide-note">These measurements refer to your body size. Fit may vary depending on the style of the garment.</p>
+          <div class="pdp__size-guide-table-wrap">
+            <table class="pdp__size-guide-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Bust (in)</th>
+                  <th>Waist (in)</th>
+                  <th>Hip (in)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>XS</td><td>32</td><td>26</td><td>34</td></tr>
+                <tr><td>S</td><td>34</td><td>28</td><td>36</td></tr>
+                <tr><td>M</td><td>36</td><td>30</td><td>38</td></tr>
+                <tr><td>L</td><td>38</td><td>32</td><td>40</td></tr>
+                <tr><td>XL</td><td>40</td><td>34</td><td>42</td></tr>
+                <tr><td>XXL</td><td>42</td><td>36</td><td>44</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -584,6 +610,66 @@
     line-height: 1.6;
     color: #353535;
   }
+
+  /* ── Size Guide ── */
+  .pdp__size-guide {
+    margin-top: 24px;
+  }
+
+  .pdp__size-guide-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #313D65;
+    margin: 0 0 12px;
+  }
+
+  .pdp__size-guide-subheading {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    color: #0C0C0C;
+    margin: 0 0 6px;
+  }
+
+  .pdp__size-guide-note {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: #353535;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+
+  .pdp__size-guide-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pdp__size-guide-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    min-width: 300px;
+  }
+
+  .pdp__size-guide-table th,
+  .pdp__size-guide-table td {
+    border: 1px solid #DFDFDF;
+    padding: 10px 16px;
+    text-align: center;
+  }
+
+  .pdp__size-guide-table th {
+    font-weight: 600;
+    color: #0C0C0C;
+    background: #f7f8fa;
+  }
+
+  .pdp__size-guide-table td {
+    color: #353535;
+    font-weight: 400;
+  }
+
   /* ── Tablet ── */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .pdp__main {
