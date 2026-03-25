@@ -6,8 +6,11 @@
 
 .header {
   background: var(--color-off-white);
-  position: sticky;
+  left: 0;
+  position: fixed;
+  right: 0;
   top: 0;
+  width: 100%;
   z-index: 100;
   transition: box-shadow var(--duration-base) var(--ease-out);
 
@@ -46,22 +49,43 @@
 
 // ── Container: 3-column grid ──
 .header__container {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
   align-items: center;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  margin: 0 auto;
-  max-width: $container-max-width;
+  margin-left: auto;
+  margin-right: auto;
   min-height: 56px;
-  padding: $spacing-5 $spacing-4;
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-top: $spacing-5;
+  padding-bottom: $spacing-5;
+  width: 100%;
+
+  @media screen and (min-width: 576px) {
+    max-width: 540px;
+  }
+
+  @media screen and (min-width: 768px) {
+    max-width: 720px;
+  }
 
   @media screen and (min-width: $breakpoint-md) {
     grid-template-columns: 1fr auto 1fr;
     min-height: 80px;
-    padding: $spacing-5 $spacing-7;
   }
 
-  @media screen and (min-width: $breakpoint-lg) {
-    padding: $spacing-5 160px;
+  @media screen and (min-width: 992px) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    max-width: 1140px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    max-width: 1320px;
   }
 }
 
@@ -220,7 +244,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--color-black);
+  color: var(--color-brand);
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
@@ -260,7 +284,7 @@
 .header__mobile-toggle {
   background: none;
   border: none;
-  color: var(--color-black);
+  color: var(--color-brand);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -294,7 +318,7 @@
 .mobile-nav__close {
   background: none;
   border: none;
-  color: var(--color-black);
+  color: var(--color-brand);
   cursor: pointer;
   padding: $spacing-1;
   position: absolute;
