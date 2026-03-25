@@ -138,6 +138,29 @@
         "button_label": "About Us",
         "button_link": ""
       }
+    },
+    "scroll_collection_yq6g4i": {
+      "type": "scroll-collection",
+      "name": "Scroll collection",
+      "settings": {
+        "collection": "dresses",
+        "products_count": 8,
+        "show_title": true,
+        "title": "Scroll Collection",
+        "container_type": "container",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "bg_color": "#1a1816",
+        "text_color": "#ffffff",
+        "show_product_name": true,
+        "show_price": true,
+        "show_size": true,
+        "show_color": true,
+        "show_add_to_cart": true,
+        "show_product_tag": false,
+        "show_vendor": false,
+        "button_label": "Add to cart"
+      }
     }
   },
   "order": [
@@ -145,6 +168,7 @@
     "scroll-collection",
     "home-about",
     "masonry-grid",
-    "sustainability_TAPVLd"
+    "sustainability_TAPVLd",
+    "scroll_collection_yq6g4i"
   ]
 }
