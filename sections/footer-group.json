@@ -43,7 +43,10 @@
       ],
       "settings": {
         "logo": "shopify://shop_images/footer-logo.svg",
-        "tagline": "Effortless. Elevated."
+        "logo_svg": "",
+        "tagline": "Effortless. Elevated.",
+        "popular_searches_heading": "Popular Searches",
+        "popular_searches_menu": "popular-searches"
       }
     }
   },
