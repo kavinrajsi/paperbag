@@ -14,7 +14,7 @@
       "settings": {
         "image_mobile": "shopify://shop_images/mobile-banner.png",
         "image_desktop": "shopify://shop_images/about-banner.jpg",
-        "overlay_opacity": 20,
+        "overlay_opacity": 0,
         "heading": "New Arrivals",
         "heading_size": "lg",
         "content": "Discover our finest selection of premium sweets and gifting combos.",

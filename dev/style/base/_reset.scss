@@ -81,6 +81,14 @@ svg {
   height: auto;
 }
 
+img {
+  border-radius: 6px;
+
+  .hero-banner & {
+    border-radius: 0;
+  }
+}
+
 a,
 a:hover {
   color: inherit;

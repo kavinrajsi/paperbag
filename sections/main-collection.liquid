@@ -91,8 +91,32 @@
         {%- if collection.products.size > 0 -%}
           <div class="collection-page__grid">
             {%- for product in collection.products -%}
+              {%- assign current_variant = product.selected_or_first_available_variant -%}
               <div class="collection-page__item">
-                {%- render 'best-sellers-card', product: product -%}
+                <div class="scroll-collection__card">
+                  <a href="{{ product.url }}" class="scroll-collection__media">
+                    {%- if product.featured_image -%}
+                      <img
+                        class="scroll-collection__image"
+                        src="{{ product.featured_image | image_url }}"
+                        alt="{{ product.title | escape }}"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'scroll-collection__placeholder' }}
+                    {%- endif -%}
+                  </a>
+                  <div class="scroll-collection__body">
+                    <div class="scroll-collection__info">
+                      <p class="scroll-collection__name">
+                        <a href="{{ product.url }}">{{ product.title }}</a>
+                      </p>
+                      <p class="scroll-collection__price">
+                        {{ current_variant.price | money }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             {%- endfor -%}
           </div>
@@ -187,7 +211,7 @@
     width: 100%;
     height: 48px;
     padding: 0 16px;
-    background-color: #8FA1B7;
+    background-color: var(--color-brand);
     border: none;
     cursor: pointer;
     font-family: 'Outfit', sans-serif;

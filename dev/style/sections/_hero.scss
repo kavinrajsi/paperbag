@@ -165,11 +165,16 @@
 
 // ── Typography ──
 .hero-banner__heading {
+  display: none;
   font-family: var(--font-family);
   font-weight: 700;
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
   margin: 0;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    display: block;
+  }
 }
 
 .hero-banner__heading--sm {
@@ -197,12 +202,17 @@
 }
 
 .hero-banner__text {
+  display: none;
   font-family: var(--font-family);
   font-size: var(--font-size-base, 15px);
   font-weight: 400;
   line-height: var(--leading-relaxed);
   margin: 0;
   max-width: 540px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    display: block;
+  }
 
   @media screen and (min-width: $breakpoint-md) {
     font-size: var(--font-size-md);
