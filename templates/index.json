@@ -51,7 +51,7 @@
       "type": "scroll-collection",
       "name": "Scroll collection",
       "settings": {
-        "collection": "dresses",
+        "collection": "frontpage",
         "products_count": 8,
         "show_title": true,
         "title": "Scroll Collection",
