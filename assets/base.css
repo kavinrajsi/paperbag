@@ -2841,7 +2841,6 @@ small {
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 600;
-  height: 32px;
   left: 12px;
   line-height: 1.8;
   padding: 0 16px;
@@ -2855,12 +2854,4 @@ small {
   display: inline-flex;
   left: auto;
   position: static;
-}
-@media screen and (min-width: 990px) {
-  .masonry-grid__label {
-    height: 40px;
-  }
-  .masonry-grid__card--color .masonry-grid__label {
-    height: 40px;
-  }
 }

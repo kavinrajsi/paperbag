@@ -139,7 +139,6 @@
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 600;
-  height: 32px;
   left: $spacing-3;
   line-height: 1.8;
   padding: 0 $spacing-4;
@@ -156,11 +155,4 @@
     position: static;
   }
 
-  @media screen and (min-width: $breakpoint-md) {
-    height: 40px;
-
-    .masonry-grid__card--color & {
-      height: 40px;
-    }
-  }
 }
