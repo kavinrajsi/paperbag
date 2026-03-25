@@ -151,18 +151,31 @@
 // ── Label pill ──
 .masonry-grid__label {
   background: #fff;
-  bottom: $spacing-3;
+  bottom: 0;
   color: #313d65;
   display: inline-flex;
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 600;
-  right: $spacing-3;
+  left: 0;
+  right: 0;
   line-height: 1.8;
   padding: 6px 14px;
   position: absolute;
   text-transform: capitalize;
   white-space: nowrap;
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    bottom: $spacing-3;
+    justify-content: flex-start;
+    left: auto;
+    right: $spacing-3;
+    text-align: left;
+    width: max-content;
+  }
 
   // Inside color block, position is static
   .masonry-grid__card--color & {
