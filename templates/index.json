@@ -71,6 +71,43 @@
     },
     "masonry-grid": {
       "type": "masonry-grid",
+      "blocks": {
+        "item_BgybU3": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/collection-bottom.png",
+            "label": "Bottom",
+            "link": "shopify://collections/bottoms",
+            "content": "",
+            "item_bg_color": "#8fa1b7"
+          }
+        },
+        "item_wqPiaF": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/collection-dresses.png",
+            "label": "Dresses",
+            "link": "shopify://collections/dresses",
+            "content": "",
+            "item_bg_color": "#8fa1b7"
+          }
+        },
+        "item_epKaYt": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/collection-tops.png",
+            "label": "Tops",
+            "link": "shopify://collections/tops",
+            "content": "",
+            "item_bg_color": "#8fa1b7"
+          }
+        }
+      },
+      "block_order": [
+        "item_BgybU3",
+        "item_wqPiaF",
+        "item_epKaYt"
+      ],
       "settings": {
         "show_title": true,
         "title": "Shop Our Collections",
