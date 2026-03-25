@@ -2841,7 +2841,7 @@ small {
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 600;
-  left: 12px;
+  right: 12px;
   line-height: 1.8;
   padding: 6px 14px;
   position: absolute;
