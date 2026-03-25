@@ -886,6 +886,11 @@ small {
   .header__logo--mobile {
     display: flex;
   }
+  .header__logo--mobile img,
+  .header__logo--mobile svg {
+    height: 28px;
+    width: auto;
+  }
   .header__icon-btn--mobile-only {
     display: inline-flex;
   }
