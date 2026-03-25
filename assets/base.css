@@ -2314,7 +2314,7 @@ small {
 }
 
 .scroll-collection__media {
-  aspect-ratio: 1/1;
+  aspect-ratio: 4/5;
   border-radius: var(--radius-lg);
   display: block;
   overflow: hidden;
@@ -2334,6 +2334,12 @@ small {
 }
 
 .scroll-collection__placeholder {
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
+.scroll-collection__placeholder svg {
   height: 100%;
   width: 100%;
 }
