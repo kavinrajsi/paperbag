@@ -12,29 +12,79 @@
     "hero-banner": {
       "type": "hero-banner",
       "settings": {
+        "image_mobile": "shopify://shop_images/mobile-banner.png",
+        "image_desktop": "shopify://shop_images/about-banner.jpg",
+        "overlay_opacity": 20,
         "heading": "New Collection",
+        "heading_size": "lg",
         "content": "Discover our finest selection of premium sweets and gifting combos.",
         "button_label": "Shop Now",
-        "button_style": "outline",
-        "font_color": "#FFFFFF",
+        "button_link": "shopify://collections",
+        "button_style": "primary",
+        "font_color": "#ffffff",
+        "content_gap": 16,
         "mobile_alignment": "center",
-        "desktop_alignment": "left",
         "mobile_position": "center",
-        "desktop_position": "center"
+        "min_height_mobile": 500,
+        "desktop_alignment": "left",
+        "desktop_position": "center",
+        "min_height_desktop": 600
       }
     },
     "scroll-collection": {
       "type": "scroll-collection",
-      "settings": {}
+      "settings": {
+        "collection": "",
+        "products_count": 8,
+        "show_title": true,
+        "title": "Scroll Collection",
+        "container_type": "container",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "bg_color": "#1a1816",
+        "text_color": "#ffffff",
+        "show_product_name": true,
+        "show_price": true,
+        "show_size": true,
+        "show_color": true,
+        "show_add_to_cart": true,
+        "show_product_tag": false,
+        "show_vendor": false,
+        "button_label": "Add to cart"
+      }
     },
     "home-about": {
       "type": "home-about",
-      "settings": {}
+      "settings": {
+        "heading": "At Paperbag, less is always more.",
+        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "button_label": "",
+        "button_link": "",
+        "container_type": "container",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "bg_color": "#ffffff",
+        "heading_color": "#313d65",
+        "text_color": "#8fa1b7"
+      }
     },
     "masonry-grid": {
       "type": "masonry-grid",
-      "settings": {}
+      "settings": {
+        "show_title": true,
+        "title": "Shop Our Collections",
+        "container_type": "container",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "bg_color": "#1a1816",
+        "text_color": "#ffffff"
+      }
     }
   },
-  "order": ["hero-banner", "scroll-collection", "home-about", "masonry-grid"]
+  "order": [
+    "hero-banner",
+    "scroll-collection",
+    "home-about",
+    "masonry-grid"
+  ]
 }
