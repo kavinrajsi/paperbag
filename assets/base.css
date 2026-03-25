@@ -1530,7 +1530,7 @@ small {
 }
 
 .hero--large .hero__image img {
-  height: 720px;
+  height: auto;
 }
 
 .hero--full .hero__image img {
@@ -1686,7 +1686,7 @@ small {
     height: 551px;
   }
   .hero--large .hero__image img {
-    height: 650px;
+    height: auto;
   }
   .hero__content {
     padding: 24px 16px;
