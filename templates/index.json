@@ -135,29 +135,6 @@
         "text_color": "#8fa1b7"
       }
     },
-    "scroll_collection_xXwp8V": {
-      "type": "scroll-collection",
-      "name": "Tops",
-      "settings": {
-        "collection": "tops",
-        "products_count": 8,
-        "show_title": true,
-        "title": "Tops",
-        "container_type": "container",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "bg_color": "#ffffff",
-        "text_color": "#1a1816",
-        "show_product_name": true,
-        "show_price": true,
-        "show_size": false,
-        "show_color": true,
-        "show_add_to_cart": false,
-        "show_product_tag": false,
-        "show_vendor": false,
-        "button_label": "Add to cart"
-      }
-    },
     "sustainability_TAPVLd": {
       "type": "sustainability",
       "name": "Sustainability",
@@ -173,7 +150,6 @@
     "masonry-grid",
     "scroll_collection_yq6g4i",
     "home-about",
-    "scroll_collection_xXwp8V",
     "sustainability_TAPVLd"
   ]
 }
