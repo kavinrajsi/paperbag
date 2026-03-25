@@ -22,7 +22,9 @@
     {%- if collection != blank -%}
       <div class="best-sellers__grid">
         {%- for product in collection.products limit: 4 -%}
-          {%- render 'product-card', product: product -%}
+          <div class="best-sellers__item">
+            {%- render 'best-sellers-card', product: product -%}
+          </div>
         {%- endfor -%}
       </div>
     {%- else -%}
