@@ -1,86 +1,73 @@
 <div class="cart-pg">
-  <div class="container">
+  <div class="cart-pg__container">
 
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" class="cart-pg__form">
-        <div class="cart-pg__layout">
-          {%- comment -%} Items list {%- endcomment -%}
-          <div class="cart-pg__items-section">
-            <h2 class="cart-pg__section-heading">{{ 'cart.order_summary' | t | default: 'Order Summary' }}</h2>
-            <div class="cart-pg__items">
-              {%- for item in cart.items -%}
-                <div class="cart-pg__item" data-cart-item data-key="{{ item.key }}">
+        {%- comment -%} Table header {%- endcomment -%}
+        <div class="cart-pg__table-head">
+          <span class="cart-pg__col cart-pg__col--product">Product</span>
+          <span class="cart-pg__col cart-pg__col--price">Price</span>
+          <span class="cart-pg__col cart-pg__col--qty">Quantity</span>
+          <span class="cart-pg__col cart-pg__col--total">Total</span>
+        </div>
+
+        {%- comment -%} Cart items {%- endcomment -%}
+        <div class="cart-pg__items">
+          {%- for item in cart.items -%}
+            <div class="cart-pg__item" data-cart-item data-key="{{ item.key }}">
+              <div class="cart-pg__col cart-pg__col--product">
+                <div class="cart-pg__product">
                   <a href="{{ item.url }}" class="cart-pg__item-image">
                     {%- if item.image -%}
-                      <img src="{{ item.image | image_url: width: 284 }}" alt="{{ item.title | escape }}" loading="lazy">
+                      <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" loading="lazy">
                     {%- endif -%}
                   </a>
-
                   <div class="cart-pg__item-info">
                     <h3 class="cart-pg__item-title">{{ item.product.title }}</h3>
-                    <div class="cart-pg__item-options">
-                      {%- for option in item.options_with_values -%}
-                        <p>{{ option.name }}: {{ option.value }}</p>
-                      {%- endfor -%}
-                    </div>
-                    <p class="cart-pg__item-price">{{ item.original_price | money }}</p>
-                    <div class="cart-pg__item-qty">
-                      <div class="cart-pg__qty-control">
-                        <button type="button" class="cart-pg__qty-btn" aria-label="Decrease quantity" data-quantity-minus>&minus;</button>
-                        <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
-                        <button type="button" class="cart-pg__qty-btn" aria-label="Increase quantity" data-quantity-plus>&plus;</button>
-                      </div>
-                    </div>
+                    {%- for option in item.options_with_values -%}
+                      <p class="cart-pg__item-option">{{ option.name }}: {{ option.value }}</p>
+                    {%- endfor -%}
+                    <button type="button" class="cart-pg__item-remove" data-cart-remove>Remove</button>
                   </div>
-
-                  <button type="button" class="cart-pg__item-remove" data-cart-remove aria-label="{{ 'cart.remove' | t | default: 'Remove' }}">
-                    {%- render 'icon', icon: 'close', size: 20 -%}
-                  </button>
                 </div>
-              {%- endfor -%}
+              </div>
+              <div class="cart-pg__col cart-pg__col--price">
+                <span class="cart-pg__item-price">{{ item.original_price | money }}</span>
+              </div>
+              <div class="cart-pg__col cart-pg__col--qty">
+                <div class="cart-pg__qty-control">
+                  <button type="button" class="cart-pg__qty-btn" aria-label="Decrease" data-quantity-minus>&minus;</button>
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
+                  <button type="button" class="cart-pg__qty-btn" aria-label="Increase" data-quantity-plus>+</button>
+                </div>
+              </div>
+              <div class="cart-pg__col cart-pg__col--total">
+                <span class="cart-pg__line-total">{{ item.final_line_price | money }}</span>
+              </div>
             </div>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} Footer: notes + subtotal + checkout {%- endcomment -%}
+        <div class="cart-pg__footer">
+          <div class="cart-pg__notes">
+            <label class="cart-pg__notes-label" for="cart-note">Order Notes</label>
+            <textarea id="cart-note" name="note" class="cart-pg__notes-input" placeholder="Special instructions for your order...">{{ cart.note }}</textarea>
           </div>
 
-          {%- comment -%} Summary {%- endcomment -%}
-          <div class="cart-pg__totals-section">
-            <div class="cart-pg__summary-row">
-              <span>{{ 'cart.subtotal' | t | default: 'Subtotal' }} ({{ cart.item_count }})</span>
-              <span>{{ cart.items_subtotal_price | money }}</span>
-            </div>
-
-            <div class="cart-pg__summary-row">
-              <span>{{ 'cart.tax' | t | default: 'Tax' }}</span>
-              <span>{{ cart.total_price | minus: cart.items_subtotal_price | money }}</span>
-            </div>
-
-            <div class="cart-pg__summary-row">
-              <span>{{ 'cart.shipping' | t | default: 'Shipping' }}</span>
-              <span>{{ 'cart.free' | t | default: 'Free' }}</span>
-            </div>
-
-            <div class="cart-pg__summary-divider"></div>
-
-            <div class="cart-pg__summary-row cart-pg__summary-row--total">
-              <span>{{ 'cart.total_orders' | t | default: 'Total Orders:' }}</span>
-              <span>{{ cart.total_price | money }}</span>
-            </div>
-
-            <p class="cart-pg__disclaimer">
-              {{ 'cart.disclaimer' | t | default: 'The total amount you pay includes all applicable customs duties & taxes. We guarantee no additional charges on delivery' }}
-            </p>
-
-            <button type="submit" name="checkout" class="cart-pg__checkout-btn">
-              {{ 'cart.next' | t | default: 'Next' }}
-            </button>
+          <div class="cart-pg__subtotal">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
           </div>
+          <p class="cart-pg__taxes">Tax included and shipping calculated at checkout</p>
+
+          <button type="submit" name="checkout" class="cart-pg__checkout-btn">Check Out</button>
         </div>
       </form>
     {%- else -%}
       <div class="cart-pg__empty">
         <p class="cart-pg__empty-text">{{ 'cart.empty' | t }}</p>
-        <a href="{{ routes.all_products_collection_url }}" class="cart-pg__empty-btn">
-          {{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}
-        </a>
+        <a href="{{ routes.all_products_collection_url }}" class="cart-pg__empty-btn">Continue Shopping</a>
       </div>
     {%- endif -%}
   </div>
@@ -88,98 +75,86 @@
 
 {% stylesheet %}
   .cart-pg {
-    padding: 32px 0 64px;
+    padding: 40px 0 80px;
+    background: var(--color-bg-alt);
   }
 
-  /* ── Top bar ── */
-  .cart-pg__top {
-    display: flex;
-    align-items: center;
-    margin-bottom: 32px;
-    gap: 24px;
-  }
-
-  .cart-pg__back {
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #313D65;
-    text-transform: capitalize;
-    text-decoration: none;
-  }
-
-  .cart-pg__back:hover {
-    text-decoration: underline;
-  }
-
-  .cart-pg__title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 24px;
-    line-height: 1.2;
-    color: #0C0C0C;
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .cart-pg__continue {
+  .cart-pg__container {
+    --bs-gutter-x: 1.5rem;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
     margin-left: auto;
+  }
+  @media (min-width: 576px) { .cart-pg__container { max-width: 540px; } }
+  @media (min-width: 768px) { .cart-pg__container { max-width: 720px; } }
+  @media (min-width: 992px) { .cart-pg__container { max-width: 960px; } }
+  @media (min-width: 1200px) { .cart-pg__container { max-width: 1140px; } }
+  @media (min-width: 1400px) { .cart-pg__container { max-width: 1320px; } }
+
+  /* ── Table header ── */
+  .cart-pg__table-head {
+    display: none;
+    background: var(--color-brand);
+    color: #faf8f3;
+    padding: 12px 24px;
+    border-radius: 6px;
     font-family: 'Outfit', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
-    color: #313D65;
-    text-transform: capitalize;
-    text-decoration: none;
   }
 
-  .cart-pg__continue:hover {
-    text-decoration: underline;
+  @media (min-width: 768px) {
+    .cart-pg__table-head {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 16px;
+    }
   }
 
-  /* ── Layout: items left + summary right ── */
-  .cart-pg__layout {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 48px;
-    align-items: start;
-    border-top: 1px solid #DFDFDF;
-    padding-top: 32px;
-  }
+  .cart-pg__col--price,
+  .cart-pg__col--qty { text-align: center; }
+  .cart-pg__col--total { text-align: right; }
 
-  /* ── Items section ── */
-  .cart-pg__section-heading {
-    font-family: 'Outfit', sans-serif;
-    font-size: 20px;
-    line-height: 1.2;
-    color: #0C0C0C;
-    font-weight: 600;
-    margin: 0 0 24px;
-  }
-
+  /* ── Cart items ── */
   .cart-pg__items {
     display: flex;
     flex-direction: column;
-    gap: 24px;
   }
 
   .cart-pg__item {
     display: flex;
-    gap: 16px;
-    position: relative;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #F0F0F0;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--color-muted);
   }
 
-  .cart-pg__item:last-child {
-    border-bottom: none;
+  @media (min-width: 768px) {
+    .cart-pg__item {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 24px;
+    }
+  }
+
+  /* ── Product column ── */
+  .cart-pg__product {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
   }
 
   .cart-pg__item-image {
-    width: 120px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
     flex-shrink: 0;
     overflow: hidden;
     display: block;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 
   .cart-pg__item-image img {
@@ -187,104 +162,98 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 0;
   }
 
   .cart-pg__item-info {
     flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
   }
 
   .cart-pg__item-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #0C0C0C;
-    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-black);
+    margin: 0 0 2px;
     line-height: 1.3;
   }
 
-  .cart-pg__item-options {
+  .cart-pg__item-option {
     font-family: 'Outfit', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
-    line-height: 1.6;
-    color: #606060;
-  }
-
-  .cart-pg__item-options p {
+    color: var(--color-text-secondary);
     margin: 0;
-  }
-
-  .cart-pg__item-price {
-    font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #0C0C0C;
-    margin: 4px 0 0;
-  }
-
-  .cart-pg__item-qty {
-    margin-top: 8px;
+    line-height: 1.5;
+    text-transform: capitalize;
   }
 
   .cart-pg__item-remove {
-    position: absolute;
-    top: 0;
-    right: 0;
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    color: #ADADAD;
-    transition: color 0.2s ease;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+    transition: color 0.2s;
   }
 
   .cart-pg__item-remove:hover {
-    color: #353535;
+    color: var(--color-black);
   }
 
+  /* ── Price column ── */
+  .cart-pg__item-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-black);
+  }
+
+  /* ── Quantity column ── */
   .cart-pg__qty-control {
     display: inline-flex;
     align-items: center;
-    border: 1px solid #DFDFDF;
+    border: 1px solid var(--color-muted);
     border-radius: 4px;
     overflow: hidden;
-    height: 36px;
+    height: 38px;
   }
 
   .cart-pg__qty-btn {
-    width: 36px;
+    width: 38px;
     height: 100%;
     background: none;
     border: none;
     cursor: pointer;
     font-size: 16px;
-    color: #353535;
+    color: var(--color-black);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s ease;
+    transition: background 0.15s;
   }
 
   .cart-pg__qty-btn:hover {
-    background: #f5f5f5;
+    background: var(--color-light);
   }
 
   .cart-pg__qty-input {
-    width: 36px;
+    width: 38px;
     height: 100%;
     text-align: center;
     border: none;
-    border-left: 1px solid #DFDFDF;
-    border-right: 1px solid #DFDFDF;
+    border-left: 1px solid var(--color-muted);
+    border-right: 1px solid var(--color-muted);
     background: none;
     font-family: 'Outfit', sans-serif;
     font-size: 14px;
     font-weight: 500;
-    color: #0C0C0C;
+    color: var(--color-black);
     outline: none;
     -moz-appearance: textfield;
   }
@@ -295,56 +264,87 @@
     margin: 0;
   }
 
-  /* ── Summary rows ── */
-  .cart-pg__summary-divider {
-    height: 1px;
-    background: #DFDFDF;
-    margin: 16px 0;
+  /* ── Total column ── */
+  .cart-pg__line-total {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-black);
   }
 
-  .cart-pg__summary-row {
+  /* ── Footer ── */
+  .cart-pg__footer {
+    max-width: 480px;
+    margin-left: auto;
+    padding-top: 32px;
+  }
+
+  /* ── Order notes ── */
+  .cart-pg__notes {
+    margin-bottom: 24px;
+  }
+
+  .cart-pg__notes-label {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: 8px;
+  }
+
+  .cart-pg__notes-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid var(--color-muted);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: var(--color-black);
+    resize: vertical;
+    outline: none;
+    background: #fff;
+  }
+
+  .cart-pg__notes-input:focus {
+    border-color: var(--color-brand);
+  }
+
+  /* ── Subtotal ── */
+  .cart-pg__subtotal {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: #0C0C0C;
-    text-transform: capitalize;
-    line-height: 1.8;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-black);
     margin-bottom: 4px;
   }
 
-  .cart-pg__summary-row--total {
-    font-weight: 600;
-  }
-
-  .cart-pg__disclaimer {
+  .cart-pg__taxes {
     font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: #202020;
-    text-transform: capitalize;
-    line-height: 1.8;
-    margin: 16px 0 24px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin: 0 0 20px;
   }
 
+  /* ── Checkout button ── */
   .cart-pg__checkout-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 184px;
-    height: 40px;
-    background-color: #8FA1B7;
+    width: 100%;
+    padding: 14px;
+    background: var(--color-brand);
     border: none;
-    color: #fff;
+    color: #faf8f3;
     font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 8px;
     cursor: pointer;
-    margin-left: auto;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s;
   }
 
   .cart-pg__checkout-btn:hover {
@@ -360,7 +360,7 @@
   .cart-pg__empty-text {
     font-family: 'Outfit', sans-serif;
     font-size: 18px;
-    color: #ADADAD;
+    color: var(--color-text-muted);
     margin: 0 0 24px;
   }
 
@@ -368,52 +368,37 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
-    padding: 0 32px;
-    background-color: #8FA1B7;
-    color: #fff;
+    padding: 12px 40px;
+    background: var(--color-brand);
+    color: #faf8f3;
     font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: 400;
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    border-radius: 8px;
+    transition: opacity 0.2s;
   }
 
   .cart-pg__empty-btn:hover {
     opacity: 0.9;
   }
 
-  /* ── Tablet ── */
-  @media screen and (max-width: 989px) {
-    .cart-pg__layout {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-  }
-
   /* ── Mobile ── */
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 767px) {
     .cart-pg {
       padding: 24px 0 40px;
     }
 
-    .cart-pg__top {
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .cart-pg__title {
-      font-size: 20px;
-    }
+    .cart-pg__col--price,
+    .cart-pg__col--total { display: none; }
 
     .cart-pg__item-image {
-      width: 90px;
-      height: 110px;
+      width: 70px;
+      height: 70px;
     }
 
-    .cart-pg__checkout-btn {
-      width: 100%;
+    .cart-pg__footer {
+      max-width: 100%;
     }
   }
 {% endstylesheet %}
