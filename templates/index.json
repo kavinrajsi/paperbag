@@ -137,12 +137,12 @@
     },
     "scroll_collection_xXwp8V": {
       "type": "scroll-collection",
-      "name": "Scroll collection",
+      "name": "Tops",
       "settings": {
-        "collection": "bottoms",
+        "collection": "tops",
         "products_count": 8,
         "show_title": true,
-        "title": "Scroll Collection",
+        "title": "Tops",
         "container_type": "container",
         "padding_top": 80,
         "padding_bottom": 80,
