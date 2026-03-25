@@ -1486,7 +1486,13 @@ small {
 
 .hero__slides {
   position: relative;
-  height: 80vh;
+  height: 500px;
+}
+
+@media screen and (min-width: 751px) {
+  .hero__slides {
+    height: 80vh;
+  }
 }
 
 .hero__slide {
@@ -1676,9 +1682,6 @@ small {
 }
 
 @media (max-width: 750px) {
-  .hero__slides {
-    height: 500px;
-  }
   .hero--small .hero__image img {
     height: 450px;
   }
