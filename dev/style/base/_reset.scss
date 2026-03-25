@@ -109,7 +109,7 @@ button {
 
 // ── Main content offset for non-home pages ──
 body:not(.template-index) #MainContent {
-  padding-top: $spacing-6;
+  padding-top: 32px;
 }
 
 input,

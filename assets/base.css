@@ -179,6 +179,10 @@ button {
   max-width: 768px !important;
 }
 
+body:not(.template-index) #MainContent {
+  padding-top: 32px;
+}
+
 input,
 textarea,
 select {
