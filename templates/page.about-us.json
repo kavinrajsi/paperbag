@@ -19,9 +19,7 @@
         "heading": "About Paperbag",
         "subheading": "Effortless. Elevated. Everyday.",
         "story_heading": "Our Story",
-        "story_text": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/><br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/><br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/><br/>You put it on, and it works.</p>",
-        "values_heading": "",
-        "mission_text": ""
+        "story_text": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/><br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/><br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/><br/>You put it on, and it works.</p>"
       }
     },
     "home_about_tewHtV": {
@@ -32,6 +30,7 @@
         "content": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/><br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/><br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/><br/>You put it on, and it works.</p>",
         "button_label": "",
         "button_link": "",
+        "layout": "content-image",
         "container_type": "container",
         "padding_top": 64,
         "padding_bottom": 64,
@@ -48,6 +47,7 @@
         "content": "<p>Paperbag is a contemporary clothing brand focused on creating pieces that balance comfort and distinction. </p><p>We design everyday essentials and statement styles that are easy to wear, with an emphasis on silhouette, fit, and feel. Each piece is made to integrate effortlessly into your wardrobe while still standing out. </p><p>Designed and developed in India.</p>",
         "button_label": "",
         "button_link": "",
+        "layout": "image-content",
         "container_type": "container",
         "padding_top": 64,
         "padding_bottom": 64,
@@ -55,11 +55,22 @@
         "heading_color": "#313d65",
         "text_color": "#8fa1b7"
       }
+    },
+    "page_banner_M74KKG": {
+      "type": "page-banner",
+      "name": "Page Banner",
+      "settings": {
+        "image_desktop": "shopify://shop_images/about-us-banner.png",
+        "image_mobile": "shopify://shop_images/about-us-banner.png",
+        "heading": "A Journey of Effortless Comfort, Style, and Simplicity",
+        "text": ""
+      }
     }
   },
   "order": [
     "main",
     "home_about_tewHtV",
-    "home_about_VgwCfE"
+    "home_about_VgwCfE",
+    "page_banner_M74KKG"
   ]
 }
