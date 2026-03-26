@@ -1,13 +1,14 @@
 <div class="return-exchange">
   <div class="container">
-    <h1 class="return-exchange__title">{{ section.settings.heading | default: page.title }}</h1>
+    {%- if customer -%}
+      <h1 class="return-exchange__title">{{ section.settings.heading | default: page.title }}</h1>
 
-    {%- if section.settings.intro != blank -%}
-      <p class="return-exchange__intro">{{ section.settings.intro }}</p>
-    {%- endif -%}
+      {%- if section.settings.intro != blank -%}
+        <p class="return-exchange__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
 
-    <div class="return-exchange__form-wrap">
-      {% form 'contact' %}
+      <div class="return-exchange__form-wrap">
+        {% form 'contact' %}
         {%- if form.posted_successfully? -%}
           <div class="return-exchange__success">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -77,6 +78,14 @@
         <button type="submit" class="return-exchange__submit btn btn--primary">{{ section.settings.button_label | default: 'Submit Request' }}</button>
       {% endform %}
     </div>
+
+    {%- else -%}
+      <div class="return-exchange__login">
+        <h1 class="return-exchange__title">{{ section.settings.heading | default: page.title }}</h1>
+        <p class="return-exchange__intro">Please log in to your account to submit a return or exchange request.</p>
+        <a href="{{ routes.account_login_url }}" class="return-exchange__submit btn btn--primary">Log In</a>
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
