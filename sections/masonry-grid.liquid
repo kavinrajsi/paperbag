@@ -21,7 +21,9 @@
     <div class="masonry-grid__wrapper masonry-grid__wrapper--{{ container_type }}">
 
       {%- if show_title and title != blank -%}
-        <h2 class="masonry-grid__title">{{ title }}</h2>
+        <div class="section-title__heading">
+          <h2 class="section-title">{{ title }}</h2>
+        </div>
       {%- endif -%}
 
       <div class="masonry-grid__items">

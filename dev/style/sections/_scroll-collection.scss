@@ -8,12 +8,10 @@
 .scroll-collection {
   background-color: var(--sc-bg-color, #fff);
   color: var(--sc-text-color, #313d65);
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 0 0 30px;
 
-  @media screen and (min-width: $breakpoint-sm) {
-    padding-bottom: var(--sc-padding-bottom, 80px);
-    padding-top: var(--sc-padding-top, 80px);
+  @media screen and (min-width: 768px) {
+    padding-bottom: 60px;
   }
 }
 
@@ -58,33 +56,11 @@
   width: 100%;
 }
 
-// ── Header ──
-.scroll-collection__header {
-  margin-bottom: $spacing-6;
 
-  @media screen and (min-width: $breakpoint-md) {
-    margin-bottom: $spacing-7;
-  }
-}
-
-.scroll-collection__title {
-  color: var(--sc-text-color, #313d65);
-  font-family: var(--font-family);
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-snug);
-  margin: 0;
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: 28px;
-    line-height: 32px;
-  }
-}
 
 // ── Slick track ──
 .scroll-collection__track {
-  margin: 0 -10px;
+  margin: 0 -8px;
 
   .slick-track {
     display: flex;
@@ -92,7 +68,7 @@
   }
 
   .slick-slide {
-    padding: 0 10px;
+    padding: 0 8px;
   }
 }
 
@@ -140,7 +116,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-4;
-  padding: 0 $spacing-2;
+  padding: 0;
 }
 
 // ── Name + Price row ──
@@ -159,12 +135,12 @@
 
 .scroll-collection__name {
   color: #0b090a;
+  font-family: var(--font-family);
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   margin: 0;
-  max-width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -175,12 +151,14 @@
 
   a {
     color: inherit;
+    font: inherit;
     text-decoration: none;
   }
 }
 
 .scroll-collection__price {
   color: #0b090a;
+  font-family: var(--font-family);
   font-size: 16px;
   font-style: normal;
   font-weight: 700;

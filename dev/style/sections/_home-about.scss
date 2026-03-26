@@ -6,12 +6,10 @@
 
 .home-about {
   background-color: var(--ha-bg-color, #1a1816);
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 0 0 30px;
 
-  @media screen and (min-width: $breakpoint-sm) {
-    padding-bottom: var(--ha-padding-bottom, 80px);
-    padding-top: var(--ha-padding-top, 80px);
+  @media screen and (min-width: 768px) {
+    padding-bottom: 60px;
   }
 }
 
@@ -51,11 +49,15 @@
 .home-about__grid {
   display: flex;
   flex-direction: column;
-  gap: $spacing-7;
+  gap: 24px;
+
+  .section-title {
+    padding-bottom: 16px;
+  }
 
   @media screen and (min-width: $breakpoint-md) {
     display: grid;
-    gap: 0;
+    gap: 24px;
     grid-template-columns: repeat(12, 1fr);
   }
 }
@@ -74,37 +76,7 @@
   }
 }
 
-.home-about__heading {
-  color: var(--ha-heading-color, #fff);
-  font-family: var(--font-family);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-tight);
-  line-height: 36px;
-  margin: 0;
 
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: 40px;
-    line-height: 60px;
-  }
-}
-
-.home-about__text {
-  color: var(--ha-text-color, #fff);
-  font-family: var(--font-family);
-  font-size: 14px;
-  line-height: 22px;
-  opacity: 0.8;
-
-  p {
-    margin: 0;
-  }
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: 24px;
-    line-height: 36px;
-  }
-}
 
 .home-about__btn {
   margin-top: $spacing-2;

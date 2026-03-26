@@ -26,13 +26,15 @@
     <div class="home-about__grid">
 
       <div class="home-about__content">
-        {%- if heading != blank -%}
-          <h2 class="home-about__heading">{{ heading }}</h2>
-        {%- endif -%}
+        <div class="section-title__heading">
+          {%- if heading != blank -%}
+            <h2 class="section-title">{{ heading }}</h2>
+          {%- endif -%}
 
-        {%- if content != blank -%}
-          <div class="home-about__text">{{ content }}</div>
-        {%- endif -%}
+          {%- if content != blank -%}
+            <div class="section-content">{{ content }}</div>
+          {%- endif -%}
+        </div>
 
         {%- if btn_label != blank -%}
           <div class="home-about__btn">

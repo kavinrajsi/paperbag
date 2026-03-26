@@ -35,8 +35,8 @@
     <div class="scroll-collection__wrapper scroll-collection__wrapper--{{ container_type }}">
 
       {%- if show_title and title != blank -%}
-        <div class="scroll-collection__header">
-          <h2 class="scroll-collection__title">{{ title }}</h2>
+        <div class="section-title__heading">
+          <h2 class="section-title">{{ title }}</h2>
         </div>
       {%- endif -%}
 
@@ -86,98 +86,6 @@
                   <span class="scroll-collection__tag">{{ product.tags | first }}</span>
                 {%- endif -%}
 
-                <form action="/cart/add" method="post">
-                  <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-
-                  {%- unless product.has_only_default_variant -%}
-                    {%- if show_color -%}
-                      {%- for option in product.options_with_values -%}
-                        {%- assign option_name_down = option.name | downcase -%}
-                        {%- if option_name_down == 'color' or option_name_down == 'colour' -%}
-                          <div class="scroll-collection__option-group" data-option-index="{{ forloop.index0 }}">
-                            <div class="scroll-collection__colors">
-                              {%- for value in option.values -%}
-                                <button
-                                  type="button"
-                                  class="scroll-collection__color-swatch{% if forloop.first %} scroll-collection__color-swatch--active{% endif %}"
-                                  data-value="{{ value | escape }}"
-                                  style="background-color: {{ value | downcase }};"
-                                  title="{{ value }}"
-                                >
-                                  <span class="visually-hidden">{{ value }}</span>
-                                </button>
-                              {%- endfor -%}
-                            </div>
-                          </div>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    {%- endif -%}
-
-                    {%- if show_size -%}
-                      {%- for option in product.options_with_values -%}
-                        {%- assign option_name_down = option.name | downcase -%}
-                        {%- if option_name_down == 'size' or option_name_down == 'weight' -%}
-                          <div class="scroll-collection__variants-row">
-                            <div class="scroll-collection__option-group" data-option-index="{{ forloop.index0 }}">
-                              <div class="scroll-collection__sizes">
-                                {%- for value in option.values -%}
-                                  <button
-                                    type="button"
-                                    class="scroll-collection__size-pill{% if forloop.first %} scroll-collection__size-pill--active{% endif %}"
-                                    data-value="{{ value | escape }}"
-                                  >
-                                    {{ value }}
-                                  </button>
-                                {%- endfor -%}
-                              </div>
-                            </div>
-
-                            {%- if show_add_to_cart -%}
-                              <div class="scroll-collection__qty">
-                                <button type="button" class="scroll-collection__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
-                                <input
-                                  type="number"
-                                  name="quantity"
-                                  value="1"
-                                  min="1"
-                                  class="scroll-collection__qty-input"
-                                  data-qty-input
-                                  aria-label="Quantity"
-                                >
-                                <button type="button" class="scroll-collection__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
-                              </div>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    {%- endif -%}
-                  {%- endunless -%}
-
-                  {%- if show_add_to_cart -%}
-                    {%- comment -%} Show qty if no size option rendered it {%- endcomment -%}
-                    {%- if product.has_only_default_variant or show_size == false -%}
-                      <div class="scroll-collection__variants-row scroll-collection__variants-row--qty-only">
-                        <div class="scroll-collection__qty">
-                          <button type="button" class="scroll-collection__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
-                          <input
-                            type="number"
-                            name="quantity"
-                            value="1"
-                            min="1"
-                            class="scroll-collection__qty-input"
-                            data-qty-input
-                            aria-label="Quantity"
-                          >
-                          <button type="button" class="scroll-collection__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
-                        </div>
-                      </div>
-                    {%- endif -%}
-
-                    <button type="submit" class="scroll-collection__atc btn btn--primary">
-                      {{ button_label }}
-                    </button>
-                  {%- endif -%}
-                </form>
               </div>
             </div>
           {%- endfor -%}

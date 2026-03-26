@@ -70,6 +70,33 @@ small {
   border: 0;
 }
 
+// ── Shared section title ──
+.section-title__heading {
+  margin-bottom: 0;
+}
+
+.section-content {
+  color: var(--ha-text-color, #fff);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: normal;
+
+  p {
+    margin: 0;
+  }
+}
+
+.section-title {
+  color: var(--ha-heading-color, #313d65);
+  font-family: var(--font-family);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: normal;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
 @media screen and (max-width: $breakpoint-sm) {
   h1,
   .h1 {

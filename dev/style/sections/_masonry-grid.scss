@@ -8,12 +8,10 @@
 .masonry-grid {
   background-color: var(--mg-bg-color, #fff);
   color: var(--mg-text-color, #313d65);
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 0 0 30px;
 
-  @media screen and (min-width: $breakpoint-sm) {
-    padding-bottom: var(--mg-padding-bottom, 80px);
-    padding-top: var(--mg-padding-top, 80px);
+  @media screen and (min-width: 768px) {
+    padding-bottom: 60px;
   }
 }
 
@@ -58,23 +56,6 @@
   width: 100%;
 }
 
-// ── Title ──
-.masonry-grid__title {
-  color: var(--mg-text-color, #313d65);
-  font-family: var(--font-family);
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.4;
-  margin: 0 0 $spacing-5;
-  text-transform: capitalize;
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: 32px;
-    line-height: 1;
-    margin-bottom: $spacing-7;
-  }
-}
 
 // ── Masonry columns ──
 .masonry-grid__items {
@@ -91,8 +72,18 @@
   break-inside: avoid;
   margin-bottom: $spacing-4;
 
+  &:nth-child(2),
+  &:nth-child(4) {
+    margin-bottom: 0;
+  }
+
   @media screen and (min-width: $breakpoint-md) {
     margin-bottom: $spacing-5;
+
+    &:nth-child(2),
+    &:nth-child(4) {
+      margin-bottom: 0;
+    }
   }
 }
 
