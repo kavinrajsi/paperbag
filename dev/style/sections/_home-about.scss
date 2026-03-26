@@ -61,6 +61,21 @@
     gap: 24px;
     grid-template-columns: repeat(12, 1fr);
   }
+
+  &--image-content {
+    flex-direction: column-reverse;
+
+    @media screen and (min-width: $breakpoint-md) {
+      flex-direction: unset;
+    }
+  }
+
+  &--image-content .home-about__media {
+    @media screen and (min-width: $breakpoint-md) {
+      grid-column: 1 / 7;
+      order: -1;
+    }
+  }
 }
 
 // ── Content (text side) ──

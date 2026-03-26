@@ -4,6 +4,7 @@
   assign image = section.settings.image
   assign btn_label = section.settings.button_label
   assign btn_link = section.settings.button_link
+  assign layout = section.settings.layout | default: 'content-image'
   assign container_type = section.settings.container_type
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -23,7 +24,7 @@
   "
 >
   <div class="home-about__wrapper home-about__wrapper--{{ container_type }}">
-    <div class="home-about__grid">
+    <div class="home-about__grid home-about__grid--{{ layout }}">
 
       <div class="home-about__content">
         <div class="section-title__heading">
@@ -109,6 +110,16 @@
     {
       "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "content-image",
+      "options": [
+        { "value": "content-image", "label": "Content + Image" },
+        { "value": "image-content", "label": "Image + Content" }
+      ]
     },
     {
       "type": "select",

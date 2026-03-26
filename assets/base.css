@@ -2931,6 +2931,20 @@ small {
     grid-template-columns: repeat(12, 1fr);
   }
 }
+.home-about__grid--image-content {
+  flex-direction: column-reverse;
+}
+@media screen and (min-width: 990px) {
+  .home-about__grid--image-content {
+    flex-direction: unset;
+  }
+}
+@media screen and (min-width: 990px) {
+  .home-about__grid--image-content .home-about__media {
+    grid-column: 1/7;
+    order: -1;
+  }
+}
 
 .home-about__content {
   display: flex;
@@ -3134,7 +3148,7 @@ small {
     bottom: 12px;
     justify-content: flex-start;
     left: auto;
-    padding: 12px 24px;
+    padding: 12px 44px;
     right: 12px;
     text-align: left;
     width: -moz-max-content;
