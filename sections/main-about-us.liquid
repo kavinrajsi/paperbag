@@ -38,12 +38,14 @@
       </div>
       {%- if section.settings.banner_heading != blank or section.settings.banner_text != blank -%}
         <div class="about-us__banner-content">
-          {%- if section.settings.banner_heading != blank -%}
-            <h1 class="about-us__banner-heading">{{ section.settings.banner_heading }}</h1>
-          {%- endif -%}
-          {%- if section.settings.banner_text != blank -%}
-            <p class="about-us__banner-text">{{ section.settings.banner_text }}</p>
-          {%- endif -%}
+          <div class="container">
+            {%- if section.settings.banner_heading != blank -%}
+              <h1 class="about-us__banner-heading">{{ section.settings.banner_heading }}</h1>
+            {%- endif -%}
+            {%- if section.settings.banner_text != blank -%}
+              <p class="about-us__banner-text">{{ section.settings.banner_text }}</p>
+            {%- endif -%}
+          </div>
         </div>
       {%- endif -%}
     </div>
@@ -152,8 +154,7 @@
 
   @media screen and (min-width: 750px) {
     .about-us__banner-content {
-      padding: 48px;
-      max-width: 600px;
+      padding: 48px 0;
     }
   }
 
