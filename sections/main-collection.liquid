@@ -488,23 +488,25 @@
     display: none;
   }
 
-  /* ── Product grid: 2 columns ── */
+  /* ── Product grid: 1 col → 2 col → 3 col ── */
   .collection-page__grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .collection-page__item {
     min-width: 0;
     overflow: hidden;
-  }
-
-  @media (min-width: 768px) {
-    .collection-page__grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
   }
 
   /* ── Empty state ── */
@@ -686,11 +688,6 @@
 
     .collection-page__toolbar {
       display: none;
-    }
-
-    .collection-page__grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
     }
   }
 {% endstylesheet %}

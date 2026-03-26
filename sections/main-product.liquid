@@ -15,6 +15,8 @@
   endfor
 -%}
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.min.css">
+
 <div class="pdp" data-product-section>
   <div class="container">
     <div class="pdp__main">
@@ -41,32 +43,61 @@
           </div>
         {%- endif -%}
 
+        {%- comment -%} Desktop: single main image {%- endcomment -%}
         <div class="pdp__main-image" data-gallery-main>
           {%- if product.featured_image != blank -%}
-            {%- render 'image',
-              image: product.featured_image,
-              widths: '360,535,750,1000',
-              sizes: '(min-width: 990px) 450px, 100vw',
-              lazy: false,
-              class: 'pdp__image'
-            -%}
+            <a href="{{ product.featured_image | image_url: width: 1600 }}" data-pswp-trigger data-pswp-index="0" aria-label="Zoom image">
+              {%- render 'image',
+                image: product.featured_image,
+                widths: '360,535,750,1000',
+                sizes: '(min-width: 990px) 450px, 100vw',
+                lazy: false,
+                class: 'pdp__image'
+              -%}
+            </a>
           {%- else -%}
             {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
           {%- endif -%}
 
-          {%- if product.images.size > 1 -%}
-            <button type="button" class="pdp__gallery-arrow pdp__gallery-arrow--prev" data-gallery-prev aria-label="Previous image">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button type="button" class="pdp__gallery-arrow pdp__gallery-arrow--next" data-gallery-next aria-label="Next image">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
-            </button>
-            <div class="pdp__dots" data-gallery-dots>
-              {%- for image in product.images -%}
-                <button class="pdp__dot{% if forloop.first %} pdp__dot--active{% endif %}" data-gallery-dot="{{ forloop.index0 }}" aria-label="Go to image {{ forloop.index }}"></button>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
+          <button type="button" class="pdp__zoom-btn" data-pswp-trigger data-pswp-index="0" aria-label="Zoom image">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M8.74984 15.8334C12.6619 15.8334 15.8332 12.6621 15.8332 8.75002C15.8332 4.83794 12.6619 1.66669 8.74984 1.66669C4.83775 1.66669 1.6665 4.83794 1.6665 8.75002C1.6665 12.6621 4.83775 15.8334 8.74984 15.8334Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M8.74968 6.25V11.25M6.25635 8.75667L11.2497 8.75M13.8422 13.8425L17.3776 17.3779" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        {%- comment -%} Mobile: horizontal scroll slider {%- endcomment -%}
+        {%- if product.images.size > 0 -%}
+          <div class="pdp__mobile-slider">
+            {%- for image in product.images -%}
+              <div class="pdp__mobile-slide">
+                <a href="{{ image | image_url: width: 1600 }}" data-pswp-trigger data-pswp-index="{{ forloop.index0 }}" aria-label="Zoom image {{ forloop.index }}">
+                  <img
+                    src="{{ image | image_url: width: 750 }}"
+                    alt="{{ image.alt | escape | default: product.title }}"
+                    loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  >
+                </a>
+                <button type="button" class="pdp__zoom-btn" data-pswp-trigger data-pswp-index="{{ forloop.index0 }}" aria-label="Zoom image {{ forloop.index }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M8.74984 15.8334C12.6619 15.8334 15.8332 12.6621 15.8332 8.75002C15.8332 4.83794 12.6619 1.66669 8.74984 1.66669C4.83775 1.66669 1.6665 4.83794 1.6665 8.75002C1.6665 12.6621 4.83775 15.8334 8.74984 15.8334Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M8.74968 6.25V11.25M6.25635 8.75667L11.2497 8.75M13.8422 13.8425L17.3776 17.3779" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="pdp__pswp-items" data-pswp-items hidden>
+          {%- for image in product.images -%}
+            <div
+              data-pswp-src="{{ image | image_url: width: 1600 }}"
+              data-pswp-width="{{ image.width }}"
+              data-pswp-height="{{ image.height }}"
+            ></div>
+          {%- endfor -%}
         </div>
       </div>
 
@@ -284,6 +315,7 @@
   /* ── Related Products ── */
   .pdp-related {
     padding: 48px 0 64px;
+    overflow: hidden;
   }
 
   .pdp-related__heading {
@@ -316,12 +348,18 @@
   }
 
   .pdp__thumbs {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 16px;
     max-height: 512px;
     overflow-y: auto;
     scrollbar-width: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pdp__thumbs {
+      display: flex;
+    }
   }
 
   .pdp__thumbs::-webkit-scrollbar {
@@ -359,40 +397,39 @@
     position: relative;
   }
 
-  .pdp__gallery-arrow {
+  .pdp__main-image a {
+    display: block;
+    cursor: zoom-in;
+  }
+
+  .pdp__zoom-btn {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 16px;
+    right: 16px;
     z-index: 2;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
+    background: #fff;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #313D65;
-    transition: background 0.2s ease, opacity 0.2s ease;
-    opacity: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.2s ease;
   }
 
-  .pdp__main-image:hover .pdp__gallery-arrow {
-    opacity: 1;
+  .pdp__zoom-btn:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
-  .pdp__gallery-arrow:hover {
-    background: #fff;
+  /* ── Mobile slider (hidden on desktop) ── */
+  .pdp__mobile-slider {
+    display: none;
   }
 
-  .pdp__gallery-arrow--prev {
-    left: 12px;
-  }
-
-  .pdp__gallery-arrow--next {
-    right: 12px;
-  }
 
   .pdp__main-image img,
   .pdp__image {
@@ -727,10 +764,6 @@
     }
   }
 
-  /* ── Dots (hidden on desktop) ── */
-  .pdp__dots {
-    display: none;
-  }
 
   /* ── Mobile ── */
   @media screen and (max-width: 749px) {
@@ -747,19 +780,64 @@
     .pdp__gallery {
       flex-direction: column;
       gap: 0;
+    }
+
+    .pdp__main-image {
+      display: none;
+    }
+
+    .pdp__mobile-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      position: relative;
+      gap: 8px;
       margin-left: -16px;
       margin-right: -16px;
     }
 
-    .pdp__thumbs {
+    .pdp__mobile-slider::-webkit-scrollbar {
       display: none;
     }
 
-    .pdp__main-image img,
-    .pdp__image {
-      max-height: none;
+    .pdp__mobile-slider::before,
+    .pdp__mobile-slider::after {
+      content: '';
+      flex-shrink: 0;
+    }
+
+    .pdp__mobile-slider::before {
+      width: 16px;
+    }
+
+    .pdp__mobile-slider::after {
+      width: 16px;
+    }
+
+    .pdp__mobile-slide {
+      flex: 0 0 90%;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    .pdp__mobile-slide a {
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .pdp__mobile-slide img {
+      width: 100%;
       aspect-ratio: 4 / 5;
       object-fit: cover;
+      display: block;
+    }
+
+    .pdp__mobile-slide .pdp__zoom-btn {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
     }
 
     .pdp__title {
@@ -770,48 +848,6 @@
       font-size: 14px;
     }
 
-    .pdp__gallery-arrow {
-      opacity: 1;
-      width: 36px;
-      height: 36px;
-    }
-
-    .pdp__gallery-arrow--prev {
-      left: 8px;
-    }
-
-    .pdp__gallery-arrow--next {
-      right: 8px;
-    }
-
-    .pdp__dots {
-      display: flex;
-      position: absolute;
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      gap: 6px;
-      align-items: center;
-      z-index: 3;
-    }
-
-    .pdp__dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.55);
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      transition: width 0.2s ease, border-radius 0.2s ease, background 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    .pdp__dot--active {
-      width: 18px;
-      border-radius: 3px;
-      background: #fff;
-    }
   }
 {% endstylesheet %}
 
@@ -820,70 +856,6 @@
 {% javascript %}
 (function() {
   'use strict';
-  // Gallery thumbnails
-  var thumbs = document.querySelectorAll('[data-gallery-thumb]');
-  var dots = document.querySelectorAll('[data-gallery-dot]');
-  var mainImg = document.querySelector('[data-gallery-main] img');
-  var currentThumbIndex = 0;
-
-  function goToThumb(index) {
-    if (!thumbs.length) return;
-    if (index < 0) index = thumbs.length - 1;
-    if (index >= thumbs.length) index = 0;
-    currentThumbIndex = index;
-    for (var j = 0; j < thumbs.length; j++) thumbs[j].classList.remove('pdp__thumb--active');
-    thumbs[index].classList.add('pdp__thumb--active');
-    for (var k = 0; k < dots.length; k++) dots[k].classList.remove('pdp__dot--active');
-    if (dots[index]) dots[index].classList.add('pdp__dot--active');
-    var srcset = thumbs[index].getAttribute('data-image-srcset');
-    var src = thumbs[index].getAttribute('data-image-url');
-    if (mainImg) {
-      if (srcset) mainImg.setAttribute('srcset', srcset);
-      if (src) mainImg.setAttribute('src', src);
-    }
-  }
-
-  if (mainImg && thumbs.length) {
-    for (var i = 0; i < thumbs.length; i++) {
-      (function(idx) {
-        thumbs[idx].addEventListener('click', function() {
-          goToThumb(idx);
-        });
-      })(i);
-    }
-  }
-
-  // Dot clicks
-  for (var m = 0; m < dots.length; m++) {
-    (function(dotIdx) {
-      dots[dotIdx].addEventListener('click', function() {
-        goToThumb(dotIdx);
-      });
-    })(m);
-  }
-
-  // Gallery prev/next arrows
-  var prevBtn = document.querySelector('[data-gallery-prev]');
-  var nextBtn = document.querySelector('[data-gallery-next]');
-  if (prevBtn) prevBtn.addEventListener('click', function() { goToThumb(currentThumbIndex - 1); });
-  if (nextBtn) nextBtn.addEventListener('click', function() { goToThumb(currentThumbIndex + 1); });
-
-  // Touch swipe
-  var galleryMain = document.querySelector('[data-gallery-main]');
-  if (galleryMain) {
-    var touchStartX = 0;
-    galleryMain.addEventListener('touchstart', function(e) {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    galleryMain.addEventListener('touchend', function(e) {
-      var diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) goToThumb(currentThumbIndex + 1);
-        else goToThumb(currentThumbIndex - 1);
-      }
-    }, { passive: true });
-  }
-
   // Variant selection
   var productJson = document.querySelector('[data-product-json]');
   if (!productJson) return;
@@ -967,9 +939,39 @@
     return format.replace(/\{\{\s*amount\s*\}\}/g, amount).replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, amount);
   }
 })();
-
-})();
 {% endjavascript %}
+
+<script type="module">
+  import PhotoSwipe from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.esm.min.js';
+
+  (function() {
+    var triggers = document.querySelectorAll('[data-pswp-trigger]');
+    var itemEls = document.querySelectorAll('[data-pswp-src]');
+    if (!triggers.length || !itemEls.length) return;
+
+    var items = [];
+    itemEls.forEach(function(el) {
+      items.push({
+        src: el.getAttribute('data-pswp-src'),
+        w: parseInt(el.getAttribute('data-pswp-width'), 10),
+        h: parseInt(el.getAttribute('data-pswp-height'), 10)
+      });
+    });
+
+    triggers.forEach(function(trigger) {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        var index = parseInt(trigger.getAttribute('data-pswp-index') || '0', 10);
+        var pswp = new PhotoSwipe({
+          dataSource: items,
+          index: index,
+          bgOpacity: 0.9
+        });
+        pswp.init();
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
