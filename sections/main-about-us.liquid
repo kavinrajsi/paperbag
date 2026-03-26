@@ -61,39 +61,37 @@
     </div>
     {%- endunless -%}
 
-    {%- comment -%} Story section {%- endcomment -%}
+    {%- comment -%} Story section: mobile content,image — desktop content+image {%- endcomment -%}
     {%- if section.settings.story_text != blank -%}
-      <div class="about-us__story">
-        {%- if section.settings.story_image != blank -%}
-          <div class="about-us__story-image">
-            {%- render 'image', image: section.settings.story_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
-          </div>
-        {%- endif -%}
+      <div class="about-us__story about-us__story--content-image">
         <div class="about-us__story-content">
           {%- if section.settings.story_heading != blank -%}
             <h2 class="about-us__section-heading">{{ section.settings.story_heading }}</h2>
           {%- endif -%}
           <div class="about-us__story-text rte">{{ section.settings.story_text }}</div>
         </div>
+        {%- if section.settings.story_image != blank -%}
+          <div class="about-us__story-image">
+            {%- render 'image', image: section.settings.story_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
+          </div>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
-
-
-    {%- comment -%} About Us section (second col block) {%- endcomment -%}
+    {%- comment -%} About Us section: mobile content,image — desktop image+content {%- endcomment -%}
     {%- if section.settings.about_text != blank -%}
-      <div class="about-us__story">
-        {%- if section.settings.about_image != blank -%}
-          <div class="about-us__story-image">
-            {%- render 'image', image: section.settings.about_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
-          </div>
-        {%- endif -%}
+      <div class="about-us__story about-us__story--image-content">
         <div class="about-us__story-content">
           {%- if section.settings.about_heading != blank -%}
             <h2 class="about-us__section-heading">{{ section.settings.about_heading }}</h2>
           {%- endif -%}
           <div class="about-us__story-text rte">{{ section.settings.about_text }}</div>
         </div>
+        {%- if section.settings.about_image != blank -%}
+          <div class="about-us__story-image">
+            {%- render 'image', image: section.settings.about_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
+          </div>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -201,6 +199,13 @@
   .about-us__section-heading { font-family: 'Outfit', sans-serif; font-size: 28px; color: #313D65; font-weight: normal; margin: 0 0 20px; }
   .about-us__story-text { font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
   .about-us__story-text p { margin: 0 0 16px; }
+
+  @media screen and (min-width: 750px) {
+    .about-us__story--content-image .about-us__story-content { order: 1; }
+    .about-us__story--content-image .about-us__story-image { order: 2; }
+    .about-us__story--image-content .about-us__story-image { order: 1; }
+    .about-us__story--image-content .about-us__story-content { order: 2; }
+  }
 
 
   /* Page content fallback */
