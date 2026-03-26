@@ -107,7 +107,8 @@
           <span class="collection-page__product-count">{{ collection.products_count }} Products</span>
           {%- if section.settings.enable_sorting -%}
             <div class="collection-page__sort-select-wrap">
-              <select class="collection-page__sort-select" data-sort-select>
+              <label class="collection-page__sort-label" for="sort-by-select">Sort By</label>
+              <select id="sort-by-select" class="collection-page__sort-select" data-sort-select>
                 {%- for option in collection.sort_options -%}
                   {%- if option.value == 'price-ascending' or option.value == 'price-descending' or option.value == 'created-descending' -%}
                     <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{%- if option.value == 'created-descending' -%}Newest first{%- else -%}{{ option.name }}{%- endif -%}</option>
@@ -249,13 +250,19 @@
   }
 
   .collection-page__sidebar-heading {
+    color: var(--ha-heading-color, var(--color-heading));
     font-family: 'Outfit', sans-serif;
-    font-size: 32px;
-    line-height: 1.2;
-    color: #313D65;
-    font-weight: normal;
-    font-style: normal;
-    margin: 0 0 16px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    margin: 0;
+    padding: 0;
+
+    @media screen and (min-width: 750px) {
+      font-size: 26px;
+      margin-bottom: 22px;
+    }
   }
 
   .collection-page__sidebar-header {
@@ -458,7 +465,18 @@
   }
 
   .collection-page__sort-select-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     position: relative;
+  }
+
+  .collection-page__sort-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
   }
 
   .collection-page__sort-select {
