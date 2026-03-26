@@ -39,7 +39,7 @@
           "name": "Bottom",
           "settings": {
             "image": "shopify://shop_images/collection-bottom.png",
-            "label": "Bottom",
+            "label": "Bottoms",
             "link": "shopify://collections/bottoms",
             "content": "",
             "item_bg_color": "#8fa1b7"
