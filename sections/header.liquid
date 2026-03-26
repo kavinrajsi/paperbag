@@ -334,12 +334,9 @@
       </ul>
     {%- endif -%}
 
-    <div class="mobile-nav__auth">
-      <a href="{{ routes.account_url }}" class="mobile-nav__auth-btn">
-        {%- render 'icon', icon: 'person' -%}
-        Account
-      </a>
-    </div>
+    <a href="{{ routes.account_url }}" class="mobile-nav__link">
+      Account
+    </a>
   </div>
 </header>
 
