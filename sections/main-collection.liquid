@@ -57,27 +57,18 @@
                     {%- assign current_min = filter.min_value.value | divided_by: 100 -%}
                     {%- assign current_max = filter.max_value.value | divided_by: 100 -%}
                     <div class="collection-page__price-ranges">
-                      {%- comment -%} Under 2000 {%- endcomment -%}
-                      <a
-                        href="{{ collection.url }}?filter.v.price.lte=2000"
-                        class="collection-page__price-range-btn{% if current_max == 2000 and current_min == 0 %} collection-page__price-range-btn--active{% endif %}"
-                      >
+                      <label class="collection-page__filter-option">
+                        <input type="radio" name="price_range" value="0-2000" {% if current_max == 2000 and current_min == 0 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.lte=2000">
                         Under ₹2,000
-                      </a>
-                      {%- comment -%} 2000 - 3000 {%- endcomment -%}
-                      <a
-                        href="{{ collection.url }}?filter.v.price.gte=2000&filter.v.price.lte=3000"
-                        class="collection-page__price-range-btn{% if current_min == 2000 and current_max == 3000 %} collection-page__price-range-btn--active{% endif %}"
-                      >
+                      </label>
+                      <label class="collection-page__filter-option">
+                        <input type="radio" name="price_range" value="2000-3000" {% if current_min == 2000 and current_max == 3000 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.gte=2000&filter.v.price.lte=3000">
                         ₹2,000 – ₹3,000
-                      </a>
-                      {%- comment -%} Above 3000 {%- endcomment -%}
-                      <a
-                        href="{{ collection.url }}?filter.v.price.gte=3000"
-                        class="collection-page__price-range-btn{% if current_min == 3000 and current_max == 0 %} collection-page__price-range-btn--active{% endif %}"
-                      >
+                      </label>
+                      <label class="collection-page__filter-option">
+                        <input type="radio" name="price_range" value="3000+" {% if current_min == 3000 and current_max == 0 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.gte=3000">
                         Above ₹3,000
-                      </a>
+                      </label>
                     </div>
                 {%- endcase -%}
               </div>
@@ -275,47 +266,85 @@
   .collection-page__filter-option {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 0;
+    gap: 10px;
+    padding: 8px 0;
     font-family: 'Outfit', sans-serif;
     font-size: 14px;
-    color: #0C0C0C;
+    color: var(--color-black);
     cursor: pointer;
   }
 
-  .collection-page__filter-option input {
-    accent-color: #313D65;
+  /* ── Custom checkbox ── */
+  .collection-page__filter-option input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--color-brand);
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+
+  .collection-page__filter-option input[type="checkbox"]:checked {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+
+  .collection-page__filter-option input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .collection-page__filter-option input[type="checkbox"]:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ── Custom radio ── */
+  .collection-page__filter-option input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--color-brand);
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+
+  .collection-page__filter-option input[type="radio"]:checked {
+    border-color: var(--color-brand);
+  }
+
+  .collection-page__filter-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-brand);
   }
 
   .collection-page__price-ranges {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-  }
-
-  .collection-page__price-range-btn {
-    display: block;
-    padding: 10px 16px;
-    border: 1px solid var(--color-brand);
-    border-radius: 6px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--color-black);
-    text-decoration: none;
-    text-align: center;
-    transition: all 0.2s ease;
-  }
-
-  .collection-page__price-range-btn:hover {
-    background: var(--color-brand);
-    color: #faf8f3;
-  }
-
-  .collection-page__price-range-btn--active {
-    background: var(--color-brand);
-    color: #faf8f3;
-    border-color: var(--color-brand);
   }
 
   /* ── Active filter chips ── */
@@ -490,12 +519,12 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 80%;
-      max-width: 320px;
+      width: 100%;
+      max-width: 100%;
       height: 100%;
       background: #fff;
       z-index: 150;
-      padding: 24px 20px;
+      padding: 24px 20px 72px;
       overflow-y: auto;
       transform: translateX(-100%);
       transition: transform 0.3s ease;
@@ -508,14 +537,14 @@
 
     .collection-page__sidebar-actions {
       display: flex;
-      position: sticky;
+      position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background: var(--color-off-white);
       border-top: 1px solid var(--color-muted);
-      margin: 24px -20px 0;
       padding: 0;
+      z-index: 151;
     }
 
     .collection-page__sidebar-close,
@@ -538,7 +567,8 @@
     }
 
     .collection-page__sidebar-apply {
-      color: var(--color-brand);
+      background: var(--color-brand);
+      color: #faf8f3;
     }
 
     .collection-page__sidebar-heading {
@@ -586,6 +616,16 @@
       var isOpen = !panel.hidden;
       panel.hidden = isOpen;
       this.setAttribute('aria-expanded', !isOpen);
+    });
+  }
+
+  // Price range radios
+  var priceRadios = document.querySelectorAll('[data-price-radio]');
+  for (var p = 0; p < priceRadios.length; p++) {
+    priceRadios[p].addEventListener('change', function() {
+      var sidebarCheck = document.querySelector('[data-collection-sidebar]');
+      if (sidebarCheck && sidebarCheck.classList.contains('collection-page__sidebar--open')) return;
+      window.location.href = this.dataset.url;
     });
   }
 
@@ -647,6 +687,19 @@
     var applyBtn = document.querySelector('[data-mobile-filter-apply]');
     if (applyBtn) {
       applyBtn.addEventListener('click', function() {
+        // Check if a price radio is selected
+        var priceRadio = sidebar.querySelector('[data-price-radio]:checked');
+        if (priceRadio) {
+          var checked = sidebar.querySelectorAll('[data-filter-checkbox]:checked');
+          var priceUrl = new URL(priceRadio.dataset.url, window.location.origin);
+          var params = new URLSearchParams(priceUrl.search);
+          for (var i = 0; i < checked.length; i++) {
+            params.append(checked[i].name, checked[i].value);
+          }
+          window.location.href = priceUrl.pathname + '?' + params.toString();
+          return;
+        }
+        // No price radio, just checkboxes
         var url = new URL(window.location.href);
         var checked = sidebar.querySelectorAll('[data-filter-checkbox]:checked');
         var params = new URLSearchParams();
