@@ -80,6 +80,23 @@
 
 
 
+    {%- comment -%} About Us section (second col block) {%- endcomment -%}
+    {%- if section.settings.about_text != blank -%}
+      <div class="about-us__story">
+        {%- if section.settings.about_image != blank -%}
+          <div class="about-us__story-image">
+            {%- render 'image', image: section.settings.about_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
+          </div>
+        {%- endif -%}
+        <div class="about-us__story-content">
+          {%- if section.settings.about_heading != blank -%}
+            <h2 class="about-us__section-heading">{{ section.settings.about_heading }}</h2>
+          {%- endif -%}
+          <div class="about-us__story-text rte">{{ section.settings.about_text }}</div>
+        </div>
+      </div>
+    {%- endif -%}
+
     {%- comment -%} CMS page content fallback {%- endcomment -%}
     {%- if page.content != blank -%}
       <div class="about-us__page-content rte">{{ page.content }}</div>
@@ -220,7 +237,14 @@
     { "type": "text", "id": "subheading", "default": "Effortless. Elevated. Everyday.", "label": "Subheading" },
     { "type": "image_picker", "id": "story_image", "label": "Story image" },
     { "type": "text", "id": "story_heading", "default": "Our Story", "label": "Story heading" },
-    { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>At Paperbag, we believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p><p>Our clothing is designed to move with you — light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>" }
+    { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>At Paperbag, we believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p><p>Our clothing is designed to move with you — light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>" },
+    {
+      "type": "header",
+      "content": "About Us Section"
+    },
+    { "type": "image_picker", "id": "about_image", "label": "About image" },
+    { "type": "text", "id": "about_heading", "label": "About heading" },
+    { "type": "richtext", "id": "about_text", "label": "About text" }
   ]
 }
 {% endschema %}
