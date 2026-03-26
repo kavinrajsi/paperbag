@@ -134,23 +134,12 @@
         "heading_color": "#313d65",
         "text_color": "#8fa1b7"
       }
-    },
-    "sustainability_TAPVLd": {
-      "type": "sustainability",
-      "disabled": true,
-      "name": "Sustainability",
-      "settings": {
-        "text": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
-        "button_label": "About Us",
-        "button_link": ""
-      }
     }
   },
   "order": [
     "hero-banner",
     "masonry-grid",
     "scroll_collection_yq6g4i",
-    "home-about",
-    "sustainability_TAPVLd"
+    "home-about"
   ]
 }

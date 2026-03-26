@@ -81,9 +81,6 @@
     {%- comment -%} Values {%- endcomment -%}
     {%- if section.blocks.size > 0 -%}
       <div class="about-us__values">
-        {%- if section.settings.values_heading != blank -%}
-          <h2 class="about-us__values-heading">{{ section.settings.values_heading }}</h2>
-        {%- endif -%}
         <div class="about-us__values-grid">
           {%- for block in section.blocks -%}
             <div class="about-us__value" {{ block.shopify_attributes }}>
@@ -100,12 +97,6 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} Mission statement {%- endcomment -%}
-    {%- if section.settings.mission_text != blank -%}
-      <div class="about-us__mission">
-        <p class="about-us__mission-text">{{ section.settings.mission_text }}</p>
-      </div>
-    {%- endif -%}
 
     {%- comment -%} CMS page content fallback {%- endcomment -%}
     {%- if page.content != blank -%}
@@ -267,8 +258,6 @@
     { "type": "image_picker", "id": "story_image", "label": "Story image" },
     { "type": "text", "id": "story_heading", "default": "Our Story", "label": "Story heading" },
     { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>At Paperbag, we believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p><p>Our clothing is designed to move with you — light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>" },
-    { "type": "text", "id": "values_heading", "default": "What We Stand For", "label": "Values heading" },
-    { "type": "textarea", "id": "mission_text", "default": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.", "label": "Mission statement" }
   ],
   "blocks": [
     {
