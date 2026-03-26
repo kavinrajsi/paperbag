@@ -75,6 +75,12 @@
           <span itemprop="name">{{ 'cart.title' | t }}</span>
           <meta itemprop="position" content="2">
         </li>
+
+      {%- elsif template.name == 'policy' -%}
+        <li class="breadcrumb__item breadcrumb__item--active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+          <span itemprop="name">{{ page_title }}</span>
+          <meta itemprop="position" content="2">
+        </li>
       {%- endif -%}
     </ol>
   </nav>
