@@ -183,7 +183,7 @@ button {
 }
 
 .shopify-policy__title {
-  padding-bottom: 16px;
+  display: none;
 }
 
 body:not(.template-index) #MainContent {
@@ -2290,8 +2290,8 @@ small {
 .scroll-collection {
   background-color: var(--sc-bg-color, #fff);
   color: var(--sc-text-color, #1a1816);
-  padding-bottom: 40px;
-  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 @media screen and (min-width: 750px) {
   .scroll-collection {
@@ -2690,8 +2690,8 @@ small {
 
 .home-about {
   background-color: var(--ha-bg-color, #1a1816);
-  padding-bottom: 40px;
-  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 @media screen and (min-width: 750px) {
   .home-about {
@@ -2827,8 +2827,8 @@ small {
 .masonry-grid {
   background-color: var(--mg-bg-color, #fff);
   color: var(--mg-text-color, #1a1816);
-  padding-bottom: 40px;
-  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 @media screen and (min-width: 750px) {
   .masonry-grid {

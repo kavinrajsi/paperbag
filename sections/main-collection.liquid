@@ -84,19 +84,6 @@
             </div>
           {%- endfor -%}
 
-          {%- assign active_filters = false -%}
-          {%- for filter in collection.filters -%}
-            {%- if filter.active_values.size > 0 -%}
-              {%- assign active_filters = true -%}
-              {%- break -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- if active_filters -%}
-            <a href="{{ collection.url }}" class="collection-page__clear-filters">
-              {{ 'collections.filtering.clear_all' | t | default: 'Clear all' }}
-            </a>
-          {%- endif -%}
         </aside>
 
         {%- comment -%} Mobile filter toggle {%- endcomment -%}
@@ -108,6 +95,30 @@
 
       {%- comment -%} Product grid {%- endcomment -%}
       <div class="collection-page__products">
+        {%- assign has_active = false -%}
+        {%- for filter in collection.filters -%}
+          {%- if filter.active_values.size > 0 -%}
+            {%- assign has_active = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if has_active -%}
+          <div class="collection-page__active-filters">
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <a href="{{ value.url_to_remove }}" class="collection-page__chip">
+                  {{ value.label }}
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+              {%- endfor -%}
+            {%- endfor -%}
+            <a href="{{ collection.url }}" class="collection-page__clear-filters">
+              Clear All
+            </a>
+          </div>
+        {%- endif -%}
+
         {%- if collection.products.size > 0 -%}
           <div class="collection-page__grid">
             {%- for product in collection.products -%}
@@ -303,14 +314,57 @@
     border-color: var(--color-brand);
   }
 
-  .collection-page__clear-filters {
-    display: inline-block;
+  /* ── Active filter chips ── */
+  .collection-page__active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    align-items: center;
+  }
+
+  .collection-page__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--color-brand);
+    color: #faf8f3;
     font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #313D65;
-    text-decoration: underline;
-    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .collection-page__chip:hover {
+    opacity: 0.85;
+  }
+
+  .collection-page__chip svg {
+    flex-shrink: 0;
+  }
+
+  .collection-page__clear-filters {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    background: transparent;
+    color: var(--color-brand);
+    border: 1px solid var(--color-brand);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .collection-page__clear-filters:hover {
+    background: var(--color-brand);
+    color: #faf8f3;
   }
 
   /* ── Mobile filter toggle (hidden on desktop) ── */
