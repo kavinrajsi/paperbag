@@ -39,10 +39,27 @@
         "heading_color": "#313d65",
         "text_color": "#8fa1b7"
       }
+    },
+    "home_about_VgwCfE": {
+      "type": "home-about",
+      "name": "Home about",
+      "settings": {
+        "heading": "At Paperbag, less is always more.",
+        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "button_label": "",
+        "button_link": "",
+        "container_type": "container",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "bg_color": "#ffffff",
+        "heading_color": "#313d65",
+        "text_color": "#8fa1b7"
+      }
     }
   },
   "order": [
     "main",
-    "home_about_tewHtV"
+    "home_about_tewHtV",
+    "home_about_VgwCfE"
   ]
 }
