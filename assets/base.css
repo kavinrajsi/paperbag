@@ -1048,9 +1048,6 @@ small {
   text-decoration: none;
   text-transform: capitalize;
 }
-.mobile-nav__link:hover {
-  color: var(--color-brand);
-}
 
 .mobile-nav__item-header {
   display: flex;

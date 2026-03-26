@@ -235,14 +235,7 @@
   }
 
   .collection-page__sidebar-close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    color: var(--color-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: none;
   }
 
   .collection-page__filter-bar {
@@ -670,6 +663,17 @@
     .collection-page__sidebar-heading {
       font-size: 24px;
       margin-bottom: 0;
+    }
+
+    .collection-page__sidebar-close {
+      display: flex;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--color-text);
+      align-items: center;
+      justify-content: center;
     }
 
     .collection-page__sidebar-actions {
