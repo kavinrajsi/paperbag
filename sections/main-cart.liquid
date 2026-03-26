@@ -48,13 +48,8 @@
           {%- endfor -%}
         </div>
 
-        {%- comment -%} Footer: notes + subtotal + checkout {%- endcomment -%}
+        {%- comment -%} Footer: subtotal + checkout {%- endcomment -%}
         <div class="cart-pg__footer">
-          <div class="cart-pg__notes">
-            <label class="cart-pg__notes-label" for="cart-note">Order Notes</label>
-            <textarea id="cart-note" name="note" class="cart-pg__notes-input" placeholder="Special instructions for your order...">{{ cart.note }}</textarea>
-          </div>
-
           <div class="cart-pg__subtotal">
             <span>Subtotal</span>
             <span>{{ cart.total_price | money }}</span>

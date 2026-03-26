@@ -46,15 +46,6 @@
 
     {%- if cart.item_count > 0 -%}
       <div class="cart-drawer__footer" data-cart-footer>
-        <div class="cart-drawer__notes">
-          <button class="cart-drawer__notes-toggle" data-notes-toggle type="button">
-            <span>Order Notes</span>
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <div class="cart-drawer__notes-field" data-notes-field hidden>
-            <textarea name="note" class="cart-drawer__notes-input" placeholder="Add a note to your order...">{{ cart.note }}</textarea>
-          </div>
-        </div>
         <div class="cart-drawer__subtotal">
           <span>Subtotal</span>
           <span data-cart-subtotal>{{ cart.total_price | money }}</span>
