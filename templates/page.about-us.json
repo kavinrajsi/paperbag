@@ -44,8 +44,8 @@
       "type": "home-about",
       "name": "Home about",
       "settings": {
-        "heading": "At Paperbag, less is always more.",
-        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "heading": "About us",
+        "content": "<p>Paperbag is a contemporary clothing brand focused on creating pieces that balance comfort and distinction. </p><p>We design everyday essentials and statement styles that are easy to wear, with an emphasis on silhouette, fit, and feel. Each piece is made to integrate effortlessly into your wardrobe while still standing out. </p><p>Designed and developed in India.</p>",
         "button_label": "",
         "button_link": "",
         "container_type": "container",
