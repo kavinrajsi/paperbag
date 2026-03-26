@@ -91,10 +91,18 @@
       {%- comment -%} Product grid {%- endcomment -%}
       <div class="collection-page__products">
         {%- assign has_active = false -%}
+        {%- assign has_price_filter = false -%}
         {%- for filter in collection.filters -%}
           {%- if filter.active_values.size > 0 -%}
             {%- assign has_active = true -%}
-            {%- break -%}
+          {%- endif -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              {%- assign has_active = true -%}
+              {%- assign has_price_filter = true -%}
+              {%- assign price_min = filter.min_value.value | divided_by: 100 -%}
+              {%- assign price_max = filter.max_value.value | divided_by: 100 -%}
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
 
@@ -108,6 +116,31 @@
                 </a>
               {%- endfor -%}
             {%- endfor -%}
+
+            {%- if has_price_filter -%}
+              {%- capture price_label -%}
+                {%- if price_max > 0 and price_min == 0 -%}
+                  Under ₹{{ price_max | money_without_currency | remove: '.00' }}
+                {%- elsif price_min > 0 and price_max == 0 -%}
+                  Above ₹{{ price_min | money_without_currency | remove: '.00' }}
+                {%- elsif price_min > 0 and price_max > 0 -%}
+                  ₹{{ price_min | money_without_currency | remove: '.00' }} – ₹{{ price_max | money_without_currency | remove: '.00' }}
+                {%- endif -%}
+              {%- endcapture -%}
+              {%- assign price_remove_url = collection.url | append: '?' -%}
+              {%- for filter in collection.filters -%}
+                {%- if filter.type != 'price_range' -%}
+                  {%- for value in filter.active_values -%}
+                    {%- assign price_remove_url = price_remove_url | append: value.param_name | append: '=' | append: value.value | append: '&' -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <a href="{{ price_remove_url }}" class="collection-page__chip">
+                {{ price_label | strip }}
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </a>
+            {%- endif -%}
+
             <a href="{{ collection.url }}" class="collection-page__clear-filters">
               Clear All
             </a>
