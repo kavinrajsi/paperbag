@@ -43,23 +43,24 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} Desktop: single main image {%- endcomment -%}
+        {%- comment -%} Desktop: Slick main image slider {%- endcomment -%}
         <div class="pdp__main-image" data-gallery-main>
-          {%- if product.featured_image != blank -%}
-            <a href="{{ product.featured_image | image_url: width: 1600 }}" data-pswp-trigger data-pswp-index="0" aria-label="Zoom image">
-              {%- render 'image',
-                image: product.featured_image,
-                widths: '360,535,750,1000',
-                sizes: '(min-width: 990px) 450px, 100vw',
-                lazy: false,
-                class: 'pdp__image'
-              -%}
-            </a>
-          {%- else -%}
-            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-          {%- endif -%}
+          <div class="pdp__main-track" data-gallery-track>
+            {%- for image in product.images -%}
+              <div class="pdp__main-slide">
+                <a href="{{ image | image_url: width: 1600 }}" data-pswp-trigger data-pswp-index="{{ forloop.index0 }}" aria-label="Zoom image {{ forloop.index }}">
+                  <img
+                    src="{{ image | image_url: width: 1000 }}"
+                    alt="{{ image.alt | escape | default: product.title }}"
+                    class="pdp__image"
+                    loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  >
+                </a>
+              </div>
+            {%- endfor -%}
+          </div>
 
-          <button type="button" class="pdp__zoom-btn" data-pswp-trigger data-pswp-index="0" aria-label="Zoom image">
+          <button type="button" class="pdp__zoom-btn" data-pswp-zoom aria-label="Zoom image">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M8.74984 15.8334C12.6619 15.8334 15.8332 12.6621 15.8332 8.75002C15.8332 4.83794 12.6619 1.66669 8.74984 1.66669C4.83775 1.66669 1.6665 4.83794 1.6665 8.75002C1.6665 12.6621 4.83775 15.8334 8.74984 15.8334Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
               <path d="M8.74968 6.25V11.25M6.25635 8.75667L11.2497 8.75M13.8422 13.8425L17.3776 17.3779" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -286,30 +287,69 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      /* ── Related products slider ── */
       var $track = $('[data-related-track]');
-      if (!$track.length) return;
+      if ($track.length) {
+        $track.slick({
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          arrows: true,
+          prevArrow: $('[data-related-prev]'),
+          nextArrow: $('[data-related-next]'),
+          dots: true,
+          appendDots: $('[data-related-dots]'),
+          infinite: false,
+          responsive: [
+            { breakpoint: 992, settings: { slidesToShow: 3.5 } },
+            { breakpoint: 768, settings: { slidesToShow: 1.5 } }
+          ]
+        });
+      }
 
-      $track.slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        arrows: true,
-        prevArrow: $('[data-related-prev]'),
-        nextArrow: $('[data-related-next]'),
-        dots: true,
-        appendDots: $('[data-related-dots]'),
-        infinite: false,
-        responsive: [
-          { breakpoint: 992, settings: { slidesToShow: 3.5 } },
-          { breakpoint: 768, settings: { slidesToShow: 1.5 } }
-        ]
-      });
+      /* ── PDP gallery slider (desktop) ── */
+      var $gallery = $('[data-gallery-track]');
+      var $thumbs = $('[data-gallery-thumb]');
+      if ($gallery.length) {
+        $gallery.slick({
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          dots: false,
+          fade: true,
+          infinite: false,
+          adaptiveHeight: true
+        });
+
+        // Thumbnail clicks → go to slide
+        $thumbs.on('click', function () {
+          var index = parseInt($(this).attr('data-gallery-thumb'), 10);
+          $gallery.slick('slickGoTo', index);
+        });
+
+        // Slide change → update active thumb
+        $gallery.on('afterChange', function (e, slick, currentSlide) {
+          $thumbs.removeClass('pdp__thumb--active');
+          $thumbs.filter('[data-gallery-thumb="' + currentSlide + '"]').addClass('pdp__thumb--active');
+        });
+
+        // Zoom button → open PhotoSwipe at current slide
+        $('[data-pswp-zoom]').on('click', function () {
+          var currentIndex = $gallery.slick('slickCurrentSlide');
+          var trigger = $gallery.find('[data-pswp-trigger]').eq(currentIndex);
+          if (trigger.length) trigger[0].click();
+        });
+      }
     });
   </script>
 {%- endif -%}
 
 {% stylesheet %}
   .pdp {
-    padding: 0 0 64px;
+    padding: 0 0 40px;
+
+    @media screen and (min-width: 750px) {
+      padding-bottom: 64px;
+    }
   }
 
   /* ── Related Products ── */
@@ -336,15 +376,30 @@
   /* ── Main: gallery + info ── */
   .pdp__main {
     display: grid;
-    grid-template-columns: 600px 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 48px;
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: 600px 1fr;
+    }
   }
 
   /* ── Gallery ── */
   .pdp__gallery {
     display: flex;
-    gap: 16px;
+    flex-direction: column;
+    gap: 0;
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row;
+      gap: 16px;
+    }
   }
 
   .pdp__thumbs {
@@ -367,8 +422,8 @@
   }
 
   .pdp__thumb {
-    width: 125px;
-    height: 160px;
+    width: 80px;
+    height: 100px;
     flex-shrink: 0;
     overflow: hidden;
     border: none;
@@ -377,6 +432,11 @@
     opacity: 0.4;
     transition: opacity 0.2s ease;
     background: #f5f5f5;
+
+    @media screen and (min-width: 990px) {
+      width: 125px;
+      height: 160px;
+    }
   }
 
   .pdp__thumb--active {
@@ -391,10 +451,15 @@
   }
 
   .pdp__main-image {
+    display: none;
     flex: 1;
     overflow: hidden;
     background: #f5f5f5;
     position: relative;
+
+    @media screen and (min-width: 750px) {
+      display: block;
+    }
   }
 
   .pdp__main-image a {
@@ -425,9 +490,60 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
-  /* ── Mobile slider (hidden on desktop) ── */
+  /* ── Mobile slider (shown on mobile, hidden on desktop) ── */
   .pdp__mobile-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    position: relative;
+    gap: 8px;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  .pdp__mobile-slider::-webkit-scrollbar {
     display: none;
+  }
+
+  .pdp__mobile-slider::after {
+    content: '';
+    flex-shrink: 0;
+    width: 16px;
+  }
+
+  .pdp__mobile-slide {
+    flex: 0 0 90%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+  }
+
+
+  .pdp__mobile-slide a {
+    display: block;
+    cursor: zoom-in;
+  }
+
+  .pdp__mobile-slide img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pdp__mobile-slide .pdp__zoom-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
   }
 
 
@@ -449,20 +565,32 @@
 
   .pdp__title {
     font-family: 'Outfit', sans-serif;
-    font-size: 32px;
+    font-size: 22px;
     line-height: 1.2;
     color: #0C0C0C;
     font-weight: 700;
     margin: 0 0 12px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 26px;
+    }
+
+    @media screen and (min-width: 990px) {
+      font-size: 32px;
+    }
   }
 
   .pdp__description {
     font-family: 'Outfit', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.6;
     color: #353535;
     margin: 0 0 20px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 16px;
+    }
   }
 
   .pdp__description ul {
@@ -747,107 +875,6 @@
     font-weight: 400;
   }
 
-  /* ── Tablet ── */
-  @media screen and (min-width: 750px) and (max-width: 989px) {
-    .pdp__main {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .pdp__thumb {
-      width: 80px;
-      height: 100px;
-    }
-
-    .pdp__title {
-      font-size: 26px;
-    }
-  }
-
-
-  /* ── Mobile ── */
-  @media screen and (max-width: 749px) {
-    .pdp {
-      padding-bottom: 40px;
-    }
-
-    .pdp__main {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-
-    .pdp__gallery {
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .pdp__main-image {
-      display: none;
-    }
-
-    .pdp__mobile-slider {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      position: relative;
-      gap: 8px;
-      margin-left: -16px;
-      margin-right: -16px;
-    }
-
-    .pdp__mobile-slider::-webkit-scrollbar {
-      display: none;
-    }
-
-    .pdp__mobile-slider::before,
-    .pdp__mobile-slider::after {
-      content: '';
-      flex-shrink: 0;
-    }
-
-    .pdp__mobile-slider::before {
-      width: 16px;
-    }
-
-    .pdp__mobile-slider::after {
-      width: 16px;
-    }
-
-    .pdp__mobile-slide {
-      flex: 0 0 90%;
-      scroll-snap-align: start;
-      position: relative;
-    }
-
-    .pdp__mobile-slide a {
-      display: block;
-      cursor: zoom-in;
-    }
-
-    .pdp__mobile-slide img {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      display: block;
-    }
-
-    .pdp__mobile-slide .pdp__zoom-btn {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-    }
-
-    .pdp__title {
-      font-size: 22px;
-    }
-
-    .pdp__description {
-      font-size: 14px;
-    }
-
-  }
 {% endstylesheet %}
 
 <script>window.__moneyFormat = {{ shop.money_format | json }};</script>

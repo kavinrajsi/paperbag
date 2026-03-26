@@ -713,7 +713,8 @@ small {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .breadcrumb__item {
@@ -735,9 +736,17 @@ small {
 .breadcrumb__item a:hover {
   text-decoration: underline;
 }
+.breadcrumb__item--active {
+  min-width: 0;
+  overflow: hidden;
+}
 .breadcrumb__item--active span {
   color: var(--color-text);
   font-weight: 700;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .breadcrumb__item + .breadcrumb__item::before {
   content: "/";
