@@ -275,10 +275,14 @@
     display: flex;
     gap: 24px;
     flex-shrink: 0;
+
+    @media screen and (min-width: 750px) {
+      gap: 32px;
+    }
   }
 
   .site-footer__column {
-    min-width: 184px;
+    width: max-content;
   }
 
   .site-footer__heading {
