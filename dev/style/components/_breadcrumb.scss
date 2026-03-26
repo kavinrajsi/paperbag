@@ -10,7 +10,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .breadcrumb__item {
@@ -34,9 +35,15 @@
     text-decoration: underline;
   }
 
-  &--active span {
-    color: var(--color-text);
-    font-weight: 700;
+  &--active {
+    overflow: hidden;
+
+    span {
+      color: var(--color-text);
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   & + .breadcrumb__item::before {
