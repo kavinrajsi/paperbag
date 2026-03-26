@@ -619,13 +619,24 @@
     });
   }
 
-  // Price range radios
+  // Price range radios (preserve existing filters)
   var priceRadios = document.querySelectorAll('[data-price-radio]');
   for (var p = 0; p < priceRadios.length; p++) {
     priceRadios[p].addEventListener('change', function() {
       var sidebarCheck = document.querySelector('[data-collection-sidebar]');
       if (sidebarCheck && sidebarCheck.classList.contains('collection-page__sidebar--open')) return;
-      window.location.href = this.dataset.url;
+      var url = new URL(window.location.href);
+      var params = new URLSearchParams(url.search);
+      // Remove old price params
+      params.delete('filter.v.price.gte');
+      params.delete('filter.v.price.lte');
+      // Add new price params from selected radio
+      var priceUrl = new URL(this.dataset.url, window.location.origin);
+      var priceParams = new URLSearchParams(priceUrl.search);
+      priceParams.forEach(function(val, key) {
+        params.set(key, val);
+      });
+      window.location.href = url.pathname + '?' + params.toString();
     });
   }
 
