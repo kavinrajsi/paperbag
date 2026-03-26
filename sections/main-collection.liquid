@@ -84,6 +84,10 @@
             </div>
           {%- endfor -%}
 
+          <div class="collection-page__sidebar-actions">
+            <button type="button" class="collection-page__sidebar-close" data-mobile-filter-close>Close</button>
+            <button type="button" class="collection-page__sidebar-apply" data-mobile-filter-apply>Apply</button>
+          </div>
         </aside>
 
         {%- comment -%} Mobile filter toggle {%- endcomment -%}
@@ -319,7 +323,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 12px;
+    margin-bottom: 16px;
     align-items: center;
   }
 
@@ -327,8 +331,10 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
+    height: 34px;
+    padding: 0 12px;
     background: var(--color-brand);
+    border: 1px solid var(--color-brand);
     color: #faf8f3;
     font-family: 'Outfit', sans-serif;
     font-size: 13px;
@@ -350,7 +356,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 12px;
+    height: 34px;
+    padding: 0 12px;
     background: transparent;
     color: var(--color-brand);
     border: 1px solid var(--color-brand);
@@ -372,11 +379,22 @@
     display: none;
   }
 
+  .collection-page__sidebar-actions {
+    display: none;
+  }
+
   /* ── Product grid: 2 columns ── */
   .collection-page__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .collection-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
   }
 
   /* ── Empty state ── */
@@ -488,6 +506,41 @@
       transform: translateX(0);
     }
 
+    .collection-page__sidebar-actions {
+      display: flex;
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--color-off-white);
+      border-top: 1px solid var(--color-muted);
+      margin: 24px -20px 0;
+      padding: 0;
+    }
+
+    .collection-page__sidebar-close,
+    .collection-page__sidebar-apply {
+      flex: 1;
+      height: 48px;
+      border: none;
+      background: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+
+    .collection-page__sidebar-close {
+      color: var(--color-text-secondary);
+      border-right: 1px solid var(--color-muted);
+    }
+
+    .collection-page__sidebar-apply {
+      color: var(--color-brand);
+    }
+
     .collection-page__sidebar-heading {
       font-size: 24px;
       margin-bottom: 16px;
@@ -514,7 +567,7 @@
     }
 
     .collection-page__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
       gap: 16px;
     }
   }
@@ -578,11 +631,32 @@
       document.body.style.overflow = 'hidden';
     });
 
-    backdrop.addEventListener('click', function() {
+    function closeSidebar() {
       sidebar.classList.remove('collection-page__sidebar--open');
       backdrop.style.display = 'none';
       document.body.style.overflow = '';
-    });
+    }
+
+    backdrop.addEventListener('click', closeSidebar);
+
+    var closeBtn = document.querySelector('[data-mobile-filter-close]');
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+
+    var applyBtn = document.querySelector('[data-mobile-filter-apply]');
+    if (applyBtn) {
+      applyBtn.addEventListener('click', function() {
+        var url = new URL(window.location.href);
+        var checked = sidebar.querySelectorAll('[data-filter-checkbox]:checked');
+        var params = new URLSearchParams();
+        if (url.searchParams.get('sort_by')) {
+          params.set('sort_by', url.searchParams.get('sort_by'));
+        }
+        for (var i = 0; i < checked.length; i++) {
+          params.append(checked[i].name, checked[i].value);
+        }
+        window.location.href = url.pathname + '?' + params.toString();
+      });
+    }
   }
 })();
 {% endjavascript %}
