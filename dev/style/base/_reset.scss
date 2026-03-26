@@ -67,7 +67,7 @@ html {
 body {
   min-height: 100vh;
   line-height: 1.6;
-  font-family: var(--font-body, sans-serif);
+  font-family: var(--font-family);
   color: var(--color-text);
   background-color: var(--color-background);
 }
@@ -105,10 +105,74 @@ button {
 
 .shopify-policy__container {
   max-width: 768px !important;
+  font-family: var(--font-family);
+  color: var(--color-text);
+  line-height: 1.7;
+
+  p {
+    margin: 0 0 16px;
+    font-size: 15px;
+  }
+
+  b,
+  strong {
+    font-weight: 700;
+  }
+
+  i,
+  em {
+    font-style: italic;
+  }
+
+  ul {
+    list-style: disc;
+    margin: 0 0 16px;
+    padding-left: 24px;
+  }
+
+  li {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 16px;
+    font-size: 14px;
+
+    th,
+    td {
+      border: 1px solid var(--color-muted);
+      padding: 10px 16px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      background: var(--color-bg-alt);
+    }
+  }
 }
 
 .shopify-policy__title {
-  display: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: #8FA1B7;
+  margin: 0 0 48px;
+  line-height: 1.1;
+  text-align: left;
+
+  h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: #8FA1B7;
+    margin: 0 0 48px;
+    line-height: 1.1;
+    text-align: left;
+  }
 }
 
 // ── Main content offset for non-home pages ──
