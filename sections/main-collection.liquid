@@ -54,8 +54,8 @@
                       </label>
                     {%- endfor -%}
                   {%- when 'price_range' -%}
-                    {%- assign current_min = filter.min_value.value | divided_by: 100 -%}
-                    {%- assign current_max = filter.max_value.value | divided_by: 100 -%}
+                    {%- assign current_min = filter.min_value.value | round -%}
+                    {%- assign current_max = filter.max_value.value | round -%}
                     <div class="collection-page__price-ranges">
                       <label class="collection-page__filter-option">
                         <input type="radio" name="price_range" value="0-2000" {% if current_max == 2000 and current_min == 0 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.lte=2000">
@@ -100,8 +100,8 @@
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
               {%- assign has_active = true -%}
               {%- assign has_price_filter = true -%}
-              {%- assign price_min = filter.min_value.value | divided_by: 100 -%}
-              {%- assign price_max = filter.max_value.value | divided_by: 100 -%}
+              {%- assign price_min = filter.min_value.value | round -%}
+              {%- assign price_max = filter.max_value.value | round -%}
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
@@ -120,11 +120,11 @@
             {%- if has_price_filter -%}
               {%- capture price_label -%}
                 {%- if price_max > 0 and price_min == 0 -%}
-                  Under ₹{{ price_max | money_without_currency | remove: '.00' }}
+                  Under ₹{{ price_max }}
                 {%- elsif price_min > 0 and price_max == 0 -%}
-                  Above ₹{{ price_min | money_without_currency | remove: '.00' }}
+                  Above ₹{{ price_min }}
                 {%- elsif price_min > 0 and price_max > 0 -%}
-                  ₹{{ price_min | money_without_currency | remove: '.00' }} – ₹{{ price_max | money_without_currency | remove: '.00' }}
+                  ₹{{ price_min }} – ₹{{ price_max }}
                 {%- endif -%}
               {%- endcapture -%}
               {%- assign price_remove_url = collection.url | append: '?' -%}
