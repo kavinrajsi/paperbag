@@ -74,7 +74,7 @@
                         {% if collection.sort_by == option.value %}checked{% endif %}
                         data-sort-radio
                       >
-                      {{ option.name }}
+                      {%- if option.value == 'created-descending' -%}Newest first{%- else -%}{{ option.name }}{%- endif -%}
                     </label>
                   {%- endif -%}
                 {%- endfor -%}
@@ -110,7 +110,7 @@
               <select class="collection-page__sort-select" data-sort-select>
                 {%- for option in collection.sort_options -%}
                   {%- if option.value == 'price-ascending' or option.value == 'price-descending' or option.value == 'created-descending' -%}
-                    <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{{ option.name }}</option>
+                    <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{%- if option.value == 'created-descending' -%}Newest first{%- else -%}{{ option.name }}{%- endif -%}</option>
                   {%- endif -%}
                 {%- endfor -%}
               </select>
