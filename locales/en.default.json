@@ -91,7 +91,7 @@
       "one": "{{ count }} item",
       "other": "{{ count }} items"
     },
-    "taxes_and_shipping": "Taxes and shipping calculated at checkout"
+    "taxes_and_shipping": "Inclusive of all taxes and shipping"
   },
   "customer": {
     "account": {
