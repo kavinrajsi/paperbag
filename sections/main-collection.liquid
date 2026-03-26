@@ -599,10 +599,12 @@
     });
   }
 
-  // Filter checkboxes auto-submit
+  // Filter checkboxes auto-submit (desktop only, skip when mobile drawer is open)
   var checkboxes = document.querySelectorAll('[data-filter-checkbox]');
+  var sidebarEl = document.querySelector('[data-collection-sidebar]');
   for (var k = 0; k < checkboxes.length; k++) {
     checkboxes[k].addEventListener('change', function() {
+      if (sidebarEl && sidebarEl.classList.contains('collection-page__sidebar--open')) return;
       var url = new URL(window.location.href);
       var checked = document.querySelectorAll('[data-filter-checkbox]:checked');
       var params = new URLSearchParams();
