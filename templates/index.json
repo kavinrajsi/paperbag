@@ -137,6 +137,7 @@
     },
     "sustainability_TAPVLd": {
       "type": "sustainability",
+      "disabled": true,
       "name": "Sustainability",
       "settings": {
         "text": "Where comfort meets conscience. Our fabrics are soft on you and gentle on the planet.",
