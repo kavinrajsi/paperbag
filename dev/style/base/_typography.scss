@@ -76,25 +76,36 @@ small {
 }
 
 .section-content {
-  color: var(--ha-text-color, #fff);
+  color: var(--ha-text-color, var(--color-text));
   font-family: var(--font-family);
-  font-size: 16px;
-  line-height: normal;
+  font-size: 15px;
+  line-height: var(--leading-relaxed);
+  margin: 0;
+  padding: 0;
 
   p {
     margin: 0;
   }
+
+  @media screen and (min-width: $breakpoint-sm) {
+    font-size: 16px;
+  }
 }
 
 .section-title {
-  color: var(--ha-heading-color, #313d65);
+  color: var(--ha-heading-color, var(--color-heading));
   font-family: var(--font-family);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: var(--tracking-tight);
-  line-height: normal;
-  margin: 0;
-  padding-bottom: 20px;
+  line-height: var(--leading-snug);
+  margin: 0 0 $spacing-5;
+  padding: 0;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    font-size: 26px;
+    margin-bottom: $spacing-6;
+  }
 }
 
 @media screen and (max-width: $breakpoint-sm) {

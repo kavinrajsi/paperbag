@@ -35,7 +35,8 @@
         aria-label="{{ 'general.menu' | t }}"
         type="button"
       >
-        {%- render 'icon', icon: 'menu' -%}
+        <span class="header__mobile-toggle-open">{%- render 'icon', icon: 'menu' -%}</span>
+        <span class="header__mobile-toggle-close">{%- render 'icon', icon: 'close' -%}</span>
       </button>
 
       <a class="header__logo header__logo--desktop" href="{{ routes.root_url }}">
@@ -304,14 +305,6 @@
   </div>
 
   <div class="mobile-nav" data-mobile-nav>
-    <button
-      class="mobile-nav__close"
-      data-mobile-nav-close
-      aria-label="{{ 'general.close' | t }}"
-      type="button"
-    >
-      {%- render 'icon', icon: 'close' -%}
-    </button>
 
     {%- if menu -%}
       <ul class="mobile-nav__links">

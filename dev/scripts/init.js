@@ -8,21 +8,21 @@
     init: function() {
       var toggle = document.querySelector('[data-mobile-toggle]');
       var nav = document.querySelector('[data-mobile-nav]');
-      var close = document.querySelector('[data-mobile-nav-close]');
 
       if (!toggle || !nav) return;
 
       toggle.addEventListener('click', function() {
-        nav.classList.add('mobile-nav--open');
-        document.body.style.overflow = 'hidden';
-      });
-
-      if (close) {
-        close.addEventListener('click', function() {
+        var isOpen = nav.classList.contains('mobile-nav--open');
+        if (isOpen) {
           nav.classList.remove('mobile-nav--open');
+          toggle.classList.remove('header__mobile-toggle--active');
           document.body.style.overflow = '';
-        });
-      }
+        } else {
+          nav.classList.add('mobile-nav--open');
+          toggle.classList.add('header__mobile-toggle--active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
 
       // Close on overlay click
       nav.addEventListener('click', function(e) {

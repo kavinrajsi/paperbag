@@ -299,41 +299,42 @@
   }
 }
 
+.header__mobile-toggle-close {
+  display: none;
+}
+
+.header__mobile-toggle--active .header__mobile-toggle-open {
+  display: none;
+}
+
+.header__mobile-toggle--active .header__mobile-toggle-close {
+  display: inline-flex;
+}
+
 // ── Mobile nav drawer ──
 .mobile-nav {
-  background: var(--color-bg);
-  height: 100%;
+  background: var(--color-off-white, #faf8f3);
   left: 0;
   overflow-y: auto;
-  padding: $spacing-4;
+  padding: 16px 24px 32px;
   position: fixed;
-  top: 0;
+  right: 0;
+  top: 86px;
+  bottom: 0;
   transform: translateX(-100%);
   transition: transform var(--duration-base) var(--ease-out);
-  width: 100%;
-  z-index: 200;
+  z-index: 99;
 
   &--open {
-    padding: 16px;
     transform: translateX(0);
   }
 }
 
-.mobile-nav__close {
-  background: none;
-  border: none;
-  color: var(--color-brand);
-  cursor: pointer;
-  padding: $spacing-1;
-  position: absolute;
-  right: $spacing-4;
-  top: $spacing-4;
-}
 
 .mobile-nav__links {
   list-style: none;
   margin: 0;
-  padding: $spacing-7 0 0;
+  padding: 0;
 }
 
 .mobile-nav__item {
@@ -344,10 +345,10 @@
   color: var(--color-black);
   display: block;
   font-family: $font-outfit;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
-  line-height: 1.8;
-  padding: $spacing-3 0;
+  line-height: 1.4;
+  padding: 18px 0;
   text-decoration: none;
   text-transform: capitalize;
 }
@@ -387,7 +388,7 @@
   padding: 0 0 $spacing-2 $spacing-4;
 
   .mobile-nav__link {
-    font-size: 0.875rem;
+    font-size: 16px;
     padding: $spacing-2 0;
   }
 }
@@ -401,7 +402,7 @@
   display: flex;
   flex-direction: row;
   gap: $spacing-3;
-  margin-top: $spacing-6;
+  margin-top: $spacing-7;
 }
 
 .mobile-nav__auth-btn {
@@ -410,7 +411,7 @@
   justify-content: center;
   gap: $spacing-2;
   flex: 1;
-  padding: 14px;
+  padding: 18px 14px;
   font-family: $font-outfit;
   font-size: 16px;
   font-weight: 400;
@@ -420,10 +421,4 @@
   border: 2px solid var(--color-brand);
   background-color: transparent;
   color: var(--color-brand);
-  transition: background-color $transition-base, color $transition-base;
-
-  &:hover {
-    background-color: var(--color-brand);
-    color: #faf8f3;
-  }
 }
