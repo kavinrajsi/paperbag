@@ -54,19 +54,19 @@
                       </label>
                     {%- endfor -%}
                   {%- when 'price_range' -%}
-                    {%- assign current_min = filter.min_value.value | divided_by: 100 -%}
-                    {%- assign current_max = filter.max_value.value | divided_by: 100 -%}
+                    {%- assign cur_min = filter.min_value.value | default: 0 | times: 1 -%}
+                    {%- assign cur_max = filter.max_value.value | default: 0 | times: 1 -%}
                     <div class="collection-page__price-ranges">
                       <label class="collection-page__filter-option">
-                        <input type="radio" name="price_range" value="0-2000" {% if current_max == 2000 and current_min == 0 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.lte=2000">
+                        <input type="radio" name="price_range" value="0-2000" {% if cur_max == 200000 or cur_max == 2000 %}{% if cur_min == 0 %}checked{% endif %}{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.lte=2000">
                         Under ₹2,000
                       </label>
                       <label class="collection-page__filter-option">
-                        <input type="radio" name="price_range" value="2000-3000" {% if current_min == 2000 and current_max == 3000 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.gte=2000&filter.v.price.lte=3000">
+                        <input type="radio" name="price_range" value="2000-3000" {% if cur_min == 200000 or cur_min == 2000 %}{% if cur_max == 300000 or cur_max == 3000 %}checked{% endif %}{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.gte=2000&filter.v.price.lte=3000">
                         ₹2,000 – ₹3,000
                       </label>
                       <label class="collection-page__filter-option">
-                        <input type="radio" name="price_range" value="3000+" {% if current_min == 3000 and current_max == 0 %}checked{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.gte=3000">
+                        <input type="radio" name="price_range" value="3000+" {% if cur_min == 300000 or cur_min == 3000 %}{% if cur_max == 0 %}checked{% endif %}{% endif %} data-price-radio data-url="{{ collection.url }}?filter.v.price.gte=3000">
                         Above ₹3,000
                       </label>
                     </div>
@@ -100,8 +100,10 @@
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
               {%- assign has_active = true -%}
               {%- assign has_price_filter = true -%}
-              {%- assign price_min = filter.min_value.value | divided_by: 100 -%}
-              {%- assign price_max = filter.max_value.value | divided_by: 100 -%}
+              {%- assign price_min_raw = filter.min_value.value | default: 0 -%}
+              {%- assign price_max_raw = filter.max_value.value | default: 0 -%}
+              {%- assign price_min = price_min_raw | times: 1 -%}
+              {%- assign price_max = price_max_raw | times: 1 -%}
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
@@ -118,15 +120,24 @@
             {%- endfor -%}
 
             {%- if has_price_filter -%}
+              {%- comment -%} Match against known ranges — URL uses 2000/3000, Shopify may store as cents {%- endcomment -%}
               {%- capture price_label -%}
-                {%- if price_max > 0 and price_min == 0 -%}
-                  Under ₹{{ price_max | money_without_currency | remove: '.00' }}
-                {%- elsif price_min > 0 and price_max == 0 -%}
-                  Above ₹{{ price_min | money_without_currency | remove: '.00' }}
-                {%- elsif price_min > 0 and price_max > 0 -%}
-                  ₹{{ price_min | money_without_currency | remove: '.00' }} – ₹{{ price_max | money_without_currency | remove: '.00' }}
+                {%- if price_max == 200000 or price_max == 2000 -%}
+                  {%- if price_min == 0 -%}Under ₹2,000{%- endif -%}
+                {%- elsif price_min == 300000 or price_min == 3000 -%}
+                  {%- if price_max == 0 -%}Above ₹3,000{%- endif -%}
+                {%- endif -%}
+                {%- if price_label == blank -%}
+                  {%- if price_min == 200000 or price_min == 2000 -%}
+                    {%- if price_max == 300000 or price_max == 3000 -%}
+                      ₹2,000 – ₹3,000
+                    {%- endif -%}
+                  {%- endif -%}
                 {%- endif -%}
               {%- endcapture -%}
+              {%- if price_label == blank -%}
+                {%- capture price_label -%}Price filter active{%- endcapture -%}
+              {%- endif -%}
               {%- assign price_remove_url = collection.url | append: '?' -%}
               {%- for filter in collection.filters -%}
                 {%- if filter.type != 'price_range' -%}
