@@ -104,8 +104,8 @@
   text-align: right;
 }
 
-// ── Desktop overrides ──
-@media screen and (min-width: $breakpoint-md) {
+// ── Tablet + Desktop overrides ──
+@media screen and (min-width: $breakpoint-sm) {
   .hero-banner__content--desktop-left {
     align-items: flex-start;
     text-align: left;
@@ -143,6 +143,10 @@
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 60px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    justify-content: flex-start;
+  }
 }
 
 .hero-banner__inner--mobile-bottom {

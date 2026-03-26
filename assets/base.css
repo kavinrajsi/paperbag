@@ -178,11 +178,20 @@ button {
   cursor: pointer;
 }
 
+.shopify-policy__body,
+.shopify-policy__container,
+.shopify-policy__title {
+  all: unset !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
 .shopify-policy__container {
   max-width: 768px !important;
-  font-family: var(--font-family);
-  color: var(--color-text);
-  line-height: 1.7;
+  font-family: "Outfit", sans-serif !important;
+  color: var(--color-text) !important;
+  line-height: 1.7 !important;
+  padding-bottom: 32px !important;
 }
 .shopify-policy__container p {
   margin: 0 0 16px;
@@ -223,22 +232,22 @@ button {
 }
 
 .shopify-policy__title {
-  font-family: "Outfit", sans-serif;
-  font-size: 48px;
-  font-weight: 300;
-  color: #8FA1B7;
-  margin: 0 0 48px;
-  line-height: 1.1;
-  text-align: left;
+  font-family: "Outfit", sans-serif !important;
+  font-size: 48px !important;
+  font-weight: 300 !important;
+  color: #8FA1B7 !important;
+  margin: 0 0 48px !important;
+  line-height: 1.1 !important;
+  text-align: left !important;
 }
 .shopify-policy__title h1 {
-  font-family: "Outfit", sans-serif;
-  font-size: 48px;
-  font-weight: 300;
-  color: #8FA1B7;
-  margin: 0 0 48px;
-  line-height: 1.1;
-  text-align: left;
+  font-family: "Outfit", sans-serif !important;
+  font-size: 48px !important;
+  font-weight: 300 !important;
+  color: #8FA1B7 !important;
+  margin: 0 0 48px !important;
+  line-height: 1.1 !important;
+  text-align: left !important;
 }
 
 body:not(.template-index) #MainContent {
@@ -264,7 +273,7 @@ h6 {
 
 h1,
 .h1 {
-  font-family: var(--font-heading, sans-serif);
+  font-family: "Outfit", sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.2;
@@ -273,7 +282,7 @@ h1,
 
 h2,
 .h2 {
-  font-family: var(--font-heading, sans-serif);
+  font-family: "Outfit", sans-serif;
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.2;
@@ -282,7 +291,7 @@ h2,
 
 h3,
 .h3 {
-  font-family: var(--font-heading, sans-serif);
+  font-family: "Outfit", sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.3;
@@ -290,7 +299,7 @@ h3,
 
 h4,
 .h4 {
-  font-family: var(--font-heading, sans-serif);
+  font-family: "Outfit", sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.3;
@@ -336,7 +345,7 @@ small {
 
 .section-content {
   color: var(--ha-text-color, var(--color-text));
-  font-family: var(--font-family);
+  font-family: "Outfit", sans-serif;
   font-size: 15px;
   line-height: var(--leading-relaxed);
   margin: 0;
@@ -353,7 +362,7 @@ small {
 
 .section-title {
   color: var(--ha-heading-color, var(--color-heading));
-  font-family: var(--font-family);
+  font-family: "Outfit", sans-serif;
   font-size: 20px;
   font-weight: 700;
   letter-spacing: var(--tracking-tight);
@@ -1864,7 +1873,7 @@ small {
   text-align: right;
 }
 
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 750px) {
   .hero-banner__content--desktop-left {
     align-items: flex-start;
     text-align: left;
@@ -1899,6 +1908,11 @@ small {
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 60px;
+}
+@media screen and (min-width: 750px) {
+  .hero-banner__inner--mobile-center {
+    justify-content: flex-start;
+  }
 }
 
 .hero-banner__inner--mobile-bottom {

@@ -103,12 +103,21 @@ button {
   cursor: pointer;
 }
 
+// ── Reset all Shopify policy defaults ──
+.shopify-policy__body,
+.shopify-policy__container,
+.shopify-policy__title {
+  all: unset !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
 .shopify-policy__container {
   max-width: 768px !important;
-  font-family: var(--font-family);
-  color: var(--color-text);
-  line-height: 1.7;
-  padding-bottom: 32px;
+  font-family: 'Outfit', sans-serif !important;
+  color: var(--color-text) !important;
+  line-height: 1.7 !important;
+  padding-bottom: 32px !important;
 
   p {
     margin: 0 0 16px;
@@ -157,22 +166,22 @@ button {
 }
 
 .shopify-policy__title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 48px;
-  font-weight: 300;
-  color: #8FA1B7;
-  margin: 0 0 48px;
-  line-height: 1.1;
-  text-align: left;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 48px !important;
+  font-weight: 300 !important;
+  color: #8FA1B7 !important;
+  margin: 0 0 48px !important;
+  line-height: 1.1 !important;
+  text-align: left !important;
 
   h1 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 48px;
-    font-weight: 300;
-    color: #8FA1B7;
-    margin: 0 0 48px;
-    line-height: 1.1;
-    text-align: left;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 48px !important;
+    font-weight: 300 !important;
+    color: #8FA1B7 !important;
+    margin: 0 0 48px !important;
+    line-height: 1.1 !important;
+    text-align: left !important;
   }
 }
 
