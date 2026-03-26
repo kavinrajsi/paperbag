@@ -88,7 +88,7 @@
       "name": "Shop Products",
       "settings": {
         "show_title": true,
-        "title": "Shop Products",
+        "title": "Shop By Products",
         "container_type": "container",
         "padding_top": 64,
         "padding_bottom": 64,
