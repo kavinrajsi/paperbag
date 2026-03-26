@@ -3134,6 +3134,7 @@ small {
     bottom: 12px;
     justify-content: flex-start;
     left: auto;
+    padding: 12px 24px;
     right: 12px;
     text-align: left;
     width: -moz-max-content;
