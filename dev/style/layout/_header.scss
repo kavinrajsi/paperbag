@@ -344,10 +344,10 @@
   color: var(--color-black);
   display: block;
   font-family: $font-outfit;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
-  padding: 0 0 18px;
+  padding: 0 0 16px;
   margin: 0;
   text-decoration: none;
   text-transform: capitalize;
@@ -402,7 +402,7 @@
   display: flex;
   flex-direction: row;
   gap: $spacing-3;
-  margin-top: $spacing-7;
+  margin-top: 30px;
 }
 
 .mobile-nav__auth-btn {
@@ -411,7 +411,7 @@
   justify-content: center;
   gap: $spacing-2;
   flex: 1;
-  padding: 18px 14px;
+  padding: 12px 24px;
   font-family: $font-outfit;
   font-size: 16px;
   font-weight: 400;
