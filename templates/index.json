@@ -19,7 +19,7 @@
         "heading_size": "lg",
         "content": "Discover our finest selection of premium sweets and gifting combos.",
         "button_label": "Shop Now",
-        "button_link": "shopify://collections/all",
+        "button_link": "shopify://collections/shop-all",
         "button_style": "primary",
         "font_color": "#ffffff",
         "content_gap": 16,
