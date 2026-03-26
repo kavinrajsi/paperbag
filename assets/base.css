@@ -1167,6 +1167,26 @@ small {
   color: var(--color-brand);
 }
 
+.mobile-nav__account-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  margin-top: 16px;
+  font-family: "Outfit", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid var(--color-brand);
+  background-color: transparent;
+  color: var(--color-brand);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
 .search-overlay {
   position: absolute;
   top: 100%;
@@ -2298,7 +2318,7 @@ small {
 }
 
 .cart-pg__summary {
-  background: var(--color-secondary);
+  background: none;
   padding: 24px;
   border-radius: 8px;
   height: -moz-fit-content;
@@ -2546,7 +2566,7 @@ small {
   font-family: var(--font-family);
   font-size: 16px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: normal;
   margin: 0;
   overflow: hidden;
@@ -2559,9 +2579,9 @@ small {
   }
 }
 .scroll-collection__name a {
-  color: inherit;
-  font: inherit;
+  all: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .scroll-collection__price {

@@ -56,7 +56,7 @@
         {%- if section.settings.enable_sorting -%}
           <aside class="collection-page__sidebar collection-page__sort-sidebar" data-sort-sidebar>
             <div class="collection-page__sidebar-header">
-              <h2 class="collection-page__sidebar-heading">Sort</h2>
+              <h2 class="collection-page__sidebar-heading">Sort By</h2>
               <button type="button" class="collection-page__sidebar-close" data-sort-sidebar-close aria-label="Close sort">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
@@ -65,16 +65,18 @@
             <div class="collection-page__filter-bar">
               <div class="collection-page__filter-panel" style="padding-top:8px">
                 {%- for option in collection.sort_options -%}
-                  <label class="collection-page__filter-option">
-                    <input
-                      type="radio"
-                      name="sort_by"
-                      value="{{ option.value }}"
-                      {% if collection.sort_by == option.value %}checked{% endif %}
-                      data-sort-radio
-                    >
-                    {{ option.name }}
-                  </label>
+                  {%- if option.value == 'price-ascending' or option.value == 'price-descending' or option.value == 'created-descending' -%}
+                    <label class="collection-page__filter-option">
+                      <input
+                        type="radio"
+                        name="sort_by"
+                        value="{{ option.value }}"
+                        {% if collection.sort_by == option.value %}checked{% endif %}
+                        data-sort-radio
+                      >
+                      {{ option.name }}
+                    </label>
+                  {%- endif -%}
                 {%- endfor -%}
               </div>
             </div>
@@ -107,7 +109,9 @@
             <div class="collection-page__sort-select-wrap">
               <select class="collection-page__sort-select" data-sort-select>
                 {%- for option in collection.sort_options -%}
-                  <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{{ option.name }}</option>
+                  {%- if option.value == 'price-ascending' or option.value == 'price-descending' or option.value == 'created-descending' -%}
+                    <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{{ option.name }}</option>
+                  {%- endif -%}
                 {%- endfor -%}
               </select>
             </div>

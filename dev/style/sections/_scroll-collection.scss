@@ -138,7 +138,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: normal;
   margin: 0;
   overflow: hidden;
@@ -150,9 +150,9 @@
   }
 
   a {
-    color: inherit;
-    font: inherit;
+    all: inherit;
     text-decoration: none;
+    cursor: pointer;
   }
 }
 
