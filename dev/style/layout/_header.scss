@@ -54,6 +54,7 @@
   align-items: center;
   display: grid;
   grid-template-columns: auto 1fr auto;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   min-height: 56px;
@@ -115,8 +116,10 @@
 .header__logo--mobile {
   color: var(--color-black);
   display: flex;
-  justify-self: center;
+  left: 50%;
+  position: absolute;
   text-decoration: none;
+  transform: translateX(-50%);
 
   @media screen and (min-width: $breakpoint-md) {
     display: none;

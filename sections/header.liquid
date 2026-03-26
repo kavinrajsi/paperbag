@@ -336,6 +336,16 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
+
+    <div class="mobile-nav__auth">
+      <a href="{{ routes.account_login_url }}" class="mobile-nav__auth-btn">
+        {%- render 'icon', icon: 'person' -%}
+        Log In
+      </a>
+      <a href="{{ routes.account_register_url }}" class="mobile-nav__auth-btn">
+        Create Account
+      </a>
+    </div>
   </div>
 </header>
 
