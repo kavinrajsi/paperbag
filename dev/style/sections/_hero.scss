@@ -230,3 +230,41 @@
     align-self: auto;
   }
 }
+
+.hero-banner__btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  margin: 0;
+  font-family: $font-outfit;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+
+  @media screen and (min-width: $breakpoint-md) {
+    padding: 14px;
+  }
+}
+
+.hero-banner__btn-link--primary {
+  background-color: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #faf8f3;
+}
+
+.hero-banner__btn-link--outline {
+  background-color: transparent;
+  color: var(--color-brand);
+  border: 2px solid var(--color-brand);
+
+  &:hover {
+    background-color: var(--color-brand);
+    color: #faf8f3;
+  }
+}

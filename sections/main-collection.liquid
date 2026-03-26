@@ -89,6 +89,19 @@
 
       {%- comment -%} Product grid {%- endcomment -%}
       <div class="collection-page__products">
+        {%- comment -%} Desktop toolbar: product count + sort {%- endcomment -%}
+        <div class="collection-page__toolbar">
+          <span class="collection-page__product-count">{{ collection.products_count }} Products</span>
+          {%- if section.settings.enable_sorting -%}
+            <div class="collection-page__sort-select-wrap">
+              <select class="collection-page__sort-select" data-sort-select>
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endif -%}
+        </div>
         {%- assign has_active = false -%}
         {%- for filter in collection.filters -%}
           {%- if filter.active_values.size > 0 -%}
@@ -409,6 +422,41 @@
     color: #faf8f3;
   }
 
+  /* ── Desktop toolbar: count + sort ── */
+  .collection-page__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .collection-page__product-count {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text);
+  }
+
+  .collection-page__sort-select-wrap {
+    position: relative;
+  }
+
+  .collection-page__sort-select {
+    appearance: none;
+    background: #fff;
+    border: 1px solid var(--color-border, #ccc);
+    padding: 10px 40px 10px 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text);
+    cursor: pointer;
+    min-width: 180px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
   /* ── Mobile bar (hidden on desktop) ── */
   .collection-page__mobile-bar {
     display: none;
@@ -699,6 +747,10 @@
       cursor: pointer;
     }
 
+    .collection-page__toolbar {
+      display: none;
+    }
+
     .collection-page__grid {
       grid-template-columns: 1fr;
       gap: 16px;
@@ -738,6 +790,16 @@
         params.append(checked[l].name, checked[l].value);
       }
       window.location.href = url.pathname + '?' + params.toString();
+    });
+  }
+
+  // Desktop sort select
+  var sortSelect = document.querySelector('[data-sort-select]');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      var url = new URL(window.location.href);
+      url.searchParams.set('sort_by', this.value);
+      window.location.href = url.toString();
     });
   }
 
