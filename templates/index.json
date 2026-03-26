@@ -13,7 +13,7 @@
       "type": "hero-banner",
       "settings": {
         "image_mobile": "shopify://shop_images/banner-mobile-test2.png",
-        "image_desktop": "shopify://shop_images/about-banner.jpg",
+        "image_desktop": "shopify://shop_images/banner-desktop-test.jpg",
         "overlay_opacity": 0,
         "heading": "New Arrivals",
         "heading_size": "lg",
