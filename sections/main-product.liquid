@@ -61,6 +61,11 @@
             <button type="button" class="pdp__gallery-arrow pdp__gallery-arrow--next" data-gallery-next aria-label="Next image">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
             </button>
+            <div class="pdp__dots" data-gallery-dots>
+              {%- for image in product.images -%}
+                <button class="pdp__dot{% if forloop.first %} pdp__dot--active{% endif %}" data-gallery-dot="{{ forloop.index0 }}" aria-label="Go to image {{ forloop.index }}"></button>
+              {%- endfor -%}
+            </div>
           {%- endif -%}
         </div>
       </div>
@@ -689,6 +694,11 @@
     }
   }
 
+  /* ── Dots (hidden on desktop) ── */
+  .pdp__dots {
+    display: none;
+  }
+
   /* ── Mobile ── */
   @media screen and (max-width: 749px) {
     .pdp {
@@ -702,25 +712,21 @@
     }
 
     .pdp__gallery {
-      flex-direction: column-reverse;
-      gap: 12px;
+      flex-direction: column;
+      gap: 0;
+      margin-left: -16px;
+      margin-right: -16px;
     }
 
     .pdp__thumbs {
-      flex-direction: row;
-      max-height: none;
-      overflow-x: auto;
-      gap: 8px;
-    }
-
-    .pdp__thumb {
-      width: 64px;
-      height: 80px;
+      display: none;
     }
 
     .pdp__main-image img,
     .pdp__image {
-      max-height: 400px;
+      max-height: none;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
     }
 
     .pdp__title {
@@ -744,6 +750,35 @@
     .pdp__gallery-arrow--next {
       right: 8px;
     }
+
+    .pdp__dots {
+      display: flex;
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      gap: 6px;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .pdp__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.55);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: width 0.2s ease, border-radius 0.2s ease, background 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .pdp__dot--active {
+      width: 18px;
+      border-radius: 3px;
+      background: #fff;
+    }
   }
 {% endstylesheet %}
 
@@ -754,6 +789,7 @@
   'use strict';
   // Gallery thumbnails
   var thumbs = document.querySelectorAll('[data-gallery-thumb]');
+  var dots = document.querySelectorAll('[data-gallery-dot]');
   var mainImg = document.querySelector('[data-gallery-main] img');
   var currentThumbIndex = 0;
 
@@ -764,6 +800,8 @@
     currentThumbIndex = index;
     for (var j = 0; j < thumbs.length; j++) thumbs[j].classList.remove('pdp__thumb--active');
     thumbs[index].classList.add('pdp__thumb--active');
+    for (var k = 0; k < dots.length; k++) dots[k].classList.remove('pdp__dot--active');
+    if (dots[index]) dots[index].classList.add('pdp__dot--active');
     var srcset = thumbs[index].getAttribute('data-image-srcset');
     var src = thumbs[index].getAttribute('data-image-url');
     if (mainImg) {
@@ -782,11 +820,36 @@
     }
   }
 
+  // Dot clicks
+  for (var m = 0; m < dots.length; m++) {
+    (function(dotIdx) {
+      dots[dotIdx].addEventListener('click', function() {
+        goToThumb(dotIdx);
+      });
+    })(m);
+  }
+
   // Gallery prev/next arrows
   var prevBtn = document.querySelector('[data-gallery-prev]');
   var nextBtn = document.querySelector('[data-gallery-next]');
   if (prevBtn) prevBtn.addEventListener('click', function() { goToThumb(currentThumbIndex - 1); });
   if (nextBtn) nextBtn.addEventListener('click', function() { goToThumb(currentThumbIndex + 1); });
+
+  // Touch swipe
+  var galleryMain = document.querySelector('[data-gallery-main]');
+  if (galleryMain) {
+    var touchStartX = 0;
+    galleryMain.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    galleryMain.addEventListener('touchend', function(e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) goToThumb(currentThumbIndex + 1);
+        else goToThumb(currentThumbIndex - 1);
+      }
+    }, { passive: true });
+  }
 
   // Variant selection
   var productJson = document.querySelector('[data-product-json]');
