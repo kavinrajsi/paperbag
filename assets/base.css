@@ -2622,14 +2622,6 @@ small {
   flex-direction: column;
   gap: 4px;
 }
-@media screen and (min-width: 750px) {
-  .scroll-collection__info {
-    align-items: center;
-    flex-direction: row;
-    gap: 8px;
-    justify-content: space-between;
-  }
-}
 
 .scroll-collection__name {
   color: #0b090a;
@@ -2642,11 +2634,6 @@ small {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-@media screen and (min-width: 750px) {
-  .scroll-collection__name {
-    flex: 1 1 170px;
-  }
 }
 .scroll-collection__name a {
   all: inherit;

@@ -124,13 +124,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    align-items: center;
-    flex-direction: row;
-    gap: 8px;
-    justify-content: space-between;
-  }
 }
 
 .scroll-collection__name {
@@ -144,10 +137,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    flex: 1 1 170px;
-  }
 
   a {
     all: inherit;

@@ -89,7 +89,7 @@
       "settings": {
         "show_title": true,
         "title": "Shop By Category",
-        "container_type": "container",
+        "container_type": "container-fluid",
         "padding_top": 64,
         "padding_bottom": 64,
         "bg_color": "#ffffff",
