@@ -28,8 +28,8 @@
       "type": "home-about",
       "name": "Home about",
       "settings": {
-        "heading": "At Paperbag, less is always more.",
-        "content": "<p>Our clothing is designed to move with you, light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>",
+        "heading": "Our story",
+        "content": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/><br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/><br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/><br/>You put it on, and it works.</p>",
         "button_label": "",
         "button_link": "",
         "container_type": "container",
