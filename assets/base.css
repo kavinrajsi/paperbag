@@ -1172,6 +1172,7 @@ small {
   width: 100%;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 12px 24px;
   margin-top: 16px;
   font-family: "Outfit", sans-serif;
@@ -2566,7 +2567,7 @@ small {
   font-family: var(--font-family);
   font-size: 16px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
   margin: 0;
   overflow: hidden;
