@@ -199,20 +199,81 @@
 {%- comment -%} Related Products (same collection) {%- endcomment -%}
 {%- assign related_collection = product.collections | first -%}
 {%- if related_collection != blank and related_collection.products_count > 1 -%}
+  {{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css' | stylesheet_tag }}
+  {{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css' | stylesheet_tag }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
   <div class="pdp-related">
     <div class="container">
       <h2 class="pdp-related__heading">You May Also Like</h2>
-      <div class="pdp-related__grid">
-        {%- for item in related_collection.products limit: 4 -%}
-          {%- unless item.id == product.id -%}
-            <div class="pdp-related__item">
-              {%- render 'product-card', product: item -%}
-            </div>
-          {%- endunless -%}
-        {%- endfor -%}
+      <div class="scroll-collection__slider" data-related-slider>
+        <div class="scroll-collection__track" data-related-track>
+          {%- for item in related_collection.products limit: 8 -%}
+            {%- unless item.id == product.id -%}
+              {%- assign current_variant = item.selected_or_first_available_variant -%}
+              <div class="scroll-collection__card">
+                <a href="{{ item.url }}" class="scroll-collection__media">
+                  {%- if item.featured_image -%}
+                    <img
+                      class="scroll-collection__image"
+                      src="{{ item.featured_image | image_url }}"
+                      alt="{{ item.title | escape }}"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'scroll-collection__placeholder' }}
+                  {%- endif -%}
+                </a>
+                <div class="scroll-collection__body">
+                  <div class="scroll-collection__info">
+                    <p class="scroll-collection__name">
+                      <a href="{{ item.url }}">{{ item.title }}</a>
+                    </p>
+                    <p class="scroll-collection__price">
+                      {{ current_variant.price | money }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="scroll-collection__nav">
+          <div class="scroll-collection__dots" data-related-dots></div>
+          <div class="scroll-collection__arrows">
+            <button class="scroll-collection__arrow" data-related-prev type="button" aria-label="Previous slide">
+              <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M19 6.10761C19 5.92765 18.9285 5.75507 18.8013 5.62782C18.674 5.50057 18.5014 5.42908 18.3215 5.42908H2.31773L6.58844 1.15978C6.65153 1.0967 6.70155 1.0218 6.73565 0.939375C6.76979 0.856948 6.78737 0.768603 6.78737 0.679385C6.78737 0.590167 6.76979 0.501823 6.73565 0.419396C6.70155 0.336969 6.65153 0.262074 6.58844 0.198987C6.52535 0.1359 6.45045 0.0858575 6.36803 0.0517152C6.2856 0.0175729 6.19725 0 6.10804 0C6.01882 0 5.93047 0.0175729 5.84805 0.0517152C5.76562 0.0858575 5.69073 0.1359 5.62764 0.198987L0.199319 5.62721C0.136232 5.69024 0.0860478 5.76512 0.0518441 5.84755C0.0176404 5.92999 0 6.01836 0 6.10761C0 6.19686 0.0176404 6.28523 0.0518441 6.36767C0.0860478 6.4501 0.136232 6.52498 0.199319 6.58801L5.62764 12.0162C5.69073 12.0793 5.76562 12.1294 5.84805 12.1635C5.93047 12.1976 6.01882 12.2152 6.10804 12.2152C6.19725 12.2152 6.2856 12.1976 6.36803 12.1635C6.45045 12.1294 6.52535 12.0793 6.58844 12.0162C6.65153 11.9531 6.70155 11.8783 6.73565 11.7958C6.76979 11.7134 6.78737 11.6251 6.78737 11.5358C6.78737 11.4466 6.76979 11.3583 6.73565 11.2758C6.70155 11.1934 6.65153 11.1185 6.58844 11.0554L2.31773 6.78614H18.3215C18.5014 6.78614 18.674 6.71465 18.8013 6.5874C18.9285 6.46015 19 6.28757 19 6.10761Z" fill="#161A1D"/></svg>
+            </button>
+            <button class="scroll-collection__arrow" data-related-next type="button" aria-label="Next slide">
+              <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.10761C0 5.92765 0.0714874 5.75507 0.198736 5.62782C0.325985 5.50057 0.498571 5.42908 0.678528 5.42908H16.6823L12.4116 1.15978C12.3485 1.0967 12.2985 1.0218 12.2644 0.939375C12.2302 0.856948 12.2126 0.768603 12.2126 0.679385C12.2126 0.590167 12.2302 0.501823 12.2644 0.419396C12.2985 0.336969 12.3485 0.262074 12.4116 0.198987C12.4747 0.1359 12.5496 0.0858575 12.632 0.0517152C12.7145 0.0175729 12.8028 0 12.892 0C12.9813 0 13.0696 0.0175729 13.152 0.0517152C13.2345 0.0858575 13.3093 0.1359 13.3724 0.198987L18.8007 5.62721C18.8638 5.69024 18.914 5.76512 18.9482 5.84755C18.9824 5.92999 19 6.01836 19 6.10761C19 6.19686 18.9824 6.28523 18.9482 6.36767C18.914 6.4501 18.8638 6.52498 18.8007 6.58801L13.3724 12.0162C13.3093 12.0793 13.2345 12.1294 13.152 12.1635C13.0696 12.1976 12.9813 12.2152 12.892 12.2152C12.8028 12.2152 12.7145 12.1976 12.632 12.1635C12.5496 12.1294 12.4747 12.0793 12.4116 12.0162C12.3485 11.9531 12.2985 11.8783 12.2644 11.7958C12.2302 11.7134 12.2126 11.6251 12.2126 11.5358C12.2126 11.4466 12.2302 11.3583 12.2644 11.2758C12.2985 11.1934 12.3485 11.1185 12.4116 11.0554L16.6823 6.78614H0.678528C0.498571 6.78614 0.325985 6.71465 0.198736 6.5874C0.0714874 6.46015 0 6.28757 0 6.10761Z" fill="#161A1D"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var $track = $('[data-related-track]');
+      if (!$track.length) return;
+
+      $track.slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        prevArrow: $('[data-related-prev]'),
+        nextArrow: $('[data-related-next]'),
+        dots: true,
+        appendDots: $('[data-related-dots]'),
+        infinite: false,
+        responsive: [
+          { breakpoint: 992, settings: { slidesToShow: 3.5 } },
+          { breakpoint: 768, settings: { slidesToShow: 1.5 } }
+        ]
+      });
+    });
+  </script>
 {%- endif -%}
 
 {% stylesheet %}
@@ -233,32 +294,7 @@
     margin: 0 0 24px;
   }
 
-  .pdp-related__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  @media screen and (max-width: 989px) {
-    .pdp-related__grid {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 16px;
-      padding-bottom: 8px;
-      scrollbar-width: none;
-    }
-
-    .pdp-related__grid::-webkit-scrollbar {
-      display: none;
-    }
-
-    .pdp-related__item {
-      flex: 0 0 calc(50% - 8px);
-      scroll-snap-align: start;
-    }
-
+  @media screen and (max-width: 767px) {
     .pdp-related__heading {
       font-size: 22px;
     }
@@ -930,6 +966,8 @@
     var format = window.__moneyFormat || '{{amount}}';
     return format.replace(/\{\{\s*amount\s*\}\}/g, amount).replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, amount);
   }
+})();
+
 })();
 {% endjavascript %}
 
