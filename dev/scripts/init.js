@@ -31,6 +31,27 @@
           document.body.style.overflow = '';
         }
       });
+
+      // Sub-menu toggles
+      var subToggles = document.querySelectorAll('[data-sub-toggle]');
+      for (var i = 0; i < subToggles.length; i++) {
+        subToggles[i].addEventListener('click', function() {
+          var item = this.closest('.mobile-nav__item');
+          var isOpen = item.classList.contains('mobile-nav__item--open');
+          // Close all open items
+          var openItems = document.querySelectorAll('.mobile-nav__item--open');
+          for (var j = 0; j < openItems.length; j++) {
+            openItems[j].classList.remove('mobile-nav__item--open');
+            var t = openItems[j].querySelector('[data-sub-toggle]');
+            if (t) t.setAttribute('aria-expanded', 'false');
+          }
+          // Toggle current
+          if (!isOpen) {
+            item.classList.add('mobile-nav__item--open');
+            this.setAttribute('aria-expanded', 'true');
+          }
+        });
+      }
     }
   };
 

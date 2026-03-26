@@ -305,7 +305,7 @@
   height: 100%;
   left: 0;
   overflow-y: auto;
-  padding: $spacing-6;
+  padding: $spacing-4;
   position: fixed;
   top: 0;
   transform: translateX(-100%);
@@ -314,6 +314,7 @@
   z-index: 200;
 
   &--open {
+    padding: 16px;
     transform: translateX(0);
   }
 }
@@ -355,7 +356,36 @@
   }
 }
 
+.mobile-nav__item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-muted);
+}
+
+.mobile-nav__item-header .mobile-nav__link {
+  border-bottom: none;
+  flex: 1;
+}
+
+.mobile-nav__sub-toggle {
+  background: none;
+  border: none;
+  color: var(--color-brand);
+  cursor: pointer;
+  padding: $spacing-3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform $transition-base;
+}
+
+.mobile-nav__item--open .mobile-nav__sub-toggle {
+  transform: rotate(180deg);
+}
+
 .mobile-nav__sub-links {
+  display: none;
   list-style: none;
   margin: 0;
   padding: 0 0 $spacing-2 $spacing-4;
@@ -363,5 +393,41 @@
   .mobile-nav__link {
     font-size: 0.875rem;
     padding: $spacing-2 0;
+  }
+}
+
+.mobile-nav__item--open .mobile-nav__sub-links {
+  display: block;
+}
+
+// ── Mobile nav auth buttons ──
+.mobile-nav__auth {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-3;
+  margin-top: $spacing-6;
+}
+
+.mobile-nav__auth-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  flex: 1;
+  padding: 14px;
+  font-family: $font-outfit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid var(--color-brand);
+  background-color: transparent;
+  color: var(--color-brand);
+  transition: background-color $transition-base, color $transition-base;
+
+  &:hover {
+    background-color: var(--color-brand);
+    color: #faf8f3;
   }
 }

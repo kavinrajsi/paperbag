@@ -7,7 +7,7 @@
 
 .scroll-collection {
   background-color: var(--sc-bg-color, #fff);
-  color: var(--sc-text-color, #1a1816);
+  color: var(--sc-text-color, #313d65);
   padding-bottom: 20px;
   padding-top: 20px;
 
@@ -226,7 +226,7 @@
 }
 
 .scroll-collection__color-swatch--active {
-  border-color: var(--sc-text-color, #1a1816);
+  border-color: var(--sc-text-color, #313d65);
 }
 
 // ── Variants row (sizes + qty) ──
@@ -246,7 +246,7 @@
   background: rgba(26, 24, 22, 0.05);
   border: 1px solid rgba(26, 24, 22, 0.15);
   border-radius: var(--radius-sm);
-  color: var(--sc-text-color, #1a1816);
+  color: var(--sc-text-color, #313d65);
   cursor: pointer;
   font-family: var(--font-family);
   font-size: 14px;
@@ -258,8 +258,8 @@
 }
 
 .scroll-collection__size-pill--active {
-  background: var(--sc-text-color, #1a1816);
-  border-color: var(--sc-text-color, #1a1816);
+  background: var(--sc-text-color, #313d65);
+  border-color: var(--sc-text-color, #313d65);
   color: var(--sc-bg-color, #fff);
 }
 
@@ -279,7 +279,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--sc-text-color, #1a1816);
+  color: var(--sc-text-color, #313d65);
   cursor: pointer;
   display: flex;
   font-size: 16px;
@@ -299,7 +299,7 @@
   appearance: textfield;
   background: none;
   border: none;
-  color: var(--sc-text-color, #1a1816);
+  color: var(--sc-text-color, #313d65);
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 400;
