@@ -206,7 +206,7 @@
         {%- for item in related_collection.products limit: 4 -%}
           {%- unless item.id == product.id -%}
             <div class="pdp-related__item">
-              {%- render 'best-sellers-card', product: item -%}
+              {%- render 'product-card', product: item -%}
             </div>
           {%- endunless -%}
         {%- endfor -%}
@@ -488,9 +488,6 @@
   }
 
   .pdp__option-btn {
-    min-width: 80px;
-    height: 44px;
-    padding: 0 20px;
     border: 1px solid #DFDFDF;
     background: #fff;
     font-family: 'Outfit', sans-serif;
