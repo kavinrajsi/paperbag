@@ -11,46 +11,6 @@
   "sections": {
     "main": {
       "type": "main-about-us",
-      "blocks": {
-        "value_UALcEH": {
-          "type": "value",
-          "settings": {
-            "icon": "",
-            "title": "Sustainability",
-            "text": "We use responsibly sourced materials and partner with mills powered by renewable energy."
-          }
-        },
-        "value_1": {
-          "type": "value",
-          "settings": {
-            "icon": "",
-            "title": "Sustainability",
-            "text": "We use responsibly sourced materials and partner with mills powered by renewable energy."
-          }
-        },
-        "value_2": {
-          "type": "value",
-          "settings": {
-            "icon": "",
-            "title": "Quality",
-            "text": "Every piece is crafted with care, using premium fabrics that feel as good as they look."
-          }
-        },
-        "value_3": {
-          "type": "value",
-          "settings": {
-            "icon": "",
-            "title": "Timeless Design",
-            "text": "We create versatile pieces that transcend seasons and trends — made to be worn again and again."
-          }
-        }
-      },
-      "block_order": [
-        "value_UALcEH",
-        "value_1",
-        "value_2",
-        "value_3"
-      ],
       "settings": {
         "banner_image_desktop": "shopify://shop_images/about-us-banner.png",
         "banner_image_mobile": "shopify://shop_images/about-us-banner.png",
