@@ -1968,12 +1968,29 @@ small {
   }
 }
 .hero-banner__heading {
+  color: var(--ha-heading-color, var(--color-heading));
   display: block;
-  font-family: var(--font-family);
-  font-weight: 600;
+  font-family: "Outfit", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
   letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-tight);
+  line-height: var(--leading-snug);
   margin: 0;
+  max-width: 150px;
+  padding: 0;
+  text-align: left;
+}
+@media screen and (min-width: 750px) {
+  .hero-banner__heading {
+    color: inherit;
+    font-family: var(--font-family);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    margin: 0 0 24px;
+    max-width: none;
+    padding: 0;
+    text-align: inherit;
+  }
 }
 
 .hero-banner__heading--sm {
@@ -1994,8 +2011,10 @@ small {
   }
 }
 
-.hero-banner__heading--lg {
-  font-size: var(--font-size-3xl);
+@media screen and (min-width: 750px) {
+  .hero-banner__heading--lg {
+    font-size: var(--font-size-3xl);
+  }
 }
 @media screen and (min-width: 990px) {
   .hero-banner__heading--lg {
@@ -2023,10 +2042,6 @@ small {
   }
 }
 
-.hero-banner__btn {
-  margin-top: 8px;
-  align-self: center;
-}
 @media screen and (min-width: 990px) {
   .hero-banner__btn {
     align-self: auto;
