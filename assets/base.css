@@ -259,7 +259,7 @@ button {
   color: #8FA1B7 !important;
   margin: 0 0 48px !important;
   line-height: 1.1 !important;
-  text-align: left !important;
+  text-align: center !important;
   text-transform: capitalize !important;
 }
 .shopify-policy__title h1 {
@@ -269,7 +269,7 @@ button {
   color: #8FA1B7 !important;
   margin: 0 0 48px !important;
   line-height: 1.1 !important;
-  text-align: left !important;
+  text-align: center !important;
   text-transform: capitalize !important;
 }
 
@@ -854,6 +854,10 @@ small {
     font-size: 14px;
   }
 }
+.template-policy .breadcrumb {
+  display: none;
+}
+
 .header {
   background: var(--color-off-white);
   left: 0;
