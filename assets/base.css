@@ -1975,7 +1975,7 @@ small {
   }
 }
 .hero-banner__heading {
-  color: var(--ha-heading-color, var(--color-heading));
+  color: #8fa1b7;
   display: block;
   font-family: "Outfit", sans-serif;
   font-size: 20px;
@@ -2071,8 +2071,8 @@ small {
   border-radius: 8px;
   transition: all 0.2s ease;
   cursor: pointer;
-  border: 2px solid #313d65;
-  background-color: #313d65;
+  border: 2px solid #8fa1b7;
+  background-color: #8fa1b7;
   color: #faf8f3;
 }
 @media screen and (min-width: 750px) {
