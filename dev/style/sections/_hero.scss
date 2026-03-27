@@ -147,7 +147,7 @@
 
 .hero-banner__inner--mobile-center {
   align-items: flex-end;
-  justify-content: start;
+  justify-content: end;
   padding-bottom: 40px;
 
   @media screen and (min-width: $breakpoint-sm) {
