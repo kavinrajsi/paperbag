@@ -25,11 +25,19 @@
                   <div class="cart-pg__item-info">
                     <h3 class="cart-pg__item-title">{{ item.product.title }}</h3>
                     {%- for option in item.options_with_values -%}
-                      <p class="cart-pg__item-option">{{ option.name }}: {{ option.value }}</p>
+                      <p class="cart-pg__item-option">{{ option.value }}</p>
                     {%- endfor -%}
-                    <button type="button" class="cart-pg__item-remove" data-cart-remove aria-label="Remove">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                    </button>
+                    <span class="cart-pg__mobile-total">{{ item.final_line_price | money }}</span>
+                    <div class="cart-pg__mobile-qty">
+                      <div class="cart-pg__qty-control">
+                        <button type="button" class="cart-pg__qty-btn" aria-label="Decrease" data-quantity-minus>&minus;</button>
+                        <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
+                        <button type="button" class="cart-pg__qty-btn" aria-label="Increase" data-quantity-plus>+</button>
+                      </div>
+                      <button type="button" class="cart-pg__item-remove" data-cart-remove aria-label="Remove">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -42,6 +50,9 @@
                   <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="cart-pg__qty-input" aria-label="Quantity">
                   <button type="button" class="cart-pg__qty-btn" aria-label="Increase" data-quantity-plus>+</button>
                 </div>
+                <button type="button" class="cart-pg__item-remove" data-cart-remove aria-label="Remove">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                </button>
               </div>
               <div class="cart-pg__col cart-pg__col--total">
                 <span class="cart-pg__line-total">{{ item.final_line_price | money }}</span>
@@ -146,11 +157,11 @@
 
   .cart-pg__item-image {
     width: 80px;
-    height: 80px;
     flex-shrink: 0;
     overflow: hidden;
     display: block;
     border-radius: 6px;
+    aspect-ratio: 4 / 5;
   }
 
   .cart-pg__item-image img {
@@ -185,16 +196,23 @@
     text-transform: capitalize;
   }
 
+  /* Mobile-only elements (hidden on desktop) */
+  .cart-pg__mobile-total {
+    display: none;
+  }
+
+  .cart-pg__mobile-qty {
+    display: none;
+  }
+
   .cart-pg__item-remove {
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
     color: var(--color-text-muted);
-    margin-top: 4px;
+    display: none;
+    align-items: center;
     transition: color 0.2s;
   }
 
@@ -385,12 +403,62 @@
       padding: 24px 0 40px;
     }
 
-    .cart-pg__col--price { display: none; }
-    .cart-pg__col--total { display: block; }
+    .cart-pg__col--product {
+      display: flex;
+      gap: 16px;
+    }
+
+    .cart-pg__product {
+      display: contents;
+    }
 
     .cart-pg__item-image {
-      width: 70px;
-      height: 70px;
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .cart-pg__item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-pg__mobile-total {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-black);
+      margin-top: 4px;
+    }
+
+    .cart-pg__col--price { display: none; }
+    .cart-pg__col--total { display: none; }
+
+    .cart-pg__col--qty {
+      display: none;
+    }
+
+    .cart-pg__mobile-qty {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .cart-pg__mobile-qty .cart-pg__qty-control {
+      height: 34px;
+    }
+
+    .cart-pg__mobile-qty .cart-pg__qty-btn {
+      width: 34px;
+    }
+
+    .cart-pg__mobile-qty .cart-pg__qty-input {
+      width: 34px;
+    }
+
+    .cart-pg__mobile-qty .cart-pg__item-remove {
+      display: flex;
     }
 
     .cart-pg__footer {
