@@ -476,8 +476,10 @@
       return div.innerHTML;
     }
 
-    function formatMoney(cents) {
-      return '{{ cart.currency.symbol }}' + (parseInt(cents, 10) / 100).toFixed(2);
+    function formatMoney(price) {
+      var num = parseFloat(price);
+      if (isNaN(num)) return price;
+      return '{{ cart.currency.symbol }}' + num.toFixed(2);
     }
   })();
 </script>
