@@ -173,16 +173,12 @@
 
 // ── Typography ──
 .hero-banner__heading {
-  display: none;
+  display: block;
   font-family: var(--font-family);
   font-weight: 600;
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
   margin: 0;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    display: block;
-  }
 }
 
 .hero-banner__heading--sm {
