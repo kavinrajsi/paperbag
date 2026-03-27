@@ -3,7 +3,7 @@
 // ── Hero Banner ──
 // Mobile: full-width image, centered text overlay
 // Tablet+: left-aligned text, vertically centered, Bootstrap container
-.hero-banner{
+.hero-banner {
   position: relative;
 }
 .hero-banner__image {
@@ -12,7 +12,7 @@
   max-width: 100%;
   width: 100%;
 
-  &.hero-banner__image--mobile{
+  &.hero-banner__image--mobile {
     display: block;
     @media screen and (min-width: 562px) {
       display: none;
@@ -35,8 +35,114 @@
     }
   }
 }
-.hero-banner__container{
+.hero-banner__container {
   position: absolute;
+  top: 0;
   bottom: 0;
   left: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .hero-banner__inner {
+    width: 100%;
+    margin: 0 auto;
+    @media screen and (min-width: 576px) {
+      max-width: 540px;
+    }
+
+    @media screen and (min-width: 768px) {
+      max-width: 720px;
+    }
+
+    @media screen and (min-width: $breakpoint-md) {
+      max-width: 960px;
+    }
+
+    @media screen and (min-width: $breakpoint-lg) {
+      max-width: 1140px;
+    }
+
+    @media screen and (min-width: 1400px) {
+      max-width: 1320px;
+    }
+  }
+
+  .hero-banner__content {
+    display: flex;
+    flex-direction: column;
+    max-width: 412px;
+
+    @media screen and (min-width: 768px) {
+      padding-left: 40px;
+    }
+  }
+
+  // ── Typography ──
+  .hero-banner__heading {
+    color: #313d65;
+    display: block;
+    font-family: "Outfit", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    margin: 0;
+    max-width: 150px;
+    padding: 0;
+    text-align: left;
+
+    @media screen and (min-width: 768px) {
+      color: inherit;
+      font-family: var(--font-family);
+      font-weight: 600;
+      line-height: var(--leading-tight);
+      margin: 0;
+      max-width: none;
+      padding: 0;
+      text-align: inherit;
+    }
+  }
+
+  .hero-banner__text {
+    display: none;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base, 15px);
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    max-width: 540px;
+
+    @media screen and (min-width: 768px) {
+      display: block;
+    }
+
+    @media screen and (min-width: $breakpoint-md) {
+      font-size: 22px;
+    }
+  }
+
+  .hero-banner__btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 2px solid #313d65;
+    background-color: #313d65;
+    color: #faf8f3;
+
+    @media screen and (min-width: 768px) {
+      border-color: var(--color-brand);
+      background-color: var(--color-brand);
+    }
+  }
 }

@@ -98,11 +98,9 @@
   <div class="hero-banner__container">
     <div
       class="hero-banner__inner hero-banner__inner--mobile-{{ mobile_position }} hero-banner__inner--desktop-{{ desktop_position }}"
-      style="min-height: var(--hero-min-height-mobile);"
     >
       <div
         class="hero-banner__content hero-banner__content--mobile-{{ mobile_align }} hero-banner__content--desktop-{{ desktop_align }}"
-        style="color: {{ font_color }};"
       >
         {%- if heading != blank -%}
           <h1 class="hero-banner__heading hero-banner__heading--{{ heading_size }}">
@@ -128,14 +126,6 @@
     </div>
   </div>
 </section>
-
-<style>
-  @media screen and (min-width: 990px) {
-    .hero-banner__inner {
-      min-height: var(--hero-min-height-desktop) !important;
-    }
-  }
-</style>
 
 {% schema %}
 {
