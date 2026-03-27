@@ -25,6 +25,10 @@
   height: 100%;
   object-fit: cover;
   width: 100%;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    object-position: right center;
+  }
 }
 
 .hero-banner__image--mobile {

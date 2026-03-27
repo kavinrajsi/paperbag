@@ -1825,6 +1825,12 @@ small {
      object-fit: cover;
   width: 100%;
 }
+@media screen and (min-width: 750px) {
+  .hero-banner__image {
+    -o-object-position: right center;
+       object-position: right center;
+  }
+}
 
 .hero-banner__image--mobile {
   display: block;

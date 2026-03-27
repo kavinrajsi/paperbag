@@ -107,8 +107,8 @@
           <span class="collection-page__product-count">{{ collection.products_count }} Products</span>
           {%- if section.settings.enable_sorting -%}
             <div class="collection-page__sort-select-wrap">
-              <label class="collection-page__sort-label" for="sort-by-select">Sort By</label>
               <select id="sort-by-select" class="collection-page__sort-select" data-sort-select>
+                <option value="" disabled {% unless collection.sort_by %}selected{% endunless %}>Sort By</option>
                 {%- for option in collection.sort_options -%}
                   {%- if option.value == 'price-ascending' or option.value == 'price-descending' or option.value == 'created-descending' -%}
                     <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{%- if option.value == 'created-descending' -%}Newest first{%- else -%}{{ option.name }}{%- endif -%}</option>
