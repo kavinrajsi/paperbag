@@ -12,18 +12,15 @@
     "main": {
       "type": "main-about-us",
       "settings": {
-        "banner_image_desktop": "shopify://shop_images/about-us-banner.png",
-        "banner_image_mobile": "shopify://shop_images/about-us-banner.png",
-        "banner_heading": "A Journey of Effortless Comfort, Style, and Simplicity",
+        "banner_heading": "",
         "banner_text": "",
-        "heading": "About Paperbag",
-        "subheading": "Effortless. Elevated. Everyday.",
+        "heading": "",
+        "subheading": "",
         "story_image": "shopify://shop_images/sustainability-mobile.png",
-        "story_heading": "Our Story",
+        "story_heading": "",
         "story_text": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/><br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/><br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/><br/>You put it on, and it works.</p>",
-        "about_image": "shopify://shop_images/sustainability-mobile.png",
-        "about_heading": "About us",
-        "about_text": "<p>Paperbag is a contemporary clothing brand focused on creating pieces that balance comfort and distinction. </p><p>We design everyday essentials and statement styles that are easy to wear, with an emphasis on silhouette, fit, and feel. Each piece is made to integrate effortlessly into your wardrobe while still standing out. </p><p>Designed and developed in India.</p>"
+        "about_heading": "",
+        "about_text": ""
       }
     }
   },
