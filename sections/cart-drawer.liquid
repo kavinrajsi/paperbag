@@ -23,14 +23,16 @@
                 {%- for option in item.options_with_values -%}
                   <p class="cart-drawer__item-option">{{ option.name }}: {{ option.value }}</p>
                 {%- endfor -%}
-                <p class="cart-drawer__item-price">{{ item.final_line_price | money_without_trailing_zeros }}</p>
                 <div class="cart-drawer__item-actions">
                   <div class="cart-drawer__qty">
                     <button class="cart-drawer__qty-btn" data-quantity-minus aria-label="Decrease">&minus;</button>
                     <input class="cart-drawer__qty-input" type="number" value="{{ item.quantity }}" min="1" data-quantity-input aria-label="Quantity">
                     <button class="cart-drawer__qty-btn" data-quantity-plus aria-label="Increase">+</button>
                   </div>
-                  <button class="cart-drawer__item-remove" data-cart-remove>Remove</button>
+                  <button class="cart-drawer__item-remove" data-cart-remove aria-label="Remove">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                  </button>
+                  <span class="cart-drawer__item-price">{{ item.final_line_price | money_without_trailing_zeros }}</span>
                 </div>
               </div>
             </div>
@@ -76,25 +78,25 @@
   .cart-drawer__items { padding: 0 24px 24px; }
 
   /* ── Cart item ── */
-  .cart-drawer__item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--color-muted); }
+  .cart-drawer__item { display: flex; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--color-muted); }
   .cart-drawer__item:first-child { padding-top: 0; }
   .cart-drawer__item:last-child { border-bottom: none; }
-  .cart-drawer__item-image { flex-shrink: 0; width: 100px; height: 100px; border-radius: 6px; overflow: hidden; }
+  .cart-drawer__item-image { flex-shrink: 0; width: 120px; aspect-ratio: 4/5; border-radius: 6px; overflow: hidden; }
   .cart-drawer__item-image img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; }
   .cart-drawer__item-details { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .cart-drawer__item-title { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: var(--color-black); text-decoration: none; display: block; }
+  .cart-drawer__item-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--color-black); text-decoration: none; display: block; }
   .cart-drawer__item-title:hover { text-decoration: underline; }
-  .cart-drawer__item-option { font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; text-transform: capitalize; }
-  .cart-drawer__item-price { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: var(--color-black); margin: 4px 0 0; }
+  .cart-drawer__item-option { font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; text-transform: capitalize; }
 
-  /* ── Item actions (qty + remove) ── */
-  .cart-drawer__item-actions { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+  /* ── Item actions (qty + trash + price) ── */
+  .cart-drawer__item-actions { display: flex; align-items: center; gap: 12px; margin-top: auto; }
   .cart-drawer__qty { display: inline-flex; align-items: center; border: 1px solid var(--color-muted); border-radius: 4px; }
-  .cart-drawer__qty-btn { background: none; border: none; padding: 8px 12px; cursor: pointer; color: var(--color-black); display: flex; align-items: center; font-size: 16px; line-height: 1; }
-  .cart-drawer__qty-input { width: 32px; text-align: center; border: none; background: none; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--color-black); outline: none; -moz-appearance: textfield; }
+  .cart-drawer__qty-btn { background: none; border: none; padding: 10px 14px; cursor: pointer; color: var(--color-black); display: flex; align-items: center; font-size: 16px; line-height: 1; }
+  .cart-drawer__qty-input { width: 32px; text-align: center; border: none; border-left: 1px solid var(--color-muted); border-right: 1px solid var(--color-muted); background: none; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--color-black); outline: none; -moz-appearance: textfield; padding: 10px 0; }
   .cart-drawer__qty-input::-webkit-inner-spin-button, .cart-drawer__qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-  .cart-drawer__item-remove { background: none; border: none; padding: 0; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--color-text-muted); transition: color 0.2s; }
+  .cart-drawer__item-remove { background: none; border: none; padding: 0; cursor: pointer; color: var(--color-text-muted); display: flex; align-items: center; transition: color 0.2s; }
   .cart-drawer__item-remove:hover { color: var(--color-black); }
+  .cart-drawer__item-price { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 400; color: var(--color-black); margin: 0; margin-left: auto; }
 
   /* ── Empty state ── */
   .cart-drawer__empty { text-align: center; padding: 48px 0; font-family: 'Outfit', sans-serif; font-size: 16px; color: var(--color-text-muted); }
