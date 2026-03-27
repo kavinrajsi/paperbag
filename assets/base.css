@@ -1414,9 +1414,6 @@ small {
   text-decoration: none;
   color: inherit;
 }
-.search-results__item a:hover .search-results__item-title {
-  text-decoration: underline;
-}
 
 .search-results__item-image {
   width: 100%;
@@ -2025,7 +2022,7 @@ small {
 }
 @media screen and (min-width: 990px) {
   .hero-banner__heading--lg {
-    font-size: var(--font-size-4xl);
+    font-size: 42px;
   }
 }
 
