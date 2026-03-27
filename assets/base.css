@@ -1888,8 +1888,8 @@ small {
 .hero-banner__content {
   display: flex;
   flex-direction: column;
-  max-width: 524px;
-  padding-left: 20vw;
+  max-width: 564px;
+  padding-left: 40px;
 }
 
 .hero-banner__content--mobile-left {
