@@ -107,11 +107,16 @@
           <span class="collection-page__product-count">{{ collection.products_count }} Products</span>
           {%- if section.settings.enable_sorting -%}
             <div class="collection-page__sort-select-wrap">
+              {%- assign active_sort = collection.sort_by | default: collection.default_sort_by -%}
+              {%- assign url_has_sort = false -%}
+              {%- if current_tags or request.path contains 'sort_by' -%}
+                {%- assign url_has_sort = true -%}
+              {%- endif -%}
               <select id="sort-by-select" class="collection-page__sort-select" data-sort-select>
-                <option value="" disabled {% unless collection.sort_by %}selected{% endunless %}>Sort By</option>
+                <option value="" disabled {% if active_sort == collection.default_sort_by %}selected{% endif %}>Sort By</option>
                 {%- for option in collection.sort_options -%}
                   {%- if option.value == 'price-ascending' or option.value == 'price-descending' or option.value == 'created-descending' -%}
-                    <option value="{{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{%- if option.value == 'created-descending' -%}Newest first{%- else -%}{{ option.name }}{%- endif -%}</option>
+                    <option value="{{ option.value }}"{% if active_sort == option.value and active_sort != collection.default_sort_by %} selected{% endif %}>{%- if option.value == 'created-descending' -%}Newest first{%- else -%}{{ option.name }}{%- endif -%}</option>
                   {%- endif -%}
                 {%- endfor -%}
               </select>
