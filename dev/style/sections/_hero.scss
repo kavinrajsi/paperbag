@@ -86,7 +86,10 @@
   display: flex;
   flex-direction: column;
   max-width: 564px;
-  padding-left: 40px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    padding-left: 40px;
+  }
 }
 
 // ── Mobile: center ──
@@ -139,9 +142,8 @@
 }
 
 .hero-banner__inner--mobile-center {
-  align-items: flex-end;
+  align-items: center;
   justify-content: start;
-  padding-bottom: 60px;
 
   @media screen and (min-width: $breakpoint-sm) {
     justify-content: flex-start;
