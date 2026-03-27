@@ -57,6 +57,7 @@
   }
 
   @media screen and (min-width: $breakpoint-md) {
+    align-items: center;
     display: grid;
     gap: 24px;
     grid-template-columns: repeat(12, 1fr);
@@ -125,7 +126,7 @@
   width: 100%;
 
   @media screen and (min-width: $breakpoint-md) {
-    height: auto;
+    height: 600px;
   }
 }
 

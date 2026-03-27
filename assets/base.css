@@ -2987,6 +2987,7 @@ small {
 }
 @media screen and (min-width: 990px) {
   .home-about__grid {
+    align-items: center;
     display: grid;
     gap: 24px;
     grid-template-columns: repeat(12, 1fr);
@@ -3050,7 +3051,7 @@ small {
 }
 @media screen and (min-width: 990px) {
   .home-about__image {
-    height: auto;
+    height: 600px;
   }
 }
 
