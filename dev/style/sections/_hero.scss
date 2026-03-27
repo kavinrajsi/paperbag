@@ -91,8 +91,6 @@
 
 // ── Mobile: center ──
 .hero-banner__content--mobile-center {
-  align-items: center;
-  text-align: center;
 }
 
 .hero-banner__content--mobile-left {
@@ -142,7 +140,7 @@
 
 .hero-banner__inner--mobile-center {
   align-items: flex-end;
-  justify-content: center;
+  justify-content: start;
   padding-bottom: 60px;
 
   @media screen and (min-width: $breakpoint-sm) {
