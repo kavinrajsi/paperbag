@@ -471,6 +471,24 @@
 (function() {
   'use strict';
 
+  var moneyFormat = {{ shop.money_format | json }};
+
+  function formatMoney(cents) {
+    var amount = (cents / 100).toFixed(2);
+    var amountWithComma = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var amountNoDecimals = Math.round(cents / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var amountNoDecimalsWithSpace = amountNoDecimals.replace(/,/g, ' ');
+    var amountWithPeriod = amountWithComma.replace(/,/g, '.').replace(/\.(\d{2})$/, ',$1');
+
+    return moneyFormat
+      .replace('{{amount_with_comma_separator}}', amountWithComma)
+      .replace('{{amount_no_decimals_with_comma_separator}}', amountNoDecimals)
+      .replace('{{amount_no_decimals_with_space_separator}}', amountNoDecimalsWithSpace)
+      .replace('{{amount_with_apostrophe_separator}}', amount.replace(/,/g, "'"))
+      .replace('{{amount_no_decimals}}', Math.round(cents / 100))
+      .replace('{{amount}}', amount);
+  }
+
   // Quantity buttons
   document.addEventListener('click', function(e) {
     var minus = e.target.closest('[data-quantity-minus]');
@@ -507,14 +525,14 @@
       var lineItem = cart.items.find(function(i) { return i.key === key; });
       var totals = item.querySelectorAll('.cart-pg__line-total, .cart-pg__mobile-total');
       if (lineItem) {
-        var formatted = Shopify.formatMoney ? Shopify.formatMoney(lineItem.final_line_price) : (lineItem.final_line_price / 100).toFixed(2);
+        var formatted = formatMoney(lineItem.final_line_price);
         totals.forEach(function(el) { el.textContent = formatted; });
       }
 
       // Update cart subtotal
       var subtotalEl = document.querySelector('.cart-pg__subtotal span:last-child');
       if (subtotalEl) {
-        var formattedTotal = Shopify.formatMoney ? Shopify.formatMoney(cart.total_price) : (cart.total_price / 100).toFixed(2);
+        var formattedTotal = formatMoney(cart.total_price);
         subtotalEl.textContent = formattedTotal;
       }
 
