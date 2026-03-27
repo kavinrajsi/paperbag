@@ -1339,6 +1339,10 @@ small {
   color: #ADADAD;
   text-transform: capitalize;
 }
+.search-overlay__input::-webkit-search-cancel-button, .search-overlay__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
 
 .search-overlay__close {
   flex-shrink: 0;

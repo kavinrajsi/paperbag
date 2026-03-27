@@ -56,6 +56,12 @@
     color: #ADADAD;
     text-transform: capitalize;
   }
+
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }
 
 .search-overlay__close {
