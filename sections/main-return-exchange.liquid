@@ -40,7 +40,12 @@
 
           <div class="return-exchange__field">
             <label class="return-exchange__label" for="re-order">Order Number <span>*</span></label>
-            <input type="text" id="re-order" name="contact[order_number]" required class="return-exchange__input" placeholder="#1001">
+            <select id="re-order" name="contact[order_number]" required class="return-exchange__input return-exchange__select">
+              <option value="" disabled selected>Select an order</option>
+              {%- for order in customer.orders -%}
+                <option value="{{ order.name }}" data-products="{{ order.line_items | map: 'title' | join: '||' | escape }}">{{ order.name }} — {{ order.created_at | date: '%b %d, %Y' }}</option>
+              {%- endfor -%}
+            </select>
           </div>
         </div>
 
@@ -56,12 +61,14 @@
         <div class="return-exchange__conditional" style="display:none;">
           <div class="return-exchange__field">
             <label class="return-exchange__label" for="re-product">Product Name / SKU <span>*</span></label>
-            <input type="text" id="re-product" name="contact[product]" required class="return-exchange__input" placeholder="e.g. Linen Midi Dress – Size M">
+            <select id="re-product" name="contact[product]" required class="return-exchange__input return-exchange__select">
+              <option value="" disabled selected>Select an order first</option>
+            </select>
           </div>
 
           <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-details">Reason</label>
-            <textarea id="re-details" name="contact[{{ 'contact.form.message' | t }}]" class="return-exchange__input return-exchange__textarea" rows="5" placeholder="For Exchanges: Mention current size and required size.&#10;For Returns: Describe the issue clearly (images will be required for approval)."></textarea>
+            <label class="return-exchange__label" for="re-details">Reason <span>*</span></label>
+            <textarea id="re-details" name="contact[{{ 'contact.form.message' | t }}]" required class="return-exchange__input return-exchange__textarea" rows="5" placeholder=""></textarea>
           </div>
         </div>
 
@@ -231,18 +238,41 @@
 
 {% javascript %}
 (function() {
-  var select = document.getElementById('re-type');
-  if (!select) return;
+  var typeSelect = document.getElementById('re-type');
   var conditional = document.querySelector('.return-exchange__conditional');
-  if (!conditional) return;
+  var orderSelect = document.getElementById('re-order');
+  var productSelect = document.getElementById('re-product');
 
-  select.addEventListener('change', function() {
-    if (this.value) {
-      conditional.style.display = '';
-    } else {
-      conditional.style.display = 'none';
-    }
-  });
+  var reasonTextarea = document.getElementById('re-details');
+
+  if (typeSelect && conditional) {
+    typeSelect.addEventListener('change', function() {
+      conditional.style.display = this.value ? '' : 'none';
+      if (reasonTextarea) {
+        if (this.value === 'Exchange') {
+          reasonTextarea.placeholder = 'Mention current size and required size.';
+        } else if (this.value === 'Return') {
+          reasonTextarea.placeholder = 'Describe the issue clearly (images will be required for approval).';
+        }
+      }
+    });
+  }
+
+  if (orderSelect && productSelect) {
+    orderSelect.addEventListener('change', function() {
+      var selected = this.options[this.selectedIndex];
+      var products = selected.getAttribute('data-products');
+      productSelect.innerHTML = '<option value="" disabled selected>Select a product</option>';
+      if (products) {
+        products.split('||').forEach(function(name) {
+          var opt = document.createElement('option');
+          opt.value = name;
+          opt.textContent = name;
+          productSelect.appendChild(opt);
+        });
+      }
+    });
+  }
 })();
 {% endjavascript %}
 
