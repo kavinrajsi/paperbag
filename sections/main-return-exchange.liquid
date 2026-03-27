@@ -53,14 +53,16 @@
           </select>
         </div>
 
-        <div class="return-exchange__field">
-          <label class="return-exchange__label" for="re-product">Product Name / SKU <span>*</span></label>
-          <input type="text" id="re-product" name="contact[product]" required class="return-exchange__input" placeholder="e.g. Linen Midi Dress – Size M">
-        </div>
+        <div class="return-exchange__conditional" style="display:none;">
+          <div class="return-exchange__field">
+            <label class="return-exchange__label" for="re-product">Product Name / SKU <span>*</span></label>
+            <input type="text" id="re-product" name="contact[product]" required class="return-exchange__input" placeholder="e.g. Linen Midi Dress – Size M">
+          </div>
 
-        <div class="return-exchange__field">
-          <label class="return-exchange__label" for="re-details">Reason</label>
-          <textarea id="re-details" name="contact[{{ 'contact.form.message' | t }}]" class="return-exchange__input return-exchange__textarea" rows="5" placeholder="For Exchanges: Mention current size and required size.&#10;For Returns: Describe the issue clearly (images will be required for approval)."></textarea>
+          <div class="return-exchange__field">
+            <label class="return-exchange__label" for="re-details">Reason</label>
+            <textarea id="re-details" name="contact[{{ 'contact.form.message' | t }}]" class="return-exchange__input return-exchange__textarea" rows="5" placeholder="For Exchanges: Mention current size and required size.&#10;For Returns: Describe the issue clearly (images will be required for approval)."></textarea>
+          </div>
         </div>
 
         <button type="submit" class="return-exchange__submit btn btn--primary">{{ section.settings.button_label | default: 'Submit Request' }}</button>
@@ -226,6 +228,23 @@
     }
   }
 {% endstylesheet %}
+
+{% javascript %}
+(function() {
+  var select = document.getElementById('re-type');
+  if (!select) return;
+  var conditional = document.querySelector('.return-exchange__conditional');
+  if (!conditional) return;
+
+  select.addEventListener('change', function() {
+    if (this.value) {
+      conditional.style.display = '';
+    } else {
+      conditional.style.display = 'none';
+    }
+  });
+})();
+{% endjavascript %}
 
 {% schema %}
 {
