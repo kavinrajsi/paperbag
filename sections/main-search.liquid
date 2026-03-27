@@ -26,39 +26,36 @@
 
     {%- if search.performed -%}
       {%- if search.results_count > 0 -%}
-        <p class="search-page__count">
-          {{ search.results_count }} {{ 'search.items' | t | default: 'items' }}
-        </p>
+        <div class="search-page__toolbar">
+          <span class="search-page__count">{{ search.results_count }} Products</span>
+        </div>
 
         <div class="search-page__grid">
           {%- for result in search.results -%}
             {%- if result.object_type == 'product' -%}
-              <div class="search-page__item">
-                {%- render 'best-sellers-card', product: result -%}
-              </div>
-            {%- elsif result.object_type == 'article' -%}
-              <div class="search-page__item">
-                <article class="bs-card">
-                  {%- if result.image != blank -%}
-                    <a href="{{ result.url }}" class="bs-card__image-wrap">
-                      {%- render 'image', image: result.image, widths: '360,535,750', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 50vw' -%}
-                    </a>
-                  {%- endif -%}
-                  <div class="bs-card__info">
-                    <div class="bs-card__details">
-                      <p class="bs-card__vendor">{{ 'search.articles' | t }}</p>
-                      <h3 class="bs-card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            {%- elsif result.object_type == 'page' -%}
-              <div class="search-page__item">
-                <div class="bs-card">
-                  <div class="bs-card__info" style="padding-top: 0;">
-                    <div class="bs-card__details">
-                      <p class="bs-card__vendor">{{ 'search.pages' | t }}</p>
-                      <h3 class="bs-card__title"><a href="{{ result.url }}">{{ result.title }}</a></h3>
+              {%- assign current_variant = result.selected_or_first_available_variant -%}
+              <div class="collection-page__item">
+                <div class="scroll-collection__card">
+                  <a href="{{ result.url }}" class="scroll-collection__media">
+                    {%- if result.featured_image -%}
+                      <img
+                        class="scroll-collection__image"
+                        src="{{ result.featured_image | image_url }}"
+                        alt="{{ result.title | escape }}"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'scroll-collection__placeholder' }}
+                    {%- endif -%}
+                  </a>
+                  <div class="scroll-collection__body">
+                    <div class="scroll-collection__info">
+                      <p class="scroll-collection__name">
+                        <a href="{{ result.url }}">{{ result.title }}</a>
+                      </p>
+                      <p class="scroll-collection__price">
+                        {{ current_variant.price | money_without_trailing_zeros }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -133,23 +130,40 @@
     color: #313D65;
   }
 
-  /* ── Result count ── */
-  .search-page__count {
-    font-family: 'Outfit', sans-serif;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 1.8;
-    color: #0C0C0C;
-    text-transform: capitalize;
-    text-align: center;
-    margin: 0 0 32px;
+  /* ── Toolbar ── */
+  .search-page__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
   }
 
-  /* ── Product grid — 3 columns desktop ── */
+  .search-page__count {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* ── Product grid: matches collection page ── */
   .search-page__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .search-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .search-page__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   /* ── Empty state ── */
@@ -161,14 +175,7 @@
     padding: 48px 0;
   }
 
-  /* ── Tablet (750–989px) — 2 columns ── */
-  @media screen and (min-width: 750px) and (max-width: 989px) {
-    .search-page__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  /* ── Mobile (< 750px) — 2 columns, compact ── */
+  /* ── Mobile ── */
   @media screen and (max-width: 749px) {
     .search-page {
       padding: 24px 0 48px;
@@ -181,16 +188,6 @@
     .search-page__input {
       font-size: 14px;
       line-height: 1.4;
-    }
-
-    .search-page__count {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    .search-page__grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
     }
   }
 {% endstylesheet %}
