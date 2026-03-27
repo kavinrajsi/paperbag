@@ -16,28 +16,9 @@
         "content": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/>You put it on, and it works.</p>",
         "image": "shopify://shop_images/about-us-section.jpg"
       }
-    },
-    "home_about_VymjXK": {
-      "type": "home-about",
-      "name": "Home about",
-      "settings": {
-        "heading": "About Us",
-        "content": "<p>Paperbag is built on a simple idea — everyday clothing shouldn’t feel ordinary.<br/>We design pieces that balance ease and intention — essentials that feel considered, and statement pieces that never feel overwhelming. Comfortable enough to live in, distinct enough to be noticed.<br/>Nothing overdone, nothing forgettable. Just effortless silhouettes with a point of view.<br/>You put it on, and it works.</p>",
-        "image": "shopify://shop_images/about-us-section.jpg",
-        "button_label": "",
-        "button_link": "",
-        "layout": "content-image",
-        "container_type": "container",
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "bg_color": "#ffffff",
-        "heading_color": "#313d65",
-        "text_color": "#8fa1b7"
-      }
     }
   },
   "order": [
-    "main",
-    "home_about_VymjXK"
+    "main"
   ]
 }
