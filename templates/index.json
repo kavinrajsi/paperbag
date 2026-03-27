@@ -12,6 +12,7 @@
     "hero-banner": {
       "type": "hero-banner",
       "settings": {
+        "image_desktop": "shopify://shop_images/web-banner.png",
         "overlay_opacity": 0,
         "heading": "Quiet essentials. Bold moments.",
         "heading_size": "lg",
