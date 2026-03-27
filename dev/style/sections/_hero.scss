@@ -226,7 +226,9 @@
   }
 
   @media screen and (min-width: $breakpoint-md) {
-    font-size: 42px;
+    font-size: 48px;
+    line-height: normal;
+    margin-bottom: 8px;
   }
 }
 
