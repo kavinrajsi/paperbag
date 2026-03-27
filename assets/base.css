@@ -377,7 +377,10 @@ small {
   padding: 0;
 }
 .section-content p {
-  margin: 0;
+  margin: 0 0 12px;
+}
+.section-content p:last-child {
+  margin-bottom: 0;
 }
 @media screen and (min-width: 750px) {
   .section-content {
