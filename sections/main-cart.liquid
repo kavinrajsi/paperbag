@@ -477,16 +477,53 @@
     var plus = e.target.closest('[data-quantity-plus]');
     if (!minus && !plus) return;
 
-    var row = (minus || plus).closest('.cart-pg__qty-control');
+    var btn = minus || plus;
+    var row = btn.closest('.cart-pg__qty-control');
     if (!row) return;
     var input = row.querySelector('.cart-pg__qty-input');
     if (!input) return;
 
-    var val = parseInt(input.value, 10);
-    if (minus) input.value = Math.max(0, val - 1);
-    if (plus) input.value = val + 1;
+    var item = btn.closest('[data-cart-item]');
+    if (!item) return;
+    var key = item.getAttribute('data-key');
 
-    input.closest('form').submit();
+    var val = parseInt(input.value, 10);
+    var newVal = minus ? Math.max(0, val - 1) : val + 1;
+    input.value = newVal;
+
+    // Sync the other qty input (desktop/mobile duplicate)
+    var allInputs = item.querySelectorAll('.cart-pg__qty-input');
+    allInputs.forEach(function(inp) { inp.value = newVal; });
+
+    // Update the line total
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: newVal })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(cart) {
+      // Update line totals for this item
+      var lineItem = cart.items.find(function(i) { return i.key === key; });
+      var totals = item.querySelectorAll('.cart-pg__line-total, .cart-pg__mobile-total');
+      if (lineItem) {
+        var formatted = Shopify.formatMoney ? Shopify.formatMoney(lineItem.final_line_price) : (lineItem.final_line_price / 100).toFixed(2);
+        totals.forEach(function(el) { el.textContent = formatted; });
+      }
+
+      // Update cart subtotal
+      var subtotalEl = document.querySelector('.cart-pg__subtotal span:last-child');
+      if (subtotalEl) {
+        var formattedTotal = Shopify.formatMoney ? Shopify.formatMoney(cart.total_price) : (cart.total_price / 100).toFixed(2);
+        subtotalEl.textContent = formattedTotal;
+      }
+
+      // Remove item row if quantity is 0
+      if (newVal === 0) {
+        item.remove();
+        if (cart.item_count === 0) window.location.reload();
+      }
+    });
   });
 
   // Remove buttons

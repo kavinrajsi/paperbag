@@ -186,7 +186,7 @@ button {
   box-sizing: border-box !important;
 }
 
-.shopify-policy__container {
+.policy-page {
   max-width: 1200px !important;
   margin: 0 auto !important;
   padding-left: 16px !important;
@@ -197,60 +197,59 @@ button {
   padding-bottom: 32px !important;
 }
 @media screen and (min-width: 990px) {
-  .shopify-policy__container {
+  .policy-page {
     padding-left: 32px !important;
     padding-right: 32px !important;
   }
 }
-.shopify-policy__container p {
+.policy-page p {
   margin: 0 0 16px;
   font-size: 16px;
 }
-.shopify-policy__container a {
+.policy-page a {
   font-size: 16px;
 }
-.shopify-policy__container b,
-.shopify-policy__container strong {
+.policy-page b,
+.policy-page strong {
   font-weight: 700;
 }
-.shopify-policy__container i,
-.shopify-policy__container em {
+.policy-page i,
+.policy-page em {
   font-style: italic;
 }
-.shopify-policy__container ul {
+.policy-page ul {
   list-style: disc;
   margin: 0 0 16px;
   padding-left: 24px;
 }
-.shopify-policy__container li {
+.policy-page li {
   font-size: 16px;
   margin-bottom: 8px;
 }
-.shopify-policy__container li:last-child {
+.policy-page li:last-child {
   margin-bottom: 0;
 }
-.shopify-policy__container .rte h1,
-.shopify-policy__container .rte h2,
-.shopify-policy__container .rte h3,
-.shopify-policy__container .rte h4,
-.shopify-policy__container .rte h5,
-.shopify-policy__container .rte h6 {
+.policy-page .rte h1,
+.policy-page .rte h2,
+.policy-page .rte h3,
+.policy-page .rte h4,
+.policy-page .rte h5,
+.policy-page .rte h6 {
   font-family: "Outfit", sans-serif;
-  padding-top: 34px;
 }
-.shopify-policy__container table {
+.policy-page table {
   width: 100%;
   border-collapse: collapse;
   margin: 0 0 16px;
   font-size: 16px;
 }
-.shopify-policy__container table th,
-.shopify-policy__container table td {
+.policy-page table th,
+.policy-page table td {
   border: 1px solid var(--color-muted);
   padding: 10px 16px;
   text-align: left;
 }
-.shopify-policy__container table th {
+.policy-page table th {
   font-weight: 600;
   background: var(--color-bg-alt);
 }
@@ -3267,4 +3266,142 @@ small {
 .best-sellers__view-all {
   margin-top: 48px;
   text-align: center;
+}
+
+.policy-page {
+  padding: 32px 0 64px;
+}
+
+.policy-page__header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.policy-page__title {
+  font-family: "Outfit", sans-serif;
+  font-size: 32px;
+  color: #313d65;
+  font-weight: normal;
+  margin: 0 0 8px;
+  text-transform: capitalize;
+}
+
+.policy-page__updated {
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  color: #adadad;
+  margin: 0;
+}
+
+.policy-page__layout {
+  display: grid;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Sidebar nav */
+.policy-page__nav {
+  position: sticky;
+  top: 120px;
+}
+
+.policy-page__nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.policy-page__nav-link {
+  display: block;
+  padding: 8px 16px;
+  font-family: "Outfit", sans-serif;
+  font-size: 16px;
+  color: #353535;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.policy-page__nav-link:hover {
+  color: #313d65;
+  border-left-color: #8fa1b7;
+  background: #f2f4f6;
+}
+
+/* Content */
+.policy-page__section {
+  margin-bottom: 40px;
+}
+.policy-page__section:last-child {
+  margin-bottom: 0;
+}
+
+.policy-page__section-heading {
+  font-family: "Outfit", sans-serif;
+  font-size: 24px;
+  color: #313d65;
+  font-weight: normal;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.policy-page__section-body {
+  font-family: "Outfit", sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #353535;
+}
+.policy-page__section-body p {
+  margin: 0 0 16px;
+  font-family: "Outfit", sans-serif;
+  font-size: 16px;
+  line-height: normal;
+}
+.policy-page__section-body ul,
+.policy-page__section-body ol {
+  padding-left: 24px;
+  margin: 0 0 16px;
+}
+.policy-page__section-body li:not(:last-child) {
+  margin-bottom: 0px;
+}
+.policy-page__section-body h3 {
+  font-family: "Outfit", sans-serif;
+  font-size: 20px;
+  color: #313d65;
+  font-weight: normal;
+  margin: 24px 0 12px;
+}
+.policy-page__section-body a {
+  color: #313d65;
+}
+
+@media (min-width: 989px) {
+  .policy-page__layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .policy-page__nav {
+    position: static;
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 16px;
+  }
+  .policy-page__nav-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .policy-page__nav-link {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .policy-page__nav-link:hover {
+    border-left: none;
+    border-bottom-color: #8fa1b7;
+  }
 }

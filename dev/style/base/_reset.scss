@@ -114,7 +114,7 @@ button {
   box-sizing: border-box !important;
 }
 
-.shopify-policy__container {
+.policy-page {
   max-width: $container-max-width !important;
   margin: 0 auto !important;
   padding-left: $container-padding !important;
@@ -170,7 +170,6 @@ button {
   .rte h5,
   .rte h6 {
     font-family: 'Outfit', sans-serif;
-    padding-top: 34px;
   }
 
   table {

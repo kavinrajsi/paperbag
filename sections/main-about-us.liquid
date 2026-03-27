@@ -1,67 +1,5 @@
 <div class="about-us">
-  {%- comment -%} Banner {%- endcomment -%}
-  {%- if section.settings.banner_image_desktop != blank or section.settings.banner_image_mobile != blank -%}
-    <div class="about-us__banner">
-      <div class="about-us__banner-media">
-        {%- if section.settings.banner_image_mobile != blank -%}
-          <img
-            class="about-us__banner-image about-us__banner-image--mobile"
-            src="{{ section.settings.banner_image_mobile | image_url: width: 800 }}"
-            srcset="
-              {{ section.settings.banner_image_mobile | image_url: width: 400 }} 400w,
-              {{ section.settings.banner_image_mobile | image_url: width: 600 }} 600w,
-              {{ section.settings.banner_image_mobile | image_url: width: 800 }} 800w
-            "
-            sizes="100vw"
-            alt="{{ section.settings.banner_image_mobile.alt | default: section.settings.heading | escape }}"
-            loading="eager"
-            width="{{ section.settings.banner_image_mobile.width }}"
-            height="{{ section.settings.banner_image_mobile.height }}"
-          >
-        {%- endif -%}
-        {%- if section.settings.banner_image_desktop != blank -%}
-          <img
-            class="about-us__banner-image about-us__banner-image--desktop"
-            src="{{ section.settings.banner_image_desktop | image_url: width: 1920 }}"
-            srcset="
-              {{ section.settings.banner_image_desktop | image_url: width: 1200 }} 1200w,
-              {{ section.settings.banner_image_desktop | image_url: width: 1600 }} 1600w,
-              {{ section.settings.banner_image_desktop | image_url: width: 1920 }} 1920w
-            "
-            sizes="100vw"
-            alt="{{ section.settings.banner_image_desktop.alt | default: section.settings.heading | escape }}"
-            loading="eager"
-            width="{{ section.settings.banner_image_desktop.width }}"
-            height="{{ section.settings.banner_image_desktop.height }}"
-          >
-        {%- endif -%}
-      </div>
-      {%- if section.settings.banner_heading != blank or section.settings.banner_text != blank -%}
-        <div class="about-us__banner-content">
-          <div class="container">
-            {%- if section.settings.banner_heading != blank -%}
-              <h1 class="about-us__banner-heading">{{ section.settings.banner_heading }}</h1>
-            {%- endif -%}
-            {%- if section.settings.banner_text != blank -%}
-              <p class="about-us__banner-text">{{ section.settings.banner_text }}</p>
-            {%- endif -%}
-          </div>
-        </div>
-      {%- endif -%}
-    </div>
-  {%- endif -%}
-
   <div class="container">
-
-    {%- comment -%} Hero (fallback if no banner) {%- endcomment -%}
-    {%- unless section.settings.banner_image_desktop != blank or section.settings.banner_image_mobile != blank -%}
-    <div class="about-us__hero">
-      <h1 class="about-us__title">{{ section.settings.heading | default: page.title }}</h1>
-      {%- if section.settings.subheading != blank -%}
-        <p class="about-us__subtitle">{{ section.settings.subheading }}</p>
-      {%- endif -%}
-    </div>
-    {%- endunless -%}
 
     {%- comment -%} Story section: mobile content,image — desktop content+image {%- endcomment -%}
     {%- if section.settings.story_text != blank -%}
@@ -80,23 +18,6 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} About Us section: mobile content,image — desktop image+content {%- endcomment -%}
-    {%- if section.settings.about_text != blank -%}
-      <div class="about-us__story about-us__story--image-content">
-        <div class="about-us__story-content">
-          {%- if section.settings.about_heading != blank -%}
-            <h2 class="about-us__section-heading">{{ section.settings.about_heading }}</h2>
-          {%- endif -%}
-          <div class="about-us__story-text rte">{{ section.settings.about_text }}</div>
-        </div>
-        {%- if section.settings.about_image != blank -%}
-          <div class="about-us__story-image">
-            {%- render 'image', image: section.settings.about_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
-          </div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
     {%- comment -%} CMS page content fallback {%- endcomment -%}
     {%- if page.content != blank -%}
       <div class="about-us__page-content rte">{{ page.content }}</div>
@@ -106,92 +27,6 @@
 
 {% stylesheet %}
   .about-us { padding: 0 0 64px; }
-
-  /* Banner */
-  .about-us__banner {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 48px;
-  }
-
-  .about-us__banner-media {
-    width: 100%;
-  }
-
-  .about-us__banner-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    border-radius: 0;
-    min-height: 300px;
-  }
-
-  .about-us__banner-image--mobile {
-    display: block;
-  }
-
-  .about-us__banner-image--desktop {
-    display: none;
-  }
-
-  @media screen and (min-width: 750px) {
-    .about-us__banner-image--mobile { display: none; }
-    .about-us__banner-image--desktop { display: block; min-height: 400px; }
-    .about-us__banner { margin-bottom: 64px; }
-  }
-
-  .about-us__banner-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 32px 16px;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.45));
-    color: #fff;
-  }
-
-  @media screen and (min-width: 750px) {
-    .about-us__banner-content {
-      padding: 48px 0;
-    }
-  }
-
-  .about-us__banner-heading {
-    font-family: 'Outfit', sans-serif;
-    font-size: 28px;
-    font-weight: 300;
-    line-height: 1.2;
-    margin: 0 0 8px;
-    color: #fff;
-  }
-
-  @media screen and (min-width: 750px) {
-    .about-us__banner-heading {
-      font-size: 48px;
-    }
-  }
-
-  .about-us__banner-text {
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.6;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  @media screen and (min-width: 750px) {
-    .about-us__banner-text {
-      font-size: 16px;
-    }
-  }
-
-  /* Hero */
-  .about-us__hero { text-align: center; margin-bottom: 56px; }
-  .about-us__title { font-family: 'Outfit', sans-serif; font-size: 36px; color: #313D65; font-weight: normal; margin: 0 0 12px; }
-  .about-us__subtitle { font-family: 'Outfit', sans-serif; font-size: 20px; color: #8FA1B7; font-style: italic; margin: 0; line-height: 1.8; }
 
   /* Story */
   .about-us__story { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 64px; }
@@ -204,8 +39,6 @@
   @media screen and (min-width: 750px) {
     .about-us__story--content-image .about-us__story-content { order: 1; }
     .about-us__story--content-image .about-us__story-image { order: 2; }
-    .about-us__story--image-content .about-us__story-image { order: 1; }
-    .about-us__story--image-content .about-us__story-content { order: 2; }
   }
 
 
@@ -214,8 +47,6 @@
   .about-us__page-content h2, .about-us__page-content h3 { font-family: 'Outfit', sans-serif; color: #313D65; font-weight: normal; }
 
   @media (max-width: 749px) {
-    .about-us__title { font-size: 24px; }
-    .about-us__subtitle { font-size: 16px; }
     .about-us__story { grid-template-columns: 1fr; gap: 24px; }
     .about-us__section-heading { font-size: 22px; }
     .about-us__story-text { font-size: 14px; }
@@ -227,30 +58,9 @@
 {
   "name": "About Us",
   "settings": [
-    {
-      "type": "header",
-      "content": "Banner"
-    },
-    { "type": "image_picker", "id": "banner_image_desktop", "label": "Banner image (desktop)" },
-    { "type": "image_picker", "id": "banner_image_mobile", "label": "Banner image (mobile)" },
-    { "type": "text", "id": "banner_heading", "default": "About Paperbag", "label": "Banner heading" },
-    { "type": "text", "id": "banner_text", "default": "Effortless. Elevated. Everyday.", "label": "Banner text" },
-    {
-      "type": "header",
-      "content": "Content"
-    },
-    { "type": "text", "id": "heading", "default": "About Paperbag", "label": "Heading" },
-    { "type": "text", "id": "subheading", "default": "Effortless. Elevated. Everyday.", "label": "Subheading" },
     { "type": "image_picker", "id": "story_image", "label": "Story image" },
     { "type": "text", "id": "story_heading", "default": "Our Story", "label": "Story heading" },
     { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>At Paperbag, we believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p><p>Our clothing is designed to move with you — light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>" },
-    {
-      "type": "header",
-      "content": "About Us Section"
-    },
-    { "type": "image_picker", "id": "about_image", "label": "About image" },
-    { "type": "text", "id": "about_heading", "label": "About heading" },
-    { "type": "richtext", "id": "about_text", "label": "About text" }
   ]
 }
 {% endschema %}
