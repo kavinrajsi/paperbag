@@ -2903,8 +2903,11 @@ small {
 
 .home-about__grid {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 24px;
+}
+.template-page-about-us .home-about__grid {
+  flex-direction: column-reverse;
 }
 .home-about__grid .section-title {
   margin: 0;
@@ -2952,6 +2955,8 @@ small {
 .home-about__media {
   display: flex;
   justify-content: center;
+}
+.template-page-about-us .home-about__media {
   margin-left: -16px;
   margin-right: -16px;
 }
@@ -2973,10 +2978,13 @@ small {
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+  border-radius: 8px;
+}
+.template-page-about-us .home-about__image {
+  border-radius: 0;
 }
 @media screen and (min-width: 990px) {
   .home-about__image {
-    border-radius: 8px;
     height: 600px;
   }
 }

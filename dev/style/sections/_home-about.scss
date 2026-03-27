@@ -1,4 +1,4 @@
-@use '../base/variables' as *;
+@use "../base/variables" as *;
 
 // ── Home About ──
 // Mobile: stacked (full width text + centered image)
@@ -48,8 +48,11 @@
 // ── Grid ──
 .home-about__grid {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 24px;
+  .template-page-about-us & {
+    flex-direction: column-reverse;
+  }
 
   .section-title {
     margin: 0;
@@ -93,8 +96,6 @@
   }
 }
 
-
-
 .home-about__btn {
   margin-top: $spacing-2;
 }
@@ -105,8 +106,10 @@
 .home-about__media {
   display: flex;
   justify-content: center;
-  margin-left: -$spacing-4;
-  margin-right: -$spacing-4;
+  .template-page-about-us & {
+    margin-left: -$spacing-4;
+    margin-right: -$spacing-4;
+  }
 
   @media screen and (min-width: $breakpoint-md) {
     grid-column: 7 / 12;
@@ -124,9 +127,11 @@
   max-width: 100%;
   object-fit: cover;
   width: 100%;
-
+  border-radius: 8px;
+  .template-page-about-us & {
+    border-radius: 0;
+  }
   @media screen and (min-width: $breakpoint-md) {
-    border-radius: 8px;
     height: 600px;
   }
 }
