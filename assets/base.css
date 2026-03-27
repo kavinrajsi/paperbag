@@ -1888,7 +1888,6 @@ small {
 .hero-banner__content {
   display: flex;
   flex-direction: column;
-  gap: var(--hero-content-gap, 16px);
   max-width: 524px;
 }
 
@@ -2033,10 +2032,13 @@ small {
 }
 @media screen and (min-width: 990px) {
   .hero-banner__text {
-    font-size: var(--font-size-md);
+    font-size: 22px;
   }
 }
 
+.hero-banner__btn {
+  margin-top: 16px;
+}
 @media screen and (min-width: 990px) {
   .hero-banner__btn {
     align-self: auto;

@@ -85,7 +85,6 @@
 .hero-banner__content {
   display: flex;
   flex-direction: column;
-  gap: var(--hero-content-gap, $spacing-4);
   max-width: 524px;
 }
 
@@ -235,12 +234,14 @@
   }
 
   @media screen and (min-width: $breakpoint-md) {
-    font-size: var(--font-size-md);
+    font-size: 22px;
   }
 }
 
 // ── Button ──
 .hero-banner__btn {
+  margin-top: 16px;
+
   @media screen and (min-width: $breakpoint-md) {
     align-self: auto;
   }
