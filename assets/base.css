@@ -1889,6 +1889,7 @@ small {
   display: flex;
   flex-direction: column;
   max-width: 524px;
+  padding-left: 20vw;
 }
 
 .hero-banner__content--mobile-left {
