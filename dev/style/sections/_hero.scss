@@ -180,7 +180,7 @@
 
 // ── Typography ──
 .hero-banner__heading {
-  color: #8fa1b7;
+  color: #313d65;
   display: block;
   font-family: 'Outfit', sans-serif;
   font-size: 20px;
@@ -270,8 +270,8 @@
   border-radius: 8px;
   transition: all 0.2s ease;
   cursor: pointer;
-  border: 2px solid #8fa1b7;
-  background-color: #8fa1b7;
+  border: 2px solid #313d65;
+  background-color: #313d65;
   color: #faf8f3;
 
   @media screen and (min-width: $breakpoint-sm) {
