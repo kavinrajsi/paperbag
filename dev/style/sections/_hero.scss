@@ -23,7 +23,7 @@
 .hero-banner__image {
   display: block;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
 
   @media screen and (min-width: $breakpoint-sm) {
@@ -144,8 +144,12 @@
 .hero-banner__inner {
   align-items: center;
   display: flex;
-  min-height: 500px;
+  min-height: 774px;
   width: 100%;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    min-height: 768px;
+  }
 
   @media screen and (min-width: $breakpoint-md) {
     min-height: 600px;

@@ -1839,8 +1839,8 @@ small {
 .hero-banner__image {
   display: block;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   width: 100%;
 }
 @media screen and (min-width: 750px) {
@@ -1961,8 +1961,13 @@ small {
 .hero-banner__inner {
   align-items: center;
   display: flex;
-  min-height: 500px;
+  min-height: 774px;
   width: 100%;
+}
+@media screen and (min-width: 750px) {
+  .hero-banner__inner {
+    min-height: 768px;
+  }
 }
 @media screen and (min-width: 990px) {
   .hero-banner__inner {
