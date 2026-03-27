@@ -1822,17 +1822,28 @@ small {
   }
 }
 .hero-banner {
+  margin-bottom: 30px;
   position: relative;
+  height: 60vh;
+}
+@media screen and (min-width: 768px) {
+  .hero-banner {
+    height: 80vh;
+  }
 }
 
 .hero-banner__image {
   display: block;
-  height: auto;
+  height: 100%;
   max-width: 100%;
   width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: bottom center;
+     object-position: bottom center;
 }
 .hero-banner__image.hero-banner__image--mobile {
-  display: block;
+  display: none;
 }
 @media screen and (min-width: 562px) {
   .hero-banner__image.hero-banner__image--mobile {
@@ -1840,7 +1851,7 @@ small {
   }
 }
 .hero-banner__image.hero-banner__image--tablet {
-  display: none;
+  display: block;
 }
 @media screen and (min-width: 562px) {
   .hero-banner__image.hero-banner__image--tablet {
@@ -1857,8 +1868,16 @@ small {
 }
 @media screen and (min-width: 768px) {
   .hero-banner__image.hero-banner__image--desktop {
+    -o-object-position: 80% center;
+       object-position: 80% center;
     display: block;
   }
+}
+
+.hero-banner__media {
+  height: 100%;
+  width: 100%;
+  display: block;
 }
 
 .hero-banner__container {
@@ -1868,9 +1887,14 @@ small {
   left: 0;
   z-index: 8;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .hero-banner__container {
+    align-items: center;
+  }
 }
 .hero-banner__container .hero-banner__inner {
   width: 100%;
@@ -1904,11 +1928,16 @@ small {
 .hero-banner__container .hero-banner__content {
   display: flex;
   flex-direction: column;
-  max-width: 412px;
+  max-width: 160px;
+  padding-bottom: 40px;
+  margin-left: auto;
+  margin-right: initial;
 }
 @media screen and (min-width: 768px) {
   .hero-banner__container .hero-banner__content {
+    max-width: 412px;
     padding-left: 40px;
+    margin: 0;
   }
 }
 .hero-banner__container .hero-banner__heading {
@@ -1926,7 +1955,7 @@ small {
 }
 @media screen and (min-width: 768px) {
   .hero-banner__container .hero-banner__heading {
-    color: inherit;
+    color: #fff;
     font-family: var(--font-family);
     font-weight: 600;
     line-height: var(--leading-tight);
@@ -1934,6 +1963,13 @@ small {
     max-width: none;
     padding: 0;
     text-align: inherit;
+  }
+}
+@media screen and (min-width: 768px) {
+  .hero-banner__container .hero-banner__heading.hero-banner__heading--lg {
+    font-size: 48px;
+    line-height: normal;
+    margin-bottom: 8px;
   }
 }
 .hero-banner__container .hero-banner__text {
@@ -1944,6 +1980,7 @@ small {
   line-height: var(--leading-relaxed);
   margin: 0;
   max-width: 540px;
+  color: #fff;
 }
 @media screen and (min-width: 768px) {
   .hero-banner__container .hero-banner__text {
@@ -1953,6 +1990,7 @@ small {
 @media screen and (min-width: 990px) {
   .hero-banner__container .hero-banner__text {
     font-size: 22px;
+    line-height: normal;
   }
 }
 .hero-banner__container .hero-banner__btn-link {
@@ -1971,6 +2009,7 @@ small {
   border: 2px solid #313d65;
   background-color: #313d65;
   color: #faf8f3;
+  margin-top: 16px;
 }
 @media screen and (min-width: 768px) {
   .hero-banner__container .hero-banner__btn-link {

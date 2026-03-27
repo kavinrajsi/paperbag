@@ -4,22 +4,31 @@
 // Mobile: full-width image, centered text overlay
 // Tablet+: left-aligned text, vertically centered, Bootstrap container
 .hero-banner {
+  margin-bottom: 30px;
   position: relative;
+  height: 60vh;
+
+    @media screen and (min-width: 768px) {
+      height: 80vh;
+    }
 }
+
 .hero-banner__image {
   display: block;
-  height: auto;
+  height: 100%;
   max-width: 100%;
   width: 100%;
+  object-fit: cover;
+  object-position: bottom center;
 
   &.hero-banner__image--mobile {
-    display: block;
+    display: none;
     @media screen and (min-width: 562px) {
       display: none;
     }
   }
   &.hero-banner__image--tablet {
-    display: none;
+    display: block;
     @media screen and (min-width: 562px) {
       display: block;
     }
@@ -27,14 +36,21 @@
       display: none;
     }
   }
-
   &.hero-banner__image--desktop {
     display: none;
     @media screen and (min-width: 768px) {
+      object-position: 80% center;
       display: block;
     }
   }
 }
+
+.hero-banner__media {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
 .hero-banner__container {
   position: absolute;
   top: 0;
@@ -42,9 +58,12 @@
   left: 0;
   z-index: 8;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   width: 100%;
+  @media screen and (min-width: 768px) {
+    align-items: center;
+  }
   .hero-banner__inner {
     width: 100%;
     margin: 0 auto;
@@ -72,10 +91,14 @@
   .hero-banner__content {
     display: flex;
     flex-direction: column;
-    max-width: 412px;
-
+    max-width: 160px;
+    padding-bottom: 40px;
+    margin-left: auto;
+    margin-right: initial;
     @media screen and (min-width: 768px) {
+      max-width: 412px;
       padding-left: 40px;
+      margin: 0;
     }
   }
 
@@ -94,7 +117,7 @@
     text-align: left;
 
     @media screen and (min-width: 768px) {
-      color: inherit;
+      color: #fff;
       font-family: var(--font-family);
       font-weight: 600;
       line-height: var(--leading-tight);
@@ -102,6 +125,13 @@
       max-width: none;
       padding: 0;
       text-align: inherit;
+    }
+    &.hero-banner__heading--lg {
+     @media screen and (min-width: 768px) {
+        font-size: 48px;
+        line-height: normal;
+        margin-bottom: 8px;
+      }
     }
   }
 
@@ -113,6 +143,7 @@
     line-height: var(--leading-relaxed);
     margin: 0;
     max-width: 540px;
+    color: #fff;
 
     @media screen and (min-width: 768px) {
       display: block;
@@ -120,6 +151,7 @@
 
     @media screen and (min-width: $breakpoint-md) {
       font-size: 22px;
+      line-height: normal;
     }
   }
 
@@ -139,6 +171,7 @@
     border: 2px solid #313d65;
     background-color: #313d65;
     color: #faf8f3;
+    margin-top: 16px;
 
     @media screen and (min-width: 768px) {
       border-color: var(--color-brand);
