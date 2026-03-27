@@ -48,7 +48,7 @@
 // ── Grid ──
 .home-about__grid {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 24px;
 
   .section-title {
@@ -104,19 +104,29 @@
 .home-about__media {
   display: flex;
   justify-content: center;
+  margin-left: -$spacing-4;
+  margin-right: -$spacing-4;
 
   @media screen and (min-width: $breakpoint-md) {
     grid-column: 7 / 12;
     justify-content: flex-end;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
 .home-about__image {
+  border: none;
+  border-radius: 0;
   display: block;
-  height: auto;
+  height: 400px;
   max-width: 100%;
   object-fit: cover;
   width: 100%;
+
+  @media screen and (min-width: $breakpoint-md) {
+    height: auto;
+  }
 }
 
 .home-about__placeholder {

@@ -2975,7 +2975,7 @@ small {
 
 .home-about__grid {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 24px;
 }
 .home-about__grid .section-title {
@@ -3023,21 +3023,32 @@ small {
 .home-about__media {
   display: flex;
   justify-content: center;
+  margin-left: -16px;
+  margin-right: -16px;
 }
 @media screen and (min-width: 990px) {
   .home-about__media {
     grid-column: 7/12;
     justify-content: flex-end;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
 .home-about__image {
+  border: none;
+  border-radius: 0;
   display: block;
-  height: auto;
+  height: 400px;
   max-width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+}
+@media screen and (min-width: 990px) {
+  .home-about__image {
+    height: auto;
+  }
 }
 
 .home-about__placeholder {
