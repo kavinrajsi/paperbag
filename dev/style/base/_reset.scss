@@ -1,3 +1,5 @@
+@use '../base/variables' as *;
+
 // Eric Meyer's CSS Reset v2.0 | http://meyerweb.com/eric/tools/css/reset/
 // License: none (public domain)
 html, body, div, span, applet, object, iframe,
@@ -113,11 +115,19 @@ button {
 }
 
 .shopify-policy__container {
-  max-width: 768px !important;
+  max-width: $container-max-width !important;
+  margin: 0 auto !important;
+  padding-left: $container-padding !important;
+  padding-right: $container-padding !important;
   font-family: 'Outfit', sans-serif !important;
   color: var(--color-text) !important;
-  line-height: 1.7 !important;
+  line-height: normal !important;
   padding-bottom: 32px !important;
+
+  @media screen and (min-width: $breakpoint-md) {
+    padding-left: $spacing-6 !important;
+    padding-right: $spacing-6 !important;
+  }
 
   p {
     margin: 0 0 16px;
@@ -143,6 +153,20 @@ button {
   li {
     font-size: 15px;
     margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .rte h1,
+  .rte h2,
+  .rte h3,
+  .rte h4,
+  .rte h5,
+  .rte h6 {
+    font-family: 'Outfit', sans-serif;
+    padding-top: 34px;
   }
 
   table {
@@ -173,6 +197,7 @@ button {
   margin: 0 0 48px !important;
   line-height: 1.1 !important;
   text-align: left !important;
+  text-transform: capitalize !important;
 
   h1 {
     font-family: 'Outfit', sans-serif !important;
@@ -182,6 +207,7 @@ button {
     margin: 0 0 48px !important;
     line-height: 1.1 !important;
     text-align: left !important;
+    text-transform: capitalize !important;
   }
 }
 
