@@ -1944,12 +1944,15 @@ small {
 }
 
 .hero-banner__inner--mobile-center {
-  align-items: center;
+  align-items: flex-end;
   justify-content: start;
+  padding-bottom: 100px;
 }
 @media screen and (min-width: 750px) {
   .hero-banner__inner--mobile-center {
+    align-items: center;
     justify-content: flex-start;
+    padding-bottom: 0;
   }
 }
 
