@@ -110,7 +110,7 @@
           <div class="pdp__description">{{ product.description }}</div>
         {%- endif -%}
 
-        <p class="pdp__price" data-pdp-price>{{ current_variant.price | money }}</p>
+        <p class="pdp__price" data-pdp-price>{{ current_variant.price | money_without_trailing_zeros }}</p>
 
         {%- if color_option_index != nil and color_values.size > 0 -%}
           <div class="pdp__option-group">
@@ -262,7 +262,7 @@
                       <a href="{{ item.url }}">{{ item.title }}</a>
                     </p>
                     <p class="scroll-collection__price">
-                      {{ current_variant.price | money }}
+                      {{ current_variant.price | money_without_trailing_zeros }}
                     </p>
                   </div>
                 </div>

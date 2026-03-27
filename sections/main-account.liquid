@@ -26,7 +26,7 @@
                 <td>{{ order.created_at | date: '%B %d, %Y' }}</td>
                 <td>{{ order.financial_status_label }}</td>
                 <td>{{ order.fulfillment_status_label }}</td>
-                <td class="text-right">{{ order.total_price | money }}</td>
+                <td class="text-right">{{ order.total_price | money_without_trailing_zeros }}</td>
               </tr>
             {%- endfor -%}
           </tbody>

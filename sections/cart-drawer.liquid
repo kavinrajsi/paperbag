@@ -23,7 +23,7 @@
                 {%- for option in item.options_with_values -%}
                   <p class="cart-drawer__item-option">{{ option.name }}: {{ option.value }}</p>
                 {%- endfor -%}
-                <p class="cart-drawer__item-price">{{ item.final_line_price | money }}</p>
+                <p class="cart-drawer__item-price">{{ item.final_line_price | money_without_trailing_zeros }}</p>
                 <div class="cart-drawer__item-actions">
                   <div class="cart-drawer__qty">
                     <button class="cart-drawer__qty-btn" data-quantity-minus aria-label="Decrease">&minus;</button>
@@ -48,7 +48,7 @@
       <div class="cart-drawer__footer" data-cart-footer>
         <div class="cart-drawer__subtotal">
           <span>Subtotal</span>
-          <span data-cart-subtotal>{{ cart.total_price | money }}</span>
+          <span data-cart-subtotal>{{ cart.total_price | money_without_trailing_zeros }}</span>
         </div>
         <a href="/checkout" class="cart-drawer__checkout-btn">Check Out</a>
         <a href="{{ routes.cart_url }}" class="cart-drawer__viewcart-btn">View Cart</a>

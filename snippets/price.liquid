@@ -22,17 +22,17 @@
 <div class="price{% if on_sale %} price--on-sale{% endif %}">
   {%- if price_varies -%}
     <span class="price__from">
-      {{ 'products.product.from_price' | t: price: product.price_min | money }}
+      {{ 'products.product.from_price' | t: price: product.price_min | money_without_trailing_zeros }}
     </span>
   {%- else -%}
     <span class="price__regular">
-      {{ product.price | money }}
+      {{ product.price | money_without_trailing_zeros }}
     </span>
   {%- endif -%}
 
   {%- if on_sale -%}
     <span class="price__compare">
-      <s>{{ product.compare_at_price | money }}</s>
+      <s>{{ product.compare_at_price | money_without_trailing_zeros }}</s>
     </span>
   {%- endif -%}
 </div>

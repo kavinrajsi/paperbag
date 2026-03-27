@@ -72,7 +72,7 @@
                     {%- endif -%}
                     {%- if show_price -%}
                       <p class="scroll-collection__price" data-product-price>
-                        {{ current_variant.price | money }}
+                        {{ current_variant.price | money_without_trailing_zeros }}
                       </p>
                     {%- endif -%}
                   </div>

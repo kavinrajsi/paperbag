@@ -27,7 +27,7 @@
                     {%- for option in item.options_with_values -%}
                       <p class="cart-pg__item-option">{{ option.value }}</p>
                     {%- endfor -%}
-                    <span class="cart-pg__mobile-total">{{ item.final_line_price | money }}</span>
+                    <span class="cart-pg__mobile-total">{{ item.final_line_price | money_without_trailing_zeros }}</span>
                     <div class="cart-pg__mobile-qty">
                       <div class="cart-pg__qty-control">
                         <button type="button" class="cart-pg__qty-btn" aria-label="Decrease" data-quantity-minus>&minus;</button>
@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="cart-pg__col cart-pg__col--price">
-                <span class="cart-pg__item-price">{{ item.original_price | money }}</span>
+                <span class="cart-pg__item-price">{{ item.original_price | money_without_trailing_zeros }}</span>
               </div>
               <div class="cart-pg__col cart-pg__col--qty">
                 <div class="cart-pg__qty-control">
@@ -55,7 +55,7 @@
                 </button>
               </div>
               <div class="cart-pg__col cart-pg__col--total">
-                <span class="cart-pg__line-total">{{ item.final_line_price | money }}</span>
+                <span class="cart-pg__line-total">{{ item.final_line_price | money_without_trailing_zeros }}</span>
               </div>
             </div>
           {%- endfor -%}
@@ -65,7 +65,7 @@
         <div class="cart-pg__footer">
           <div class="cart-pg__subtotal">
             <span>Subtotal</span>
-            <span>{{ cart.total_price | money }}</span>
+            <span>{{ cart.total_price | money_without_trailing_zeros }}</span>
           </div>
           <p class="cart-pg__taxes">Inclusive of all taxes and shipping</p>
 
@@ -474,7 +474,7 @@
   var moneyFormat = document.querySelector('.cart-pg').getAttribute('data-money-format');
 
   function formatMoney(cents) {
-    var amount = (cents / 100).toFixed(2);
+    var amount = (cents / 100).toFixed(2).replace(/\.00$/, '');
     var amountWithComma = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var amountNoDecimals = Math.round(cents / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     var amountNoDecimalsWithSpace = amountNoDecimals.replace(/,/g, ' ');

@@ -166,7 +166,7 @@
                         <a href="{{ product.url }}">{{ product.title }}</a>
                       </p>
                       <p class="scroll-collection__price">
-                        {{ current_variant.price | money }}
+                        {{ current_variant.price | money_without_trailing_zeros }}
                       </p>
                     </div>
                   </div>
