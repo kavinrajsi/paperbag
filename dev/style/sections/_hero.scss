@@ -1,310 +1,42 @@
-@use '../base/variables' as *;
+@use "../base/variables" as *;
 
 // ── Hero Banner ──
 // Mobile: full-width image, centered text overlay
 // Tablet+: left-aligned text, vertically centered, Bootstrap container
-
-.hero-banner {
-  margin-bottom: 30px;
-  overflow: hidden;
+.hero-banner{
   position: relative;
-  width: 100%;
 }
-
-// ── Background image ──
-.hero-banner__media {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
 .hero-banner__image {
   display: block;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
+  max-width: 100%;
   width: 100%;
 
-  @media screen and (min-width: $breakpoint-sm) {
-    object-position: right center;
-  }
-}
-
-.hero-banner__image--mobile {
-  display: block;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    display: none;
-  }
-}
-
-.hero-banner__image--tablet {
-  display: none;
-
-  @media screen and (min-width: $breakpoint-sm) {
+  &.hero-banner__image--mobile{
     display: block;
+    @media screen and (min-width: 562px) {
+      display: none;
+    }
   }
-
-  @media screen and (min-width: $breakpoint-md) {
+  &.hero-banner__image--tablet {
     display: none;
+    @media screen and (min-width: 562px) {
+      display: block;
+    }
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &.hero-banner__image--desktop {
+    display: none;
+    @media screen and (min-width: 768px) {
+      display: block;
+    }
   }
 }
-
-.hero-banner__image--desktop {
-  display: none;
-
-  @media screen and (min-width: $breakpoint-md) {
-    display: block;
-  }
-}
-
-// ── Overlay (optional tint) ──
-.hero-banner__overlay {
-  height: 100%;
-  left: 0;
+.hero-banner__container{
   position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-// ── Container (Bootstrap widths) ──
-.hero-banner__container {
-  margin: 0 auto;
-  padding: 0 $spacing-4;
-  position: relative;
-  width: 100%;
-  z-index: 2;
-
-  @media screen and (min-width: 576px) {
-    max-width: 540px;
-  }
-
-  @media screen and (min-width: $breakpoint-sm) {
-    max-width: 720px;
-  }
-
-  @media screen and (min-width: $breakpoint-md) {
-    max-width: 960px;
-  }
-
-  @media screen and (min-width: $breakpoint-lg) {
-    max-width: 1140px;
-  }
-
-  @media screen and (min-width: 1400px) {
-    max-width: 1320px;
-  }
-}
-
-// ── Content wrapper ──
-.hero-banner__content {
-  display: flex;
-  flex-direction: column;
-  max-width: 412px;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    padding-left: 40px;
-  }
-}
-
-// ── Mobile: center ──
-.hero-banner__content--mobile-center {
-}
-
-.hero-banner__content--mobile-left {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.hero-banner__content--mobile-right {
-  align-items: flex-end;
-  text-align: right;
-}
-
-// ── Tablet + Desktop overrides ──
-@media screen and (min-width: $breakpoint-sm) {
-  .hero-banner__content--desktop-left {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .hero-banner__content--desktop-center {
-    align-items: center;
-    text-align: center;
-  }
-
-  .hero-banner__content--desktop-right {
-    align-items: flex-end;
-    text-align: right;
-  }
-}
-
-// ── Vertical position ──
-.hero-banner__inner {
-  align-items: center;
-  display: flex;
-  min-height: 774px;
-  width: 100%;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    min-height: 768px;
-  }
-
-  @media screen and (min-width: $breakpoint-md) {
-    min-height: 600px;
-  }
-}
-
-.hero-banner__inner--mobile-top {
-  align-items: flex-start;
-  padding-top: $spacing-8;
-}
-
-.hero-banner__inner--mobile-center {
-  align-items: flex-end;
-  justify-content: end;
-  padding-bottom: 40px;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    align-items: center;
-    justify-content: flex-start;
-    padding-bottom: 0;
-  }
-}
-
-.hero-banner__inner--mobile-bottom {
-  align-items: flex-end;
-  padding-bottom: $spacing-8;
-}
-
-@media screen and (min-width: $breakpoint-md) {
-  .hero-banner__inner--desktop-top {
-    align-items: flex-start;
-    padding-top: $spacing-9;
-  }
-
-  .hero-banner__inner--desktop-center {
-    align-items: center;
-  }
-
-  .hero-banner__inner--desktop-bottom {
-    align-items: flex-end;
-    padding-bottom: $spacing-9;
-  }
-}
-
-// ── Typography ──
-.hero-banner__heading {
-  color: #313d65;
-  display: block;
-  font-family: 'Outfit', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-snug);
-  margin: 0;
-  max-width: 150px;
-  padding: 0;
-  text-align: left;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    color: inherit;
-    font-family: var(--font-family);
-    font-weight: 600;
-    line-height: var(--leading-tight);
-    margin: 0;
-    max-width: none;
-    padding: 0;
-    text-align: inherit;
-  }
-}
-
-.hero-banner__heading--sm {
-  font-size: var(--font-size-xl);
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: var(--font-size-2xl);
-  }
-}
-
-.hero-banner__heading--md {
-  font-size: var(--font-size-2xl);
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: var(--font-size-3xl);
-  }
-}
-
-.hero-banner__heading--lg {
-  @media screen and (min-width: $breakpoint-sm) {
-    font-size: var(--font-size-3xl);
-  }
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: 48px;
-    line-height: normal;
-    margin-bottom: 8px;
-  }
-}
-
-.hero-banner__text {
-  display: none;
-  font-family: var(--font-family);
-  font-size: var(--font-size-base, 15px);
-  font-weight: 400;
-  line-height: var(--leading-relaxed);
-  margin: 0;
-  max-width: 540px;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    display: block;
-  }
-
-  @media screen and (min-width: $breakpoint-md) {
-    font-size: 22px;
-  }
-}
-
-// ── Button ──
-.hero-banner__btn {
-  margin-top: 16px;
-
-  @media screen and (min-width: $breakpoint-md) {
-    align-self: auto;
-  }
-}
-
-.hero-banner__btn-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
-  margin: 0;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  border: 2px solid #313d65;
-  background-color: #313d65;
-  color: #faf8f3;
-
-  @media screen and (min-width: $breakpoint-sm) {
-    border-color: var(--color-brand);
-    background-color: var(--color-brand);
-  }
-}
-
-.hero-banner__btn-link--outline {
-  background-color: transparent;
-  color: var(--color-brand);
-  border: 2px solid var(--color-brand);
-
-  &:hover {
-    background-color: var(--color-brand);
-    color: #faf8f3;
-  }
+  bottom: 0;
+  left: 0;
 }
