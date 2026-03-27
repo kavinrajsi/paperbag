@@ -407,7 +407,7 @@
         fetch(
           '/search/suggest.json?q=' +
             encodeURIComponent(query) +
-            '&resources[type]=product,collection,page&resources[limit]=4'
+            '&resources[type]=product&resources[limit]=4'
         )
           .then(function (r) {
             return r.json();
@@ -430,10 +430,8 @@
       }
 
       var products = res.products || [];
-      var collections = res.collections || [];
-      var pages = res.pages || [];
 
-      if (products.length === 0 && collections.length === 0 && pages.length === 0) {
+      if (products.length === 0) {
         results.innerHTML = '<p class="search-results__empty">No results found for "' + escapeHtml(query) + '"</p>';
         return;
       }
@@ -467,34 +465,6 @@
           encodeURIComponent(query) +
           '&type=product" class="search-results__view-all">View all products</a>';
         html += '</div>';
-      }
-
-      if (collections.length > 0) {
-        html += '<div class="search-results__group">';
-        html += '<div class="search-results__header"><p class="search-results__title">Collections</p></div>';
-        html += '<ul class="search-results__list">';
-        for (var j = 0; j < collections.length; j++) {
-          var c = collections[j];
-          html += '<li class="search-results__item"><a href="' + escapeHtml(c.url) + '">';
-          html += '<div class="search-results__item-info">';
-          html += '<p class="search-results__item-title">' + escapeHtml(c.title) + '</p>';
-          html += '</div></a></li>';
-        }
-        html += '</ul></div>';
-      }
-
-      if (pages.length > 0) {
-        html += '<div class="search-results__group">';
-        html += '<div class="search-results__header"><p class="search-results__title">Pages</p></div>';
-        html += '<ul class="search-results__list">';
-        for (var k = 0; k < pages.length; k++) {
-          var pg = pages[k];
-          html += '<li class="search-results__item"><a href="' + escapeHtml(pg.url) + '">';
-          html += '<div class="search-results__item-info">';
-          html += '<p class="search-results__item-title">' + escapeHtml(pg.title) + '</p>';
-          html += '</div></a></li>';
-        }
-        html += '</ul></div>';
       }
 
       results.innerHTML = html;
