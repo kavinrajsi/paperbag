@@ -12,7 +12,7 @@
       <div class="cart-drawer__items" data-cart-items>
         {%- if cart.item_count > 0 -%}
           {%- for item in cart.items -%}
-            <div class="cart-drawer__item" data-cart-item data-key="{{ item.key }}">
+            <div class="cart-drawer__item" data-cart-item data-key="{{ item.key }}" data-max-qty="{{ item.variant.inventory_quantity | default: 99 }}">
               <a href="{{ item.url }}" class="cart-drawer__item-image">
                 {%- if item.image -%}
                   <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" loading="lazy">

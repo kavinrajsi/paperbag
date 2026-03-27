@@ -2,6 +2,9 @@
 <script type="application/json" data-product-json>
   {{ product | json }}
 </script>
+<script type="application/json" data-inventory-json>
+  { {%- for variant in product.variants -%}"{{ variant.id }}": {{ variant.inventory_quantity | default: 0 }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} }
+</script>
 
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -164,7 +167,7 @@
             <div class="pdp__cart-row">
               <div class="pdp__qty">
                 <button type="button" class="pdp__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
-                <input type="number" name="quantity" value="1" min="1" class="pdp__qty-input" data-qty-input aria-label="Quantity">
+                <input type="number" name="quantity" value="1" min="1" max="{{ current_variant.inventory_quantity | default: 99 }}" class="pdp__qty-input" data-qty-input data-max-qty="{{ current_variant.inventory_quantity | default: 99 }}" aria-label="Quantity">
                 <button type="button" class="pdp__qty-btn" data-qty-plus aria-label="Increase quantity">&plus;</button>
               </div>
               <button
@@ -886,6 +889,8 @@
   var productJson = document.querySelector('[data-product-json]');
   if (!productJson) return;
   var productData = JSON.parse(productJson.textContent);
+  var inventoryJson = document.querySelector('[data-inventory-json]');
+  var inventoryMap = inventoryJson ? JSON.parse(inventoryJson.textContent) : {};
   var variantIdInput = document.querySelector('[data-variant-id]');
   var addToCartBtn = document.querySelector('[data-add-to-cart]');
   var priceEl = document.querySelector('[data-pdp-price]');
@@ -935,7 +940,10 @@
     });
     plusBtn.addEventListener('click', function() {
       var val = parseInt(qtyInput.value, 10) || 1;
-      qtyInput.value = val + 1;
+      var maxQty = parseInt(qtyInput.getAttribute('data-max-qty'), 10) || 99;
+      if (val < maxQty) {
+        qtyInput.value = val + 1;
+      }
     });
   }
 
@@ -951,6 +959,12 @@
       if (addToCartBtn) {
         addToCartBtn.disabled = !match.available;
         addToCartBtn.textContent = match.available ? 'Add To Cart' : 'Sold Out';
+      }
+      if (qtyInput) {
+        var stock = inventoryMap[match.id] || 99;
+        qtyInput.setAttribute('data-max-qty', stock);
+        qtyInput.setAttribute('max', stock);
+        qtyInput.value = 1;
       }
       var url = new URL(window.location.href);
       url.searchParams.set('variant', match.id);

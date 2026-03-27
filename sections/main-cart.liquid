@@ -14,7 +14,7 @@
         {%- comment -%} Cart items {%- endcomment -%}
         <div class="cart-pg__items">
           {%- for item in cart.items -%}
-            <div class="cart-pg__item" data-cart-item data-key="{{ item.key }}">
+            <div class="cart-pg__item" data-cart-item data-key="{{ item.key }}" data-max-qty="{{ item.variant.inventory_quantity | default: 99 }}">
               <div class="cart-pg__col cart-pg__col--product">
                 <div class="cart-pg__product">
                   <a href="{{ item.url }}" class="cart-pg__item-image">
@@ -543,7 +543,9 @@
     var key = item.getAttribute('data-key');
 
     var val = parseInt(input.value, 10);
-    var newVal = minus ? Math.max(0, val - 1) : val + 1;
+    var maxQty = parseInt(item.getAttribute('data-max-qty'), 10) || 99;
+    var newVal = minus ? Math.max(0, val - 1) : Math.min(val + 1, maxQty);
+    if (!minus && val >= maxQty) return;
     input.value = newVal;
 
     // Sync the other qty input (desktop/mobile duplicate)

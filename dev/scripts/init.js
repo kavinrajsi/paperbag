@@ -144,7 +144,9 @@
           if (!input) return;
           var key = item.getAttribute('data-key');
           var currentQty = parseInt(input.value, 10);
-          var newQty = minus ? Math.max(0, currentQty - 1) : currentQty + 1;
+          var maxQty = parseInt(item.getAttribute('data-max-qty'), 10) || 99;
+          var newQty = minus ? Math.max(0, currentQty - 1) : Math.min(currentQty + 1, maxQty);
+          if (!minus && currentQty >= maxQty) return;
 
           if (newQty === 0) {
             Cart.updateItem(key, 0);
