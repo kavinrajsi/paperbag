@@ -1889,6 +1889,7 @@ small {
   display: flex;
   flex-direction: column;
   gap: var(--hero-content-gap, 16px);
+  max-width: 524px;
 }
 
 .hero-banner__content--mobile-center {
