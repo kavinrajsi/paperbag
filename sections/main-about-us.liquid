@@ -1,55 +1,14 @@
-<div class="about-us">
-  <div class="container">
-
-    {%- comment -%} Story section: mobile content,image — desktop content+image {%- endcomment -%}
-    {%- if section.settings.story_text != blank -%}
-      <div class="about-us__story about-us__story--content-image">
-        <div class="about-us__story-content">
-          {%- if section.settings.story_heading != blank -%}
-            <h2 class="about-us__section-heading">{{ section.settings.story_heading }}</h2>
-          {%- endif -%}
-          <div class="about-us__story-text rte">{{ section.settings.story_text }}</div>
-        </div>
-        {%- if section.settings.story_image != blank -%}
-          <div class="about-us__story-image">
-            {%- render 'image', image: section.settings.story_image, widths: '360,535,750,1000', sizes: '(min-width: 990px) 50vw, 100vw' -%}
-          </div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
-    {%- comment -%} CMS page content fallback {%- endcomment -%}
-    {%- if page.content != blank -%}
-      <div class="about-us__page-content rte">{{ page.content }}</div>
-    {%- endif -%}
-  </div>
-</div>
+{%- comment -%} CMS page content fallback {%- endcomment -%}
+{%- if page.content != blank -%}
+  <div class="about-us__page-content rte">{{ page.content }}</div>
+{%- endif -%}
 
 {% stylesheet %}
-  .about-us { padding: 0 0 64px; }
-
-  /* Story */
-  .about-us__story { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 64px; }
-  .about-us__story-image { overflow: hidden; }
-  .about-us__story-image img { width: 100%; height: auto; display: block; }
-  .about-us__section-heading { font-family: 'Outfit', sans-serif; font-size: 28px; color: #313D65; font-weight: normal; margin: 0 0 20px; }
-  .about-us__story-text { font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
-  .about-us__story-text p { margin: 0 0 16px; }
-
-  @media screen and (min-width: 750px) {
-    .about-us__story--content-image .about-us__story-content { order: 1; }
-    .about-us__story--content-image .about-us__story-image { order: 2; }
-  }
-
-
   /* Page content fallback */
   .about-us__page-content { max-width: 800px; margin: 0 auto; font-family: 'Outfit', sans-serif; font-size: 18px; line-height: 1.8; color: #353535; }
   .about-us__page-content h2, .about-us__page-content h3 { font-family: 'Outfit', sans-serif; color: #313D65; font-weight: normal; }
 
   @media (max-width: 749px) {
-    .about-us__story { grid-template-columns: 1fr; gap: 24px; }
-    .about-us__section-heading { font-size: 22px; }
-    .about-us__story-text { font-size: 14px; }
     .about-us__page-content { font-size: 14px; }
   }
 {% endstylesheet %}
@@ -58,9 +17,6 @@
 {
   "name": "About Us",
   "settings": [
-    { "type": "image_picker", "id": "story_image", "label": "Story image" },
-    { "type": "text", "id": "story_heading", "default": "Our Story", "label": "Story heading" },
-    { "type": "richtext", "id": "story_text", "label": "Story text", "default": "<p>At Paperbag, we believe in creating timeless pieces that blend quality craftsmanship with modern design. Every item is made to last and designed to be loved.</p><p>Our clothing is designed to move with you — light, breathable, and effortless. Every piece carries a sense of freedom and ease, made to elevate your everyday.</p>" },
   ]
 }
 {% endschema %}

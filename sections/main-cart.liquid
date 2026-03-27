@@ -1,4 +1,4 @@
-<div class="cart-pg">
+<div class="cart-pg" data-money-format="{{ shop.money_format }}">
   <div class="cart-pg__container">
 
     {%- if cart.item_count > 0 -%}
@@ -471,7 +471,7 @@
 (function() {
   'use strict';
 
-  var moneyFormat = {{ shop.money_format | json }};
+  var moneyFormat = document.querySelector('.cart-pg').getAttribute('data-money-format');
 
   function formatMoney(cents) {
     var amount = (cents / 100).toFixed(2);
@@ -486,7 +486,7 @@
       .replace('{{amount_no_decimals_with_space_separator}}', amountNoDecimalsWithSpace)
       .replace('{{amount_with_apostrophe_separator}}', amount.replace(/,/g, "'"))
       .replace('{{amount_no_decimals}}', Math.round(cents / 100))
-      .replace('{{amount}}', amount);
+      .replace('{{amount}}', amountWithComma);
   }
 
   // Quantity buttons

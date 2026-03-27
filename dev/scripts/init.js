@@ -141,6 +141,7 @@
           if (!item) return;
 
           var input = item.querySelector('[data-quantity-input]');
+          if (!input) return;
           var key = item.getAttribute('data-key');
           var currentQty = parseInt(input.value, 10);
           var newQty = minus ? Math.max(0, currentQty - 1) : currentQty + 1;
