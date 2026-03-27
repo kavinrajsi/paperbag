@@ -12,8 +12,9 @@
     "hero-banner": {
       "type": "hero-banner",
       "settings": {
-        "image_mobile": "shopify://shop_images/Mobile-Banner_350f5c23-0e39-4d76-a2d7-c668f2bc9f27.png",
-        "image_desktop": "shopify://shop_images/web-banner.png",
+        "image_mobile": "shopify://shop_images/web-banner-mobile.png",
+        "image_tablet": "shopify://shop_images/web-banner-tablet.png",
+        "image_desktop": "shopify://shop_images/web-banner-desktop.png",
         "overlay_opacity": 0,
         "heading": "Quiet essentials. Bold moments.",
         "heading_size": "lg",
