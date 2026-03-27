@@ -1,10 +1,11 @@
 <div class="contact-us">
   <div class="container">
-    <h1 class="contact-us__title">{{ section.settings.heading | default: page.title }}</h1>
 
     <div class="contact-us__layout">
       {%- comment -%} Left: Contact info with icons {%- endcomment -%}
+
       <div class="contact-us__info">
+    <h1 class="contact-us__title">{{ section.settings.heading | default: page.title }}</h1>
         {%- if section.settings.phone != blank -%}
           <div class="contact-us__detail">
             <div class="contact-us__icon">
@@ -79,7 +80,6 @@
     font-size: 48px;
     font-weight: 300;
     color: #8FA1B7;
-    margin: 0 0 48px;
     line-height: 1.1;
   }
 
