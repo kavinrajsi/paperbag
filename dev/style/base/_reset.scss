@@ -131,7 +131,11 @@ button {
 
   p {
     margin: 0 0 16px;
-    font-size: 15px;
+    font-size: 16px;
+  }
+
+  a {
+    font-size: 16px;
   }
 
   b,
@@ -151,7 +155,7 @@ button {
   }
 
   li {
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 8px;
 
     &:last-child {
@@ -173,7 +177,7 @@ button {
     width: 100%;
     border-collapse: collapse;
     margin: 0 0 16px;
-    font-size: 14px;
+    font-size: 16px;
 
     th,
     td {

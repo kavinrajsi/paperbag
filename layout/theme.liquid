@@ -63,7 +63,7 @@
   </script>
 </head>
 
-<body class="template-{{ template.name }}">
+<body class="template-{{ template.name }}{% if request.path contains '/policies/' %} template-policy{% endif %}">
   <a class="visually-hidden" href="#MainContent">
     {{ 'accessibility.skip_to_content' | t }}
   </a>

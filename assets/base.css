@@ -204,7 +204,10 @@ button {
 }
 .shopify-policy__container p {
   margin: 0 0 16px;
-  font-size: 15px;
+  font-size: 16px;
+}
+.shopify-policy__container a {
+  font-size: 16px;
 }
 .shopify-policy__container b,
 .shopify-policy__container strong {
@@ -220,7 +223,7 @@ button {
   padding-left: 24px;
 }
 .shopify-policy__container li {
-  font-size: 15px;
+  font-size: 16px;
   margin-bottom: 8px;
 }
 .shopify-policy__container li:last-child {
@@ -239,7 +242,7 @@ button {
   width: 100%;
   border-collapse: collapse;
   margin: 0 0 16px;
-  font-size: 14px;
+  font-size: 16px;
 }
 .shopify-policy__container table th,
 .shopify-policy__container table td {

@@ -5,7 +5,7 @@
   {% render 'breadcrumb' %}
 {% enddoc %}
 
-{%- unless template.name == 'index' or template == 'policy' or template.name == 'policy' or template.suffix == 'policy' -%}
+{%- unless template.name == 'index' or template == 'policy' or template.name == 'policy' or template.suffix == 'policy' or request.path contains '/policies/' -%}
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <ol class="breadcrumb__list" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
