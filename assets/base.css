@@ -275,8 +275,26 @@ button {
   text-transform: capitalize !important;
 }
 
-body:not(.template-index):not(.template-page-about-us) #MainContent {
+body:not(.template-index) #MainContent {
   padding-top: 32px;
+}
+
+body.template-page-about-us #MainContent {
+  padding-top: 0;
+}
+@media screen and (min-width: 750px) {
+  body.template-page-about-us #MainContent {
+    padding-top: 32px;
+  }
+}
+
+.breadcrumb--desktop-only {
+  display: none;
+}
+@media screen and (min-width: 750px) {
+  .breadcrumb--desktop-only {
+    display: block;
+  }
 }
 
 input,
