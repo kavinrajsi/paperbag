@@ -63,7 +63,7 @@
   </script>
 </head>
 
-<body class="template-{{ template.name }}{% if request.path contains '/policies/' %} template-policy{% endif %}">
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}{% if request.path contains '/policies/' %} template-policy{% endif %}">
   <a class="visually-hidden" href="#MainContent">
     {{ 'accessibility.skip_to_content' | t }}
   </a>
@@ -71,9 +71,11 @@
   {% sections 'header-group' %}
 
   <main id="MainContent" role="main">
-    <div class="container">
-      {% render 'breadcrumb' %}
-    </div>
+    {%- unless template == 'page.about-us' -%}
+      <div class="container">
+        {% render 'breadcrumb' %}
+      </div>
+    {%- endunless -%}
     {{ content_for_layout }}
   </main>
 

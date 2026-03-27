@@ -5,6 +5,7 @@
   assign btn_link = section.settings.button_link
   assign btn_style = section.settings.button_style
   assign image_mobile = section.settings.image_mobile
+  assign image_tablet = section.settings.image_tablet
   assign image_desktop = section.settings.image_desktop
   assign heading_size = section.settings.heading_size
   assign font_color = section.settings.font_color
@@ -48,6 +49,23 @@
         src="{{ 'hero-mobile.png' | asset_url }}"
         alt="Hero banner"
         loading="eager"
+      >
+    {%- endif -%}
+
+    {%- if image_tablet -%}
+      <img
+        class="hero-banner__image hero-banner__image--tablet"
+        src="{{ image_tablet | image_url: width: 1200 }}"
+        srcset="
+          {{ image_tablet | image_url: width: 768 }} 768w,
+          {{ image_tablet | image_url: width: 1000 }} 1000w,
+          {{ image_tablet | image_url: width: 1200 }} 1200w
+        "
+        sizes="100vw"
+        alt="{{ image_tablet.alt | escape }}"
+        loading="eager"
+        width="{{ image_tablet.width }}"
+        height="{{ image_tablet.height }}"
       >
     {%- endif -%}
 
@@ -138,6 +156,11 @@
       "type": "image_picker",
       "id": "image_mobile",
       "label": "Mobile image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_tablet",
+      "label": "Tablet image"
     },
     {
       "type": "image_picker",

@@ -275,7 +275,7 @@ button {
   text-transform: capitalize !important;
 }
 
-body:not(.template-index) #MainContent {
+body:not(.template-index):not(.template-page-about-us) #MainContent {
   padding-top: 32px;
 }
 
@@ -1841,10 +1841,24 @@ small {
   }
 }
 
-.hero-banner__image--desktop {
+.hero-banner__image--tablet {
   display: none;
 }
 @media screen and (min-width: 750px) {
+  .hero-banner__image--tablet {
+    display: block;
+  }
+}
+@media screen and (min-width: 990px) {
+  .hero-banner__image--tablet {
+    display: none;
+  }
+}
+
+.hero-banner__image--desktop {
+  display: none;
+}
+@media screen and (min-width: 990px) {
   .hero-banner__image--desktop {
     display: block;
   }

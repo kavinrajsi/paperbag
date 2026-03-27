@@ -39,10 +39,22 @@
   }
 }
 
-.hero-banner__image--desktop {
+.hero-banner__image--tablet {
   display: none;
 
   @media screen and (min-width: $breakpoint-sm) {
+    display: block;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.hero-banner__image--desktop {
+  display: none;
+
+  @media screen and (min-width: $breakpoint-md) {
     display: block;
   }
 }

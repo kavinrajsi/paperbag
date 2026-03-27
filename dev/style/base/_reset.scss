@@ -215,7 +215,7 @@ button {
 }
 
 // ── Main content offset for non-home pages ──
-body:not(.template-index) #MainContent {
+body:not(.template-index):not(.template-page-about-us) #MainContent {
   padding-top: 32px;
 }
 
