@@ -25,17 +25,17 @@
         <div class="return-exchange__grid">
           <div class="return-exchange__field">
             <label class="return-exchange__label" for="re-name">Full Name <span>*</span></label>
-            <input type="text" id="re-name" name="contact[{{ 'contact.form.name' | t }}]" required class="return-exchange__input" placeholder="Your full name">
+            <input type="text" id="re-name" name="contact[{{ 'contact.form.name' | t }}]" required class="return-exchange__input" placeholder="Your full name" value="{{ customer.name | escape }}">
           </div>
 
           <div class="return-exchange__field">
             <label class="return-exchange__label" for="re-email">Email <span>*</span></label>
-            <input type="email" id="re-email" name="contact[email]" required class="return-exchange__input" placeholder="your@email.com">
+            <input type="email" id="re-email" name="contact[email]" required class="return-exchange__input" placeholder="your@email.com" value="{{ customer.email | escape }}">
           </div>
 
           <div class="return-exchange__field">
             <label class="return-exchange__label" for="re-phone">Phone <span>*</span></label>
-            <input type="tel" id="re-phone" name="contact[phone]" required class="return-exchange__input" placeholder="Your phone number">
+            <input type="tel" id="re-phone" name="contact[phone]" required class="return-exchange__input" placeholder="Your phone number" value="{{ customer.phone | escape }}">
           </div>
 
           <div class="return-exchange__field">
