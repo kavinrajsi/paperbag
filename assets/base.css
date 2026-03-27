@@ -2071,10 +2071,15 @@ small {
   border-radius: 8px;
   transition: all 0.2s ease;
   cursor: pointer;
-  border: 2px solid transparent;
-  background-color: var(--color-brand);
-  border-color: var(--color-brand);
+  border: 2px solid #313d65;
+  background-color: #313d65;
   color: #faf8f3;
+}
+@media screen and (min-width: 750px) {
+  .hero-banner__btn-link {
+    border-color: var(--color-brand);
+    background-color: var(--color-brand);
+  }
 }
 
 .hero-banner__btn-link--outline {
@@ -2828,6 +2833,33 @@ small {
 .scroll-collection__atc {
   justify-content: center;
   width: 100%;
+}
+
+.scroll-collection__view-all {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.scroll-collection__view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid var(--color-brand);
+  background-color: var(--color-brand);
+  color: #faf8f3;
+}
+.scroll-collection__view-all-btn:hover {
+  opacity: 0.9;
 }
 
 .scroll-collection__nav {
