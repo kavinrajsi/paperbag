@@ -12,13 +12,11 @@
     "hero-banner": {
       "type": "hero-banner",
       "settings": {
-        "image_mobile": "shopify://shop_images/516-Mobile-Banner.png",
-        "image_desktop": "shopify://shop_images/1992-desktop-banner_c557e042-8b49-44bf-a2bc-581780a6d0a5.png",
         "overlay_opacity": 0,
-        "heading": "",
+        "heading": "Quiet essentials.<br>Bold moments.",
         "heading_size": "lg",
-        "content": "",
-        "button_label": "",
+        "content": "Thoughtfully made pieces for effortless dressing.",
+        "button_label": "Shop Now",
         "button_link": "shopify://collections/shop-all",
         "button_style": "primary",
         "font_color": "#ffffff",
