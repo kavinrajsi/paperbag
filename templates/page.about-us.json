@@ -11,10 +11,7 @@
   "sections": {
     "main": {
       "type": "main-about-us",
-      "settings": {
-        "story_heading": "",
-        "story_text": ""
-      }
+      "settings": {}
     },
     "home_about_VymjXK": {
       "type": "home-about",
