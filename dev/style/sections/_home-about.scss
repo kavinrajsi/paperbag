@@ -126,6 +126,7 @@
   width: 100%;
 
   @media screen and (min-width: $breakpoint-md) {
+    border-radius: 8px;
     height: 600px;
   }
 }
