@@ -959,8 +959,7 @@
   }
 
   function formatMoney(cents) {
-    if (Shopify.formatMoney) return Shopify.formatMoney(cents);
-    var amount = (cents / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    var amount = Math.round(cents / 100).toLocaleString('en-IN');
     var format = window.__moneyFormat || '{{amount}}';
     return format.replace(/\{\{\s*amount\s*\}\}/g, amount).replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, amount);
   }

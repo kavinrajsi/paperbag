@@ -178,7 +178,7 @@
           if (match && variantInput) {
             variantInput.value = match.id;
             if (priceEl) {
-              var formatted = Shopify.formatMoney ? Shopify.formatMoney(match.price) : ('$' + (match.price / 100).toFixed(2));
+              var formatted = Shopify.formatMoney ? Shopify.formatMoney(match.price) : ('$' + Math.round(match.price / 100).toLocaleString('en-IN'));
               priceEl.innerHTML = formatted;
             }
           }

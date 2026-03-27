@@ -479,7 +479,7 @@
     function formatMoney(price) {
       var num = parseFloat(price);
       if (isNaN(num)) return price;
-      return '{{ cart.currency.symbol }}' + num.toFixed(2);
+      return '{{ cart.currency.symbol }}' + Math.round(num).toLocaleString('en-IN');
     }
   })();
 </script>

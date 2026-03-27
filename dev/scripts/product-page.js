@@ -239,10 +239,10 @@
     },
 
     formatMoney: function(cents) {
-      var amount = (cents / 100).toFixed(2);
+      var amount = Math.round(cents / 100).toLocaleString('en-IN');
       // Use Shopify money format if available
       if (window.Shopify && window.Shopify.money_format) {
-        return window.Shopify.money_format.replace(/\{\{\s*amount\s*\}\}/, amount);
+        return window.Shopify.money_format.replace(/\{\{\s*amount\s*\}\}/, amount).replace(/\{\{\s*amount_with_comma_separator\s*\}\}/, amount);
       }
       return '$' + amount;
     }
