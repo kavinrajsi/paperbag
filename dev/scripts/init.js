@@ -180,6 +180,12 @@
           return response.json();
         })
         .then(function() {
+          // Update cart count badge
+          fetch('/cart.js')
+            .then(function(r) { return r.json(); })
+            .then(function(cart) {
+              Cart.updateCartCount(cart.item_count);
+            });
           Cart.refreshDrawer();
           Cart.openDrawer();
           // Notify PDP to re-check stock vs cart
