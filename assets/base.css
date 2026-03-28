@@ -178,6 +178,21 @@ button {
   cursor: pointer;
 }
 
+@media (hover: none) {
+  a:focus, a:focus-visible,
+  button:focus,
+  button:focus-visible,
+  input:focus,
+  input:focus-visible,
+  select:focus,
+  select:focus-visible,
+  textarea:focus,
+  textarea:focus-visible,
+  [role=button]:focus,
+  [role=button]:focus-visible {
+    outline: none;
+  }
+}
 .shopify-policy__body,
 .shopify-policy__container,
 .shopify-policy__title {
@@ -2156,6 +2171,7 @@ small {
   cursor: pointer;
   transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   background: none;
+  outline: none;
 }
 
 .pdp__option-btn--selected {
@@ -2164,10 +2180,31 @@ small {
   color: #fff;
 }
 
+.pdp__option-btn:hover,
+.pdp__option-btn:focus,
+.pdp__option-btn:active,
+.pdp__option-btn--selected:hover,
+.pdp__option-btn--selected:focus,
+.pdp__option-btn--selected:active,
+.pdp__option-btn--selected:hover,
+.pdp__option-btn--selected:focus,
+.pdp__option-btn--selected:active,
+.pdp__option-btn:hover,
+.pdp__option-btn:focus,
+.pdp__option-btn:active {
+  outline: 0 !important;
+  border: 0 !important;
+}
+
+.pdp__option-btn:disabled:hover,
+.pdp__option-btn:disabled:focus,
+.pdp__option-btn:disabled:active,
 .pdp__option-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   text-decoration: line-through;
+  outline: 0 !important;
+  border: 0 !important;
 }
 
 /* Quantity Selector */
