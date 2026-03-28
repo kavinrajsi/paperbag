@@ -992,26 +992,69 @@
     if (match && variantIdInput) {
       variantIdInput.value = match.id;
       if (priceEl) priceEl.textContent = formatMoney(match.price);
-      if (addToCartBtn) {
-        addToCartBtn.disabled = !match.available;
-        addToCartBtn.textContent = match.available ? 'Add To Cart' : 'Sold Out';
-      }
-      if (qtyInput) {
-        var stock = inventoryMap[match.id] || 99;
-        qtyInput.setAttribute('data-max-qty', stock);
-        qtyInput.setAttribute('max', stock);
-        qtyInput.value = 1;
-        qtyInput.disabled = !match.available;
-        if (minusBtn) minusBtn.disabled = !match.available;
-        if (plusBtn) plusBtn.disabled = !match.available;
-        var qtyWrap = qtyInput.closest('.pdp__qty');
-        if (qtyWrap) qtyWrap.classList.toggle('pdp__qty--disabled', !match.available);
-      }
       var url = new URL(window.location.href);
       url.searchParams.set('variant', match.id);
       window.history.replaceState({}, '', url.toString());
+      applyStockState(match);
     }
   }
+
+  function applyStockState(variant) {
+    fetch('/cart.js')
+      .then(function(r) { return r.json(); })
+      .then(function(cart) {
+        var inCart = 0;
+        for (var i = 0; i < cart.items.length; i++) {
+          if (cart.items[i].variant_id === variant.id) {
+            inCart = cart.items[i].quantity;
+            break;
+          }
+        }
+        var stock = inventoryMap[variant.id] || 99;
+        var remaining = stock - inCart;
+        var canAdd = variant.available && remaining > 0;
+
+        if (addToCartBtn) {
+          addToCartBtn.disabled = !canAdd;
+          if (!variant.available) {
+            addToCartBtn.textContent = 'Sold Out';
+          } else if (remaining <= 0) {
+            addToCartBtn.textContent = 'No More Stock';
+          } else {
+            addToCartBtn.textContent = 'Add To Cart';
+          }
+        }
+        if (qtyInput) {
+          var maxQty = Math.max(remaining, 1);
+          qtyInput.setAttribute('data-max-qty', maxQty);
+          qtyInput.setAttribute('max', maxQty);
+          qtyInput.value = 1;
+          qtyInput.disabled = !canAdd;
+          if (minusBtn) minusBtn.disabled = !canAdd;
+          if (plusBtn) plusBtn.disabled = !canAdd;
+          var qtyWrap = qtyInput.closest('.pdp__qty');
+          if (qtyWrap) qtyWrap.classList.toggle('pdp__qty--disabled', !canAdd);
+        }
+      });
+  }
+
+  // Check stock on page load
+  function getCurrentVariant() {
+    return productData.variants.find(function(v) {
+      return v.options.every(function(opt, i) {
+        return opt === selectedOptions[i];
+      });
+    });
+  }
+
+  var initialVariant = getCurrentVariant();
+  if (initialVariant) applyStockState(initialVariant);
+
+  // Re-check when cart changes (add/remove/update from drawer)
+  document.addEventListener('cart:updated', function() {
+    var v = getCurrentVariant();
+    if (v) applyStockState(v);
+  });
 
   function formatMoney(cents) {
     var amount = Math.round(cents / 100).toLocaleString('en-IN');

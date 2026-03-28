@@ -182,6 +182,8 @@
         .then(function() {
           Cart.refreshDrawer();
           Cart.openDrawer();
+          // Notify PDP to re-check stock vs cart
+          document.dispatchEvent(new CustomEvent('cart:updated'));
         })
         .catch(function(error) {
           // eslint-disable-next-line no-console
@@ -201,6 +203,7 @@
         .then(function(cart) {
           Cart.updateCartCount(cart.item_count);
           Cart.refreshDrawer();
+          document.dispatchEvent(new CustomEvent('cart:updated'));
         })
         .catch(function(error) {
           // eslint-disable-next-line no-console
