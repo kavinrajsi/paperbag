@@ -123,7 +123,7 @@
 .pdp__option-btn:focus,
 .pdp__option-btn:active {
   outline: 0 !important;
-  border-color: var(--color-primary) !important;
+  border-color:#DFDFDF !important;
 }
 
 .pdp__option-btn:disabled:hover,
@@ -134,7 +134,7 @@
   cursor: not-allowed;
   text-decoration: line-through;
   outline: 0 !important;
-  border-color: var(--color-primary) !important;
+  border-color: #DFDFDF !important;
 }
 
 /* Quantity Selector */
