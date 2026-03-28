@@ -1131,6 +1131,33 @@ small {
   width: 20px;
 }
 
+.header__cart-btn {
+  position: relative;
+}
+
+.header__cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--color-brand);
+  color: #fff;
+  font-family: "Outfit", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.header__cart-count--hidden {
+  display: none;
+}
+
 .header__icon-btn--mobile-only {
   display: inline-flex;
 }

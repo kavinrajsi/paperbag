@@ -239,6 +239,7 @@
       var countElements = document.querySelectorAll('[data-cart-count]');
       for (var i = 0; i < countElements.length; i++) {
         countElements[i].textContent = count;
+        countElements[i].classList.toggle('header__cart-count--hidden', count === 0);
       }
     },
 

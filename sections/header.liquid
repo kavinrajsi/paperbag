@@ -273,11 +273,13 @@
       </a>
 
       <a
-        class="header__icon-btn"
+        class="header__icon-btn header__cart-btn"
         href="{{ routes.cart_url }}"
         aria-label="{{ 'general.cart' | t }}"
+        data-cart-trigger
       >
         {%- render 'icon', icon: 'cart' -%}
+        <span class="header__cart-count{% if cart.item_count == 0 %} header__cart-count--hidden{% endif %}" data-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
   </div>
