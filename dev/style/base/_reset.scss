@@ -105,6 +105,21 @@ button {
   cursor: pointer;
 }
 
+// Remove focus outline on touch / non-hover devices
+@media (hover: none) {
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [role="button"] {
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
 // ── Reset all Shopify policy defaults ──
 .shopify-policy__body,
 .shopify-policy__container,
