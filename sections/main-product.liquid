@@ -120,13 +120,23 @@
             <p class="pdp__label">{{ 'products.product.color' | t | default: 'Color' }}: <span class="pdp__label-value" data-color-label>{{ product.options[color_option_index] }}</span></p>
             <div class="pdp__color-swatches">
               {%- for color in color_values -%}
+                {%- liquid
+                  assign color_available = false
+                  for v in product.variants
+                    if v.options[color_option_index] == color and v.available
+                      assign color_available = true
+                      break
+                    endif
+                  endfor
+                -%}
                 <button
                   type="button"
-                  class="pdp__swatch{% if product.options[color_option_index] == color %} pdp__swatch--selected{% endif %}"
+                  class="pdp__swatch{% if product.options[color_option_index] == color %} pdp__swatch--selected{% endif %}{% unless color_available %} pdp__swatch--soldout{% endunless %}"
                   style="background-color: {{ color | downcase | replace: ' ', '' | escape }};"
                   data-option-index="{{ color_option_index }}"
                   data-option-value="{{ color | escape }}"
                   title="{{ color | escape }}"
+                  {% unless color_available %}disabled{% endunless %}
                 ></button>
               {%- endfor -%}
             </div>
@@ -143,11 +153,21 @@
                 <p class="pdp__label">{{ option.name }}: <span class="pdp__label-value">{{ option.selected_value }}</span></p>
                 <div class="pdp__option-buttons">
                   {%- for value in option.values -%}
+                    {%- liquid
+                      assign value_available = false
+                      for v in product.variants
+                        if v.options[opt_idx] == value and v.available
+                          assign value_available = true
+                          break
+                        endif
+                      endfor
+                    -%}
                     <button
                       type="button"
-                      class="pdp__option-btn{% if option.selected_value == value %} pdp__option-btn--selected{% endif %}"
+                      class="pdp__option-btn{% if option.selected_value == value %} pdp__option-btn--selected{% endif %}{% unless value_available %} pdp__option-btn--soldout{% endunless %}"
                       data-option-index="{{ opt_idx }}"
                       data-option-value="{{ value | escape }}"
+                      {% unless value_available %}disabled{% endunless %}
                     >
                       {{ value }}
                     </button>
@@ -165,10 +185,10 @@
           <div class="pdp__option-group">
             <p class="pdp__label">{{ 'products.product.quantity' | t | default: 'Quantity' }}</p>
             <div class="pdp__cart-row">
-              <div class="pdp__qty">
-                <button type="button" class="pdp__qty-btn" data-qty-minus aria-label="Decrease quantity">&minus;</button>
-                <input type="number" name="quantity" value="1" min="1" max="{{ current_variant.inventory_quantity | default: 99 }}" class="pdp__qty-input" data-qty-input data-max-qty="{{ current_variant.inventory_quantity | default: 99 }}" aria-label="Quantity">
-                <button type="button" class="pdp__qty-btn" data-qty-plus aria-label="Increase quantity">&plus;</button>
+              <div class="pdp__qty{% unless current_variant.available %} pdp__qty--disabled{% endunless %}">
+                <button type="button" class="pdp__qty-btn" data-qty-minus aria-label="Decrease quantity" {% unless current_variant.available %}disabled{% endunless %}>&minus;</button>
+                <input type="number" name="quantity" value="1" min="1" max="{{ current_variant.inventory_quantity | default: 99 }}" class="pdp__qty-input" data-qty-input data-max-qty="{{ current_variant.inventory_quantity | default: 99 }}" aria-label="Quantity" {% unless current_variant.available %}disabled{% endunless %}>
+                <button type="button" class="pdp__qty-btn" data-qty-plus aria-label="Increase quantity" {% unless current_variant.available %}disabled{% endunless %}>&plus;</button>
               </div>
               <button
                 type="submit"
@@ -714,6 +734,17 @@
     font-weight: 600;
   }
 
+  .pdp__option-btn--soldout {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  .pdp__swatch--soldout {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
   /* ── Quantity + Add to cart row ── */
   .pdp__cart-row {
     display: flex;
@@ -765,6 +796,11 @@
   .pdp__qty-input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  .pdp__qty--disabled {
+    opacity: 0.4;
+    pointer-events: none;
   }
 
   /* ── Add to cart ── */
@@ -965,6 +1001,11 @@
         qtyInput.setAttribute('data-max-qty', stock);
         qtyInput.setAttribute('max', stock);
         qtyInput.value = 1;
+        qtyInput.disabled = !match.available;
+        if (minusBtn) minusBtn.disabled = !match.available;
+        if (plusBtn) plusBtn.disabled = !match.available;
+        var qtyWrap = qtyInput.closest('.pdp__qty');
+        if (qtyWrap) qtyWrap.classList.toggle('pdp__qty--disabled', !match.available);
       }
       var url = new URL(window.location.href);
       url.searchParams.set('variant', match.id);
