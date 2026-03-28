@@ -101,6 +101,7 @@
   cursor: pointer;
   transition: border-color $transition-base, background-color $transition-base, color $transition-base;
   background: none;
+  outline: none;
 }
 
 .pdp__option-btn--selected {
