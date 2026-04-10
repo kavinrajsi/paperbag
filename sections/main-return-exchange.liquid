@@ -1,84 +1,165 @@
 <div class="return-exchange">
   <div class="container">
+    <nav class="return-exchange__breadcrumb">
+      <a href="/">Home</a>
+      <span class="return-exchange__breadcrumb-sep">/</span>
+      <span>Return or Exchange</span>
+    </nav>
+
+    <h1 class="return-exchange__title">{{ section.settings.heading | default: page.title }}</h1>
+
+    {%- if section.settings.intro != blank -%}
+      <p class="return-exchange__intro">{{ section.settings.intro }}</p>
+    {%- endif -%}
+
     {%- if customer -%}
-      <h1 class="return-exchange__title">{{ section.settings.heading | default: page.title }}</h1>
-
-      {%- if section.settings.intro != blank -%}
-        <p class="return-exchange__intro">{{ section.settings.intro }}</p>
-      {%- endif -%}
-
-      <div class="return-exchange__form-wrap">
-        {% form 'contact' %}
-        {%- if form.posted_successfully? -%}
-          <div class="return-exchange__success">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <p>Thank you! Your return/exchange request has been submitted. We'll get back to you within {{ section.settings.response_time | default: '24–48 hours' }}.</p>
-          </div>
-        {%- endif -%}
-
-        {%- if form.errors -%}
-          <div class="return-exchange__error">{{ form.errors | default_errors }}</div>
-        {%- endif -%}
-
-        <input type="hidden" name="contact[subject]" value="Return / Exchange Request">
-
-        <div class="return-exchange__grid">
-          <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-name">Full Name <span>*</span></label>
-            <input type="text" id="re-name" name="contact[{{ 'contact.form.name' | t }}]" required class="return-exchange__input" placeholder="Your full name" value="{{ customer.name | escape }}">
-          </div>
-
-          <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-email">Email <span>*</span></label>
-            <input type="email" id="re-email" name="contact[email]" required class="return-exchange__input" placeholder="your@email.com" value="{{ customer.email | escape }}">
-          </div>
-
-          <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-phone">Phone <span>*</span></label>
-            <input type="tel" id="re-phone" name="contact[phone]" required class="return-exchange__input" placeholder="Your phone number" value="{{ customer.phone | escape }}">
-          </div>
-
-          <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-order">Order Number <span>*</span></label>
-            <select id="re-order" name="contact[order_number]" required class="return-exchange__input return-exchange__select">
-              <option value="" disabled selected>Select an order</option>
-              {%- for order in customer.orders -%}
-                <option value="{{ order.name }}" data-products="{{ order.line_items | map: 'title' | join: '||' | escape }}">{{ order.name }} — {{ order.created_at | date: '%b %d, %Y' }}</option>
+      {%- comment -%} Embed order + variant data for client-side lookup {%- endcomment -%}
+      <script type="application/json" id="re-orders-data">{
+        {%- for order in customer.orders -%}
+          {{ order.name | json }}: {
+            "date": {{ order.created_at | date: '%b %d, %Y' | json }},
+            "items": [
+              {%- for item in order.line_items -%}
+                {
+                  "title": {{ item.title | json }},
+                  "variantTitle": {{ item.variant.title | default: 'Default Title' | json }},
+                  "sku": {{ item.sku | default: '' | json }},
+                  "options": [
+                    {%- if item.product -%}
+                      {%- for option in item.product.options -%}
+                        { "name": {{ option | json }}, "value": {% case forloop.index %}{% when 1 %}{{ item.variant.option1 | json }}{% when 2 %}{{ item.variant.option2 | json }}{% when 3 %}{{ item.variant.option3 | json }}{% endcase %} }{%- unless forloop.last -%},{%- endunless -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                  ],
+                  "variants": [
+                    {%- if item.product -%}
+                      {%- for v in item.product.variants -%}
+                        { "option1": {{ v.option1 | json }}, "option2": {{ v.option2 | json }}, "option3": {{ v.option3 | json }}, "available": {{ v.available }} }{%- unless forloop.last -%},{%- endunless -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                  ]
+                }{%- unless forloop.last -%},{%- endunless -%}
               {%- endfor -%}
-            </select>
-          </div>
-        </div>
+            ]
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      }</script>
 
-        <div class="return-exchange__field">
-          <label class="return-exchange__label" for="re-type">Request Type <span>*</span></label>
-          <select id="re-type" name="contact[request_type]" required class="return-exchange__input return-exchange__select">
-            <option value="" disabled selected>Select an option</option>
-            <option value="Return">Return</option>
-            <option value="Exchange">Exchange</option>
-          </select>
-        </div>
+      <div class="return-exchange__wrap">
+        {% form 'contact' %}
+          {%- if form.posted_successfully? -%}
+            <div class="return-exchange__success">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <p>Thank you! Your request has been submitted. We'll get back to you within {{ section.settings.response_time | default: '24–48 hours' }}.</p>
+            </div>
+          {%- endif -%}
 
-        <div class="return-exchange__conditional" style="display:none;">
-          <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-product">Product Name / SKU <span>*</span></label>
-            <select id="re-product" name="contact[product]" required class="return-exchange__input return-exchange__select">
-              <option value="" disabled selected>Select an order first</option>
-            </select>
-          </div>
+          {%- if form.errors -%}
+            <div class="return-exchange__error">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
 
-          <div class="return-exchange__field">
-            <label class="return-exchange__label" for="re-details">Reason <span>*</span></label>
-            <textarea id="re-details" name="contact[{{ 'contact.form.message' | t }}]" required class="return-exchange__input return-exchange__textarea" rows="5" placeholder=""></textarea>
-          </div>
-        </div>
+          {%- unless form.posted_successfully? -%}
+            <!-- Hidden fields for Shopify contact form submission -->
+            <input type="hidden" name="contact[subject]" value="Return / Exchange Request">
+            <input type="hidden" name="contact[email]" value="{{ customer.email | escape }}">
+            <input type="hidden" name="contact[{{ 'contact.form.name' | t }}]" value="{{ customer.name | escape }}">
+            <input type="hidden" name="contact[order_number]" id="re-h-order">
+            <input type="hidden" name="contact[phone]" id="re-h-phone">
+            <input type="hidden" name="contact[product]" id="re-h-product">
+            <input type="hidden" name="contact[request_type]" id="re-h-type">
+            <input type="hidden" name="contact[current_size]" id="re-h-cursize">
+            <input type="hidden" name="contact[replacement_size]" id="re-h-newsize">
+            <textarea name="contact[{{ 'contact.form.message' | t }}]" id="re-h-body" style="display:none"></textarea>
 
-        <button type="submit" class="return-exchange__submit btn btn--primary">{{ section.settings.button_label | default: 'Submit Request' }}</button>
-      {% endform %}
-    </div>
+            <!-- STEP 1 — Find Your Order -->
+            <div class="re-step re-step--active" data-step="find">
+              <h2 class="re-step__heading">Find Your Order</h2>
+              <div class="return-exchange__field">
+                <label class="return-exchange__label" for="re-order-id">Order ID <span>*</span></label>
+                <input type="text" id="re-order-id" class="return-exchange__input" placeholder="#1001">
+              </div>
+              <div class="return-exchange__field">
+                <label class="return-exchange__label" for="re-contact">Email or Phone <span>*</span></label>
+                <input type="text" id="re-contact" class="return-exchange__input" placeholder="your@email.com or phone" value="{{ customer.email | escape }}">
+              </div>
+              <p class="re-step__error" id="re-err-find" style="display:none"></p>
+              <button type="button" class="return-exchange__submit btn btn--primary" id="re-btn-find">Find Your Order</button>
+            </div>
+
+            <!-- STEP 2 — Select Item & Request -->
+            <div class="re-step" data-step="select">
+              <h2 class="re-step__heading">Select Item & Request</h2>
+              <div class="return-exchange__field">
+                <label class="return-exchange__label" for="re-product">Choose Product <span>*</span></label>
+                <select id="re-product" class="return-exchange__input return-exchange__select">
+                  <option value="" disabled selected>Select a product</option>
+                </select>
+              </div>
+              <div class="return-exchange__field">
+                <label class="return-exchange__label" for="re-type">Request Type <span>*</span></label>
+                <select id="re-type" class="return-exchange__input return-exchange__select">
+                  <option value="" disabled selected>Select type</option>
+                  <option value="Exchange">Exchange (Size / Color)</option>
+                  <option value="Return">Return (Defective / Damaged)</option>
+                </select>
+              </div>
+              <div class="re-step__actions">
+                <button type="button" class="re-step__back" data-back="find">&larr; Back</button>
+                <button type="button" class="return-exchange__submit btn btn--primary" id="re-btn-continue">Continue</button>
+              </div>
+              {%- if section.settings.disclaimer != blank -%}
+                <p class="re-step__disclaimer">{{ section.settings.disclaimer }}</p>
+              {%- endif -%}
+            </div>
+
+            <!-- STEP 3a — Exchange Flow -->
+            <div class="re-step" data-step="exchange">
+              <h2 class="re-step__heading">Select Replacement Size</h2>
+              <p class="re-step__sub">Choose the size you'd like instead.</p>
+              <div class="re-step__size-row">
+                <span>Your Size:</span>
+                <strong id="re-cur-size"></strong>
+              </div>
+              <div class="re-sizes" id="re-sizes"></div>
+              <p class="re-step__note">Only available sizes are shown.</p>
+              {%- if section.settings.exchange_disclaimer != blank -%}
+                <p class="re-step__disclaimer">{{ section.settings.exchange_disclaimer }}</p>
+              {%- endif -%}
+              <p class="re-step__error" id="re-err-exchange" style="display:none"></p>
+              <div class="re-step__actions">
+                <button type="button" class="re-step__back" data-back="select">&larr; Back</button>
+                <button type="submit" class="return-exchange__submit btn btn--primary">Submit</button>
+              </div>
+            </div>
+
+            <!-- STEP 3b — Return Flow -->
+            <div class="re-step" data-step="return">
+              <h2 class="re-step__heading">Request Return</h2>
+              <p class="re-step__sub">Please upload clear images showing the issue.</p>
+              <div class="re-upload">
+                <div class="re-upload__previews" id="re-previews"></div>
+                <button type="button" class="re-upload__btn" id="re-btn-upload">+ Upload Images</button>
+                <input type="file" id="re-file" accept="image/*" multiple style="display:none">
+              </div>
+              <div class="return-exchange__field">
+                <label class="return-exchange__label" for="re-comment">Comment <span>*</span></label>
+                <textarea id="re-comment" class="return-exchange__input return-exchange__textarea" rows="4" placeholder="Briefly describe the issue"></textarea>
+              </div>
+              {%- if section.settings.return_disclaimer != blank -%}
+                <p class="re-step__disclaimer">{{ section.settings.return_disclaimer }}</p>
+              {%- endif -%}
+              <p class="re-step__error" id="re-err-return" style="display:none"></p>
+              <div class="re-step__actions">
+                <button type="button" class="re-step__back" data-back="select">&larr; Back</button>
+                <button type="submit" class="return-exchange__submit btn btn--primary">Submit</button>
+              </div>
+            </div>
+          {%- endunless -%}
+        {% endform %}
+      </div>
 
     {%- else -%}
       <div class="return-exchange__login">
-        <h1 class="return-exchange__title">{{ section.settings.heading | default: page.title }}</h1>
         <p class="return-exchange__intro">Please log in to your account to submit a return or exchange request.</p>
         <a href="{{ routes.account_login_url }}" class="return-exchange__submit btn btn--primary">Log In</a>
       </div>
@@ -89,6 +170,26 @@
 {% stylesheet %}
   .return-exchange {
     padding: 48px 0 80px;
+  }
+
+  .return-exchange__breadcrumb {
+    color: #999;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .return-exchange__breadcrumb a {
+    color: #606060;
+    text-decoration: none;
+  }
+
+  .return-exchange__breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .return-exchange__breadcrumb-sep {
+    margin: 0 6px;
   }
 
   .return-exchange__title {
@@ -109,14 +210,8 @@
     max-width: 600px;
   }
 
-  .return-exchange__form-wrap {
-    max-width: 720px;
-  }
-
-  .return-exchange__grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 1fr 1fr;
+  .return-exchange__wrap {
+    max-width: 560px;
   }
 
   .return-exchange__field {
@@ -176,24 +271,210 @@
   }
 
   .return-exchange__submit {
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    margin-top: 4px;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    border: 2px solid var(--color-brand);
     background-color: var(--color-brand);
+    border: 2px solid var(--color-brand);
+    border-radius: 8px;
     color: #faf8f3;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    justify-content: center;
+    line-height: 20px;
+    margin-top: 4px;
+    padding: 12px 24px;
+    text-decoration: none;
+    transition: all 0.2s ease;
   }
 
+  /* Steps */
+  .re-step {
+    display: none;
+  }
+
+  .re-step--active {
+    display: block;
+  }
+
+  .re-step__heading {
+    color: #0c0c0c;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 24px;
+  }
+
+  .re-step__sub {
+    color: #606060;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: -16px 0 24px;
+  }
+
+  .re-step__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 4px;
+  }
+
+  .re-step__back {
+    background: none;
+    border: none;
+    color: #606060;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    padding: 0;
+  }
+
+  .re-step__back:hover {
+    color: #0c0c0c;
+  }
+
+  .re-step__error {
+    background: #fce4ec;
+    border: 1px solid #ef9a9a;
+    border-radius: 6px;
+    color: #c62828;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+  }
+
+  .re-step__disclaimer {
+    color: #999;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .re-step__note {
+    color: #999;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .re-step__size-row {
+    color: #606060;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  .re-step__size-row strong {
+    color: #0c0c0c;
+    margin-left: 4px;
+  }
+
+  /* Size buttons */
+  .re-sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .re-size-btn {
+    align-items: center;
+    background: #fff;
+    border: 1.5px solid #8fa1b7;
+    color: #0c0c0c;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 44px;
+    justify-content: center;
+    min-width: 52px;
+    padding: 0 16px;
+    transition: all 0.2s;
+  }
+
+  .re-size-btn:hover {
+    border-color: #606060;
+  }
+
+  .re-size-btn--active {
+    background: #8fa1b7;
+    border-color: #8fa1b7;
+    color: #fff;
+  }
+
+  /* Upload */
+  .re-upload {
+    margin-bottom: 20px;
+  }
+
+  .re-upload__btn {
+    background: none;
+    border: 1.5px dashed #8fa1b7;
+    color: #8fa1b7;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 14px 24px;
+    transition: all 0.2s;
+    width: 100%;
+  }
+
+  .re-upload__btn:hover {
+    background: #f5f7fa;
+    border-color: #606060;
+    color: #606060;
+  }
+
+  .re-upload__previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .re-upload__previews:empty {
+    margin-bottom: 0;
+  }
+
+  .re-upload__preview {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    height: 80px;
+    overflow: hidden;
+    position: relative;
+    width: 80px;
+  }
+
+  .re-upload__preview img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .re-upload__remove {
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-size: 14px;
+    height: 22px;
+    justify-content: center;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 22px;
+  }
+
+  /* Success & Error */
   .return-exchange__success {
     align-items: flex-start;
     background: #e8f5e9;
@@ -229,50 +510,227 @@
     .return-exchange__title {
       font-size: 32px;
     }
-
-    .return-exchange__grid {
-      grid-template-columns: 1fr;
-    }
   }
 {% endstylesheet %}
 
 {% javascript %}
 (function() {
-  var typeSelect = document.getElementById('re-type');
-  var conditional = document.querySelector('.return-exchange__conditional');
-  var orderSelect = document.getElementById('re-order');
-  var productSelect = document.getElementById('re-product');
+  var el = document.getElementById('re-orders-data');
+  if (!el) return;
 
-  var reasonTextarea = document.getElementById('re-details');
+  var orders;
+  try { orders = JSON.parse(el.textContent); } catch (e) { return; }
 
-  if (typeSelect && conditional) {
-    typeSelect.addEventListener('change', function() {
-      conditional.style.display = this.value ? '' : 'none';
-      if (reasonTextarea) {
-        if (this.value === 'Exchange') {
-          reasonTextarea.placeholder = 'Mention current size and required size.';
-        } else if (this.value === 'Return') {
-          reasonTextarea.placeholder = 'Describe the issue clearly (images will be required for approval).';
+  var state = {};
+  var fileNames = [];
+
+  /* ── Step navigation ── */
+  function go(step) {
+    document.querySelectorAll('.re-step').forEach(function(s) {
+      s.classList.toggle('re-step--active', s.dataset.step === step);
+    });
+  }
+
+  document.querySelectorAll('.re-step__back').forEach(function(btn) {
+    btn.addEventListener('click', function() { go(this.dataset.back); });
+  });
+
+  /* ── Step 1: Find Order ── */
+  var orderInput = document.getElementById('re-order-id');
+  var contactInput = document.getElementById('re-contact');
+  var errFind = document.getElementById('re-err-find');
+
+  function findOrder() {
+    var id = orderInput.value.trim();
+    var contact = contactInput.value.trim();
+
+    if (!id || !contact) { showErr(errFind, 'Please fill in both fields.'); return; }
+
+    if (id.charAt(0) !== '#') id = '#' + id;
+
+    if (!orders[id]) { showErr(errFind, 'Order not found. Please check the order number.'); return; }
+
+    hideErr(errFind);
+    state.orderId = id;
+    state.order = orders[id];
+    state.contact = contact;
+
+    var sel = document.getElementById('re-product');
+    sel.innerHTML = '<option value="" disabled selected>Select a product</option>';
+    state.order.items.forEach(function(item, i) {
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = item.title + (item.variantTitle !== 'Default Title' ? ' \u2014 ' + item.variantTitle : '');
+      sel.appendChild(opt);
+    });
+
+    go('select');
+  }
+
+  document.getElementById('re-btn-find').addEventListener('click', findOrder);
+
+  [orderInput, contactInput].forEach(function(inp) {
+    if (inp) inp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); findOrder(); }
+    });
+  });
+
+  /* ── Step 2: Continue ── */
+  document.getElementById('re-btn-continue').addEventListener('click', function() {
+    var pi = document.getElementById('re-product').value;
+    var type = document.getElementById('re-type').value;
+    if (pi === '' || !type) return;
+
+    state.productIndex = parseInt(pi);
+    state.product = state.order.items[state.productIndex];
+    state.type = type;
+
+    if (type === 'Exchange') { setupExchange(); go('exchange'); }
+    else { go('return'); }
+  });
+
+  /* ── Exchange: size picker ── */
+  function setupExchange() {
+    var p = state.product;
+    var sizeIdx = -1;
+
+    p.options.forEach(function(o, i) {
+      if (o.name.toLowerCase() === 'size') sizeIdx = i;
+    });
+
+    var curEl = document.getElementById('re-cur-size');
+    var box = document.getElementById('re-sizes');
+    box.innerHTML = '';
+    document.getElementById('re-h-newsize').value = '';
+
+    if (sizeIdx >= 0) {
+      var curSize = p.options[sizeIdx].value;
+      curEl.textContent = curSize;
+      document.getElementById('re-h-cursize').value = curSize;
+
+      var optKey = 'option' + (sizeIdx + 1);
+
+      /* Build filters for non-size options (e.g. same colour) */
+      var filters = {};
+      p.options.forEach(function(o, i) {
+        if (i !== sizeIdx) filters['option' + (i + 1)] = o.value;
+      });
+
+      var seen = {};
+      p.variants.forEach(function(v) {
+        var size = v[optKey];
+        if (!size || !v.available || seen[size] || size === curSize) return;
+        for (var k in filters) { if (v[k] !== filters[k]) return; }
+        seen[size] = true;
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 're-size-btn';
+        btn.textContent = size;
+        btn.addEventListener('click', function() {
+          box.querySelectorAll('.re-size-btn').forEach(function(b) { b.classList.remove('re-size-btn--active'); });
+          btn.classList.add('re-size-btn--active');
+          document.getElementById('re-h-newsize').value = size;
+        });
+        box.appendChild(btn);
+      });
+
+      if (!Object.keys(seen).length) {
+        box.innerHTML = '<p class="re-step__note">No other sizes available in this variant.</p>';
+      }
+    } else {
+      curEl.textContent = p.variantTitle || 'N/A';
+      box.innerHTML = '<div class="return-exchange__field"><label class="return-exchange__label" for="re-size-text">Preferred variant</label><input type="text" id="re-size-text" class="return-exchange__input" placeholder="Enter desired size or variant"></div>';
+    }
+  }
+
+  /* ── Return: image upload ── */
+  var fileInput = document.getElementById('re-file');
+  var previews = document.getElementById('re-previews');
+
+  document.getElementById('re-btn-upload').addEventListener('click', function() { fileInput.click(); });
+
+  fileInput.addEventListener('change', function() {
+    Array.from(this.files).forEach(function(f) {
+      fileNames.push(f.name);
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var div = document.createElement('div');
+        div.className = 're-upload__preview';
+        var img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = '';
+        var rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 're-upload__remove';
+        rm.innerHTML = '&times;';
+        rm.addEventListener('click', function() {
+          div.remove();
+          var idx = fileNames.indexOf(f.name);
+          if (idx > -1) fileNames.splice(idx, 1);
+        });
+        div.appendChild(img);
+        div.appendChild(rm);
+        previews.appendChild(div);
+      };
+      reader.readAsDataURL(f);
+    });
+    fileInput.value = '';
+  });
+
+  /* ── Form submit: validate + compile hidden fields ── */
+  var form = document.querySelector('.return-exchange__wrap form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (state.type === 'Exchange') {
+        var newSize = document.getElementById('re-h-newsize').value;
+        var sizeText = document.getElementById('re-size-text');
+        if (sizeText) newSize = sizeText.value.trim();
+        if (!newSize) {
+          e.preventDefault();
+          showErr(document.getElementById('re-err-exchange'), 'Please select a replacement size.');
+          return;
+        }
+        if (sizeText) document.getElementById('re-h-newsize').value = newSize;
+      }
+
+      if (state.type === 'Return') {
+        var comment = document.getElementById('re-comment').value.trim();
+        if (!comment) {
+          e.preventDefault();
+          showErr(document.getElementById('re-err-return'), 'Please describe the issue.');
+          return;
         }
       }
+
+      document.getElementById('re-h-order').value = state.orderId;
+      document.getElementById('re-h-phone').value = state.contact;
+      document.getElementById('re-h-type').value = state.type;
+
+      var label = state.product.title;
+      if (state.product.variantTitle !== 'Default Title') label += ' \u2014 ' + state.product.variantTitle;
+      document.getElementById('re-h-product').value = label;
+
+      var lines = ['Order: ' + state.orderId, 'Product: ' + label, 'Request: ' + state.type, ''];
+
+      if (state.type === 'Exchange') {
+        lines.push('Current Size: ' + (document.getElementById('re-h-cursize').value || 'N/A'));
+        lines.push('Replacement Size: ' + document.getElementById('re-h-newsize').value);
+      } else {
+        lines.push('Reason: ' + document.getElementById('re-comment').value);
+        if (fileNames.length) {
+          lines.push('Images (' + fileNames.length + '): ' + fileNames.join(', '));
+          lines.push('(Please follow up to collect images)');
+        }
+      }
+
+      document.getElementById('re-h-body').value = lines.join('\n');
     });
   }
 
-  if (orderSelect && productSelect) {
-    orderSelect.addEventListener('change', function() {
-      var selected = this.options[this.selectedIndex];
-      var products = selected.getAttribute('data-products');
-      productSelect.innerHTML = '<option value="" disabled selected>Select a product</option>';
-      if (products) {
-        products.split('||').forEach(function(name) {
-          var opt = document.createElement('option');
-          opt.value = name;
-          opt.textContent = name;
-          productSelect.appendChild(opt);
-        });
-      }
-    });
-  }
+  /* ── Helpers ── */
+  function showErr(el, msg) { if (el) { el.textContent = msg; el.style.display = ''; } }
+  function hideErr(el) { if (el) { el.style.display = 'none'; el.textContent = ''; } }
 })();
 {% endjavascript %}
 
@@ -294,15 +752,26 @@
     },
     {
       "type": "text",
-      "id": "button_label",
-      "label": "Button label",
-      "default": "Submit Request"
-    },
-    {
-      "type": "text",
       "id": "response_time",
       "label": "Response time (shown in success message)",
-      "default": "24–48 hours"
+      "default": "24\u201348 hours"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Disclaimer (shown after step 2)",
+      "default": "We\u2019ll send you a text to confirm your request."
+    },
+    {
+      "type": "textarea",
+      "id": "exchange_disclaimer",
+      "label": "Exchange disclaimer",
+      "default": "If your preferred size isn\u2019t available, we\u2019ll reach out with the best alternative."
+    },
+    {
+      "type": "textarea",
+      "id": "return_disclaimer",
+      "label": "Return disclaimer"
     }
   ]
 }
